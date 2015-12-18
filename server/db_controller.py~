@@ -63,10 +63,10 @@ def return_farms(received_data):
 def return_warehouses(received_data):
     warehouse_data = db['warehouse_data']
     print received_data['Email']
-    list_of_warehouses = warehouse_data.find({"AddWarehouseUID":received_data['Email']})
+    list_of_farms = warehouse_data.find({"AddWarehouseUID":received_data['Email']})
     print "hty"
-    print "list",list_of_warehouses
-    return list_of_warehouses
+    print "list",list_of_farms
+    return list_of_farms
     
     
 def IsValidUser(email,password):
