@@ -19,7 +19,9 @@ public class MainActivity extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.mytoolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Team END!!!");
-
+        getSupportActionBar().setSubtitle("Pune");
+        toolbar.setTitleTextColor(getResources().getColor(R.color.Text_Icon));
+        toolbar.setSubtitleTextColor(getResources().getColor(R.color.LightPrimaryColor));
 
         Navigation_Drawer drawerfragment=(Navigation_Drawer)getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
         drawerfragment.setUP((DrawerLayout) findViewById(R.id.drawer_layout_id), toolbar);
