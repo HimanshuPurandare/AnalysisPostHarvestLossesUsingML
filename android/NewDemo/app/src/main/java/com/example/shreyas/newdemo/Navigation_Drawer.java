@@ -8,6 +8,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -62,6 +64,7 @@ public class Navigation_Drawer extends android.support.v4.app.Fragment
                 super.onDrawerOpened(drawerview);
 //                signin_btn = (Button) getView().findViewById(R.id.signinbutton);
 //                signin_btn.setText("Sign Out");
+
 
 
 
