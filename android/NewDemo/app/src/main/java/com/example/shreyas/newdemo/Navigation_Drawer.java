@@ -38,8 +38,6 @@ public class Navigation_Drawer extends Fragment
     {
         View view=inflater.inflate(R.layout.fragment_navigation__drawer, container, false);
 
-
-
         return view;
     }
 

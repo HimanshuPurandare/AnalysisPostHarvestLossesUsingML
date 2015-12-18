@@ -1,6 +1,5 @@
 package com.example.shreyas.newdemo;
 
-import android.graphics.pdf.PdfDocument;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
@@ -18,6 +17,7 @@ public class MainActivity extends AppCompatActivity
     private Toolbar toolbar;
     ViewPager viewpager=null;
     PagerTitleStrip titleStrip;
+    private Navigation_Drawer drawerfragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -25,15 +25,9 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        toolbar = (Toolbar) findViewById(R.id.mytoolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Team END!!!");
-        getSupportActionBar().setSubtitle("Pune");
-        toolbar.setTitleTextColor(getResources().getColor(R.color.Text_Icon));
-        toolbar.setSubtitleTextColor(getResources().getColor(R.color.LightPrimaryColor));
+        setupToolbar();
 
-        Navigation_Drawer drawerfragment=(Navigation_Drawer)getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
-        drawerfragment.setUP((DrawerLayout) findViewById(R.id.drawer_layout_id), toolbar);
+        setupNavigationDrawer();
 
         viewpager=(ViewPager)findViewById(R.id.pager);
         titleStrip=(PagerTitleStrip)findViewById(R.id.pagetitles);
@@ -43,12 +37,32 @@ public class MainActivity extends AppCompatActivity
 
 
         titleStrip.setTextColor(getResources().getColor(R.color.Text_Icon));
-        titleStrip.setTextSize(TypedValue.COMPLEX_UNIT_SP,18);
+        titleStrip.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+
+
+    }
+
+    void setupToolbar()
+    {
+        toolbar = (Toolbar) findViewById(R.id.mytoolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Team END!!!");
+        getSupportActionBar().setSubtitle("Pune");
+        toolbar.setTitleTextColor(getResources().getColor(R.color.Text_Icon));
+        toolbar.setSubtitleTextColor(getResources().getColor(R.color.LightPrimaryColor));
+    }
+
+    void setupNavigationDrawer()
+    {
+        drawerfragment=(Navigation_Drawer)getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
+        drawerfragment.setUP((DrawerLayout) findViewById(R.id.drawer_layout_id), toolbar);
 
 
 
 
     }
+
+
 
 
 

@@ -6,6 +6,7 @@
     android:titleTextColor="@color/Text_Icon"
     android:subtitleTextColor="@color/LightPrimaryColor"
     android:subtitle="Pune"
+
     >
 
 </android.support.v7.widget.Toolbar>
