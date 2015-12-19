@@ -59,8 +59,10 @@ public class Navigation_Drawer extends Fragment implements NavigationView.OnCrea
         sharedPreferencesClass=new SharedPreferencesClass();
         sharedPreferencesClass.PullSharedPreferences(getContext());
 
-        View headerLayout = navigationView.getHeaderView(0);
-
+      //  View headerLayout = navigationView.getHeaderView(0);
+        View headerLayout =
+                navigationView.inflateHeaderView(R.layout.nav_header_main);
+      
 
 
         if(MainActivity.signedin==1)
