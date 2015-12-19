@@ -1,9 +1,5 @@
 package com.example.shreyas.newdemo;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.os.Handler;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -15,9 +11,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.ProgressBar;
-import android.widget.Toast;
-
 
 import com.astuetz.PagerSlidingTabStrip;
 
@@ -35,14 +28,11 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
         setupToolbar();
 
         setupNavigationDrawer();
 
         setupViewPager();
-
 
     }
 
