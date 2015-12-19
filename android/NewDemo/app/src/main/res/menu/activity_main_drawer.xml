@@ -6,9 +6,32 @@
         android:id="@+id/PersonalGroup"
 
         >
-        <item android:id="@+id/nav_signin" android:icon="@android:drawable/ic_menu_set_as"
+        <item android:id="@+id/nav_signin" android:icon="@android:drawable/ic_menu_directions"
             android:title="SignIn"
             />
+
+        <item android:id="@+id/nav_myprofile" android:icon="@android:drawable/ic_menu_myplaces"
+            android:title="My profile" />
+
+    </group>
+    <group
+        android:checkableBehavior="single"
+        android:id="@+id/Assitance"
+        >
+        <item android:id="@+id/nav_notification" android:icon="@android:drawable/btn_star_big_on"
+            android:title="Notification" />
+        <item android:id="@+id/nav_conse" android:icon="@android:drawable/ic_menu_info_details"
+            android:title="Consequences" />
+
+    </group>
+
+
+    <group
+        android:checkableBehavior="single"
+        android:id="@+id/Settings"
+        >
+        <item android:id="@+id/nav_settings" android:icon="@android:drawable/ic_menu_set_as"
+            android:title="Settings" />
 
     </group>
 
@@ -16,8 +39,12 @@
             android:checkableBehavior="single"
             android:id="@+id/MoreGroup"
             >
-            <item android:id="@+id/nav_moreapps" android:icon="@android:drawable/ic_menu_more"
-                android:title="More apps" />
+            <item android:id="@+id/nav_share" android:icon="@android:drawable/ic_menu_share"
+                android:title="Share" />
+            <item android:id="@+id/nav_help" android:icon="@android:drawable/ic_menu_help"
+                android:title="Help" />
+            <item android:id="@+id/nav_contactus" android:icon="@android:drawable/ic_dialog_info"
+                android:title="Contact us" />
 
         </group>
 
