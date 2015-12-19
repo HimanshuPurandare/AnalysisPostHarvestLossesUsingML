@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity
 
     public class MyPagerAdapter extends FragmentPagerAdapter {
 
-        private final String[] TITLES = { " General Info ", "   Home   ", "  News Feed  "};
+        private final String[] TITLES = { "      Info       ", "      Home       ", "       News       "};
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);

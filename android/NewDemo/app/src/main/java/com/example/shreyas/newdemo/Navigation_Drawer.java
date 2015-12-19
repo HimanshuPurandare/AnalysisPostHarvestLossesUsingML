@@ -59,10 +59,10 @@ public class Navigation_Drawer extends Fragment implements NavigationView.OnCrea
         sharedPreferencesClass=new SharedPreferencesClass();
         sharedPreferencesClass.PullSharedPreferences(getContext());
 
-      //  View headerLayout = navigationView.getHeaderView(0);
+//        View headerLayout = navigationView.getHeaderView(0);
         View headerLayout =
                 navigationView.inflateHeaderView(R.layout.nav_header_main);
-      
+
 
 
         if(MainActivity.signedin==1)
@@ -128,9 +128,9 @@ public class Navigation_Drawer extends Fragment implements NavigationView.OnCrea
     @Override
     public boolean onNavigationItemSelected(MenuItem item)
     {
-        Log.d(item.getOrder()+"",item.getTitle().toString());
+        Log.d(item.getItemId()+"",item.getTitle().toString());
 
-        if (item.getOrder()==0)
+        if (item.getItemId()==R.id.nav_signin)
         {
             if(MainActivity.signedin==0)
             {
@@ -159,9 +159,34 @@ public class Navigation_Drawer extends Fragment implements NavigationView.OnCrea
 
             }
         }
+        else if(item.getItemId()==R.id.nav_myprofile)
+        {
 
+        }
+        else if(item.getItemId()==R.id.nav_notification)
+        {
 
+        }
+        else if(item.getItemId()==R.id.nav_conse)
+        {
 
+        }
+        else if(item.getItemId()==R.id.nav_settings)
+        {
+
+        }
+        else if(item.getItemId()==R.id.nav_share)
+        {
+
+        }
+        else if(item.getItemId()==R.id.nav_help)
+        {
+            Log.d("Help","pressed by niranjan");
+        }
+        else if(item.getItemId()==R.id.nav_contactus)
+        {
+
+        }
 
         return false;
     }
