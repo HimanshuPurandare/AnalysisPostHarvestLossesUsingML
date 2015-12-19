@@ -1,9 +1,13 @@
 package com.example.shreyas.newdemo;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -21,14 +25,26 @@ import com.android.volley.RequestQueue;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.Volley;
 import com.astuetz.PagerSlidingTabStrip;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 
 public class MainActivity extends AppCompatActivity
 {
+
+//GCM Notification Related
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    private static final String TAG = "MainActivity";
+
+    private BroadcastReceiver mRegistrationBroadcastReceiver;
+
+
+
     private Toolbar toolbar;
     private Navigation_Drawer drawerfragment;
     private Menu optionsMenu;
     private static MainActivity sInstance;
 
+//Global Variables related to User
     public static String Global_User_Name,Global_Email_Id,Global_Regi_Token,GlobalUser_Role;
 
 
@@ -38,11 +54,11 @@ public class MainActivity extends AppCompatActivity
     public static int signedin=0;
     public static boolean ConnectedToNetwork = true;
 
+//SharedPreferences Related
     SharedPreferencesClass sharedPreferencesClass;
 
-    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-    private static final String TAG = "MainActivity";
 
+//Volley Data Send/Recv related
     private RequestQueue mRequestQueue;
     public <T> void addToRequestQueue(Request<T> req, String tag) {
         // set the default tag if tag is empty
@@ -81,10 +97,26 @@ public class MainActivity extends AppCompatActivity
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mRegistrationBroadcastReceiver = new BroadcastReceiver()
+        {
+            @Override
+            public void onReceive(Context context, Intent intent)
+            {
+
+            }
+        };
+        if (checkPlayServices()) {
+            Log.d("checkplayservis","services checked");
+            // Start IntentService to register this application with GCM.
+            Intent intent = new Intent(this, RegistrationIntentService.class);
+            startService(intent);
+        }
 
 
         sInstance = this;
@@ -98,6 +130,24 @@ public class MainActivity extends AppCompatActivity
         setupViewPager();
 
     }
+
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(QuickstartPreferences.REGISTRATION_COMPLETE));
+    }
+
+    @Override
+    protected void onPause()
+    {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
+        super.onPause();
+    }
+
+
 
 
     private void setupToolbar()
@@ -196,6 +246,30 @@ public class MainActivity extends AppCompatActivity
         }
 
     }
+
+
+    /**
+     * Check the device to make sure it has the Google Play Services APK. If
+     * it doesn't, display a dialog that allows users to download the APK from
+     * the Google Play Store or enable it in the device's system settings.
+     */
+
+    private boolean checkPlayServices() {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                        .show();
+            } else {
+                Log.i(TAG, "This device is not supported.");
+                finish();
+            }
+            return false;
+        }
+        return true;
+    }
+
 
 }
 
