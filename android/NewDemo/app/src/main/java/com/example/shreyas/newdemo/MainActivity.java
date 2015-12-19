@@ -1,7 +1,5 @@
 package com.example.shreyas.newdemo;
 
-import android.graphics.drawable.Drawable;
-import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -9,7 +7,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.astuetz.PagerSlidingTabStrip;
 
@@ -17,6 +18,9 @@ public class MainActivity extends AppCompatActivity
 {
     private Toolbar toolbar;
     private Navigation_Drawer drawerfragment;
+    private Menu optionsMenu;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -29,7 +33,6 @@ public class MainActivity extends AppCompatActivity
         setupNavigationDrawer();
 
         setupViewPager();
-
 
     }
 
@@ -58,6 +61,50 @@ public class MainActivity extends AppCompatActivity
         PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         tabs.setViewPager(pager);
     }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        this.optionsMenu = menu;
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.refreshbutton, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId()) {
+            case R.id.airport_menuRefresh:
+                setRefreshActionButtonState(true);
+                /*
+                    Set code of fetching data from database here
+                    and till then animation will be displayed
+                 */
+                setRefreshActionButtonState(false);
+                // Complete with your code
+                return true;
+        }        Log.d("buutton","pressed");
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
+    public void setRefreshActionButtonState(final boolean refreshing) {
+        if (optionsMenu != null) {
+            final MenuItem refreshItem = optionsMenu
+                    .findItem(R.id.airport_menuRefresh);
+            if (refreshItem != null) {
+                if (refreshing) {
+                    refreshItem.setActionView(R.layout.actionbar_indeterminate_progress);
+                } else {
+                    refreshItem.setActionView(null);
+                }
+            }
+        }
+    }
+
 
 
     public class MyPagerAdapter extends FragmentPagerAdapter {
