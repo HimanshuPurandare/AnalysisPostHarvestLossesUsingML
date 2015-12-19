@@ -1,6 +1,7 @@
 package com.example.shreyas.newdemo;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -27,12 +28,15 @@ public class MainActivity extends AppCompatActivity
     private Menu optionsMenu;
     private static MainActivity sInstance;
 
+    public static String Global_User_Name,Global_Email_Id,Global_Regi_Token,GlobalUser_Role;
+
 
 //    public static String ServerIP="http://192.168.1.131:5000";
     public static String ServerIP="http://10.42.0.249:5000";
 
     public static int signedin=0;
     public static boolean ConnectedToNetwork = true;
+
 
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private static final String TAG = "MainActivity";
@@ -76,16 +80,38 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         sInstance = this;
 
+        PullSharedPreferences();
         setupToolbar();
 
         setupNavigationDrawer();
 
         setupViewPager();
+
+    }
+
+    private void PullSharedPreferences()
+    {
+        SharedPreferences sharedPreferences=getSharedPreferences("SignInData", Context.MODE_PRIVATE);
+        String signedinstatus=sharedPreferences.getString("SignedInStatus", "No");
+        if(signedinstatus.equals("Yes"))
+        {
+            signedin=1;
+        }
+        else
+        {
+            signedin=0;
+        }
+        Global_Email_Id=sharedPreferences.getString("SignedInEmailId","(Email)");
+        Global_Email_Id=sharedPreferences.getString("SignedInName","(UserName)");
+        Global_Email_Id=sharedPreferences.getString("SignedInRole","UserType");
+
+
 
     }
 

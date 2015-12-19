@@ -2,6 +2,7 @@ package com.example.shreyas.newdemo;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -15,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 
 public class Navigation_Drawer extends Fragment implements NavigationView.OnCreateContextMenuListener,NavigationView.OnNavigationItemSelectedListener
@@ -22,7 +24,8 @@ public class Navigation_Drawer extends Fragment implements NavigationView.OnCrea
     private ActionBarDrawerToggle nDrawerToggle;
     private DrawerLayout nDrawerLayout;
     NavigationView navigationView;
-    Menu menu;
+    Menu nav_menu;
+    MenuItem signin_item;
 
     public Navigation_Drawer()
     {
@@ -47,6 +50,23 @@ public class Navigation_Drawer extends Fragment implements NavigationView.OnCrea
         View view=inflater.inflate(R.layout.fragment_navigation__drawer, container, false);
         navigationView=(NavigationView)view.findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        nav_menu=navigationView.getMenu();
+        signin_item=nav_menu.getItem(0);
+        SharedPreferences sharedPreferences=getContext().getSharedPreferences("SignInData", Context.MODE_PRIVATE);
+        String signedinstatus=sharedPreferences.getString("SignedInStatus", "No");
+        if(signedinstatus.equals("Yes"))
+        {
+            MainActivity.signedin=1;
+        }
+        else
+        {
+            MainActivity.signedin=0;
+        }
+
+        if(MainActivity.signedin==1)
+        {
+            signin_item.setTitle("sign-Out");
+        }
 
 
         return view;
@@ -95,15 +115,36 @@ public class Navigation_Drawer extends Fragment implements NavigationView.OnCrea
     @Override
     public boolean onNavigationItemSelected(MenuItem item)
     {
-        Log.d("id = ",item.getTitle().toString());
+        Log.d(item.getOrder()+"",item.getTitle().toString());
 
-        if (item.getTitle().toString().equals("SignIn"))
+        if (item.getOrder()==0)
         {
-            // Handle the signin action
-            Intent i = new Intent(getActivity(), SignIn.class);
-            startActivity(i);
-            getActivity().finish();
+            if(MainActivity.signedin==0)
+            {
+                Log.d("towards ","signing in");
+                Intent i = new Intent(getActivity(), SignIn.class);
+                startActivity(i);
+                getActivity().finish();
+            }
+            else if(MainActivity.ConnectedToNetwork)
+            {
+                Log.d("towards ", "signing out");
+                SharedPreferences sharedPreferences = getContext().getSharedPreferences("SignInData", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear();
+                editor.commit();
+                Intent i = new Intent(getActivity(), MainActivity.class);
+                MainActivity.signedin=0;
+                startActivity(i);
+                getActivity().finish();
 
+            }
+            else
+            {
+                Log.d("doing ","nothing");
+                Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_LONG).show();
+
+            }
         }
 
 
