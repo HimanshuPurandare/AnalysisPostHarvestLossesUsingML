@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity
         titleStrip.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
 
 
+
     }
 
     void setupToolbar()

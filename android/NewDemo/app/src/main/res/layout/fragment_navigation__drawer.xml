@@ -1,16 +1,25 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#EEEEEE"
 
-    tools:context="com.example.shreyas.newdemo.Navigation_Drawer">
+    tools:context="com.example.shreyas.newdemo.Navigation_Drawer"
 
 
-    <include layout="@layout/nav_header_main" android:layout_width="match_parent"
-        android:layout_height="@dimen/nav_header_height" />
+    >
+
+
+    <include
+        layout="@layout/nav_header_main"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nav_header_height"
+
+
+        />
 
     <!-- TODO: Update blank fragment layout -->
     <!--<RelativeLayout-->
