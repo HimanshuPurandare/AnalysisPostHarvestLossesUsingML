@@ -22,6 +22,12 @@
             android:name=".SignIn"
             android:label="@string/title_activity_sign_in"
             android:theme="@style/AppTheme"></activity>
+
+        <receiver android:name=".NetworkStateReceiver" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
