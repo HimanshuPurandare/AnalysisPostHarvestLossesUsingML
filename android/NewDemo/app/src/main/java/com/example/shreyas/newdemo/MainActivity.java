@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    void setupToolbar()
+    private void setupToolbar()
     {
         toolbar = (Toolbar) findViewById(R.id.mytoolbar);
         setSupportActionBar(toolbar);

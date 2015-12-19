@@ -16,6 +16,7 @@ import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -48,11 +49,14 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
     private RadioButton rd_farmer,rd_gdm,rd_both;
 
     private static final int REQUEST_READ_CONTACTS = 0;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+        setupToolbar();
 
         signup_email = (AutoCompleteTextView) findViewById(R.id.signup_email);
         populateAutoComplete();
@@ -75,6 +79,15 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
 
 
 
+    }
+    void setupToolbar()
+    {
+        toolbar = (Toolbar) findViewById(R.id.mytoolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("SignUp");
+        //getSupportActionBar().setSubtitle("Pune");
+        toolbar.setTitleTextColor(getResources().getColor(R.color.Text_Icon));
+        toolbar.setSubtitleTextColor(getResources().getColor(R.color.LightPrimaryColor));
     }
 
 
@@ -122,13 +135,13 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
     }
 
 
-//    @Override
-//    public void onBackPressed() {
-//        Intent i = new Intent(SignUpActivity.this,LoginActivity.class);
-//        startActivity(i);
-//        finish();
-//    }
-//
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(SignUpActivity.this,SignIn.class);
+        startActivity(i);
+        finish();
+    }
+
 
 
 
@@ -338,10 +351,4 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
     }
 
 
-    //Radiobutton
-
-    public void onRadioButtonClicked(View view) {
-
-
-        }
 }

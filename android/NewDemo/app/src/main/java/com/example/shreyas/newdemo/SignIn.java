@@ -47,22 +47,10 @@ import static android.Manifest.permission.READ_CONTACTS;
 
 public class SignIn extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>
 {
-    /**
-     * Id to identity READ_CONTACTS permission request.
-     */
     private static final int REQUEST_READ_CONTACTS = 0;
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-    // private UserLoginTask mAuthTask = null;
+    private Toolbar toolbar;
+
 
     // UI references.
     private AutoCompleteTextView mEmailView;
@@ -75,6 +63,9 @@ public class SignIn extends AppCompatActivity implements LoaderManager.LoaderCal
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_sign_in);
         // Set up the login form.
+
+        setupToolbar();
+
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
@@ -90,6 +81,9 @@ public class SignIn extends AppCompatActivity implements LoaderManager.LoaderCal
             }
         });
 
+
+
+
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,7 +91,6 @@ public class SignIn extends AppCompatActivity implements LoaderManager.LoaderCal
                 attemptLogin();
             }
         });
-
 
         Button mEmailSignUpButton = (Button) findViewById(R.id.email_sign_up_button);
         mEmailSignUpButton.setOnClickListener(new View.OnClickListener() {
@@ -111,6 +104,16 @@ public class SignIn extends AppCompatActivity implements LoaderManager.LoaderCal
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView  = findViewById(R.id.login_progress);
+    }
+
+    void setupToolbar()
+    {
+        toolbar = (Toolbar) findViewById(R.id.mytoolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("SignIn");
+        //getSupportActionBar().setSubtitle("Pune");
+        toolbar.setTitleTextColor(getResources().getColor(R.color.Text_Icon));
+        toolbar.setSubtitleTextColor(getResources().getColor(R.color.LightPrimaryColor));
     }
 
 
@@ -272,10 +275,13 @@ public class SignIn extends AppCompatActivity implements LoaderManager.LoaderCal
                                     } else {
                                         showProgress(false);
 
-                                        Toast.makeText(SignIn.this, "Incorrect username or password", Toast.LENGTH_LONG);
+                                        Toast.makeText(SignIn.this, "Incorrect username or password", Toast.LENGTH_LONG).show();
 
                                     }
                                 } catch (JSONException e) {
+                                    showProgress(false);
+
+                                    Toast.makeText(SignIn.this, "Exception", Toast.LENGTH_LONG).show();
                                     e.printStackTrace();
                                 }
                             }
@@ -284,6 +290,9 @@ public class SignIn extends AppCompatActivity implements LoaderManager.LoaderCal
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 error.printStackTrace();
+                                showProgress(false);
+
+                                Toast.makeText(SignIn.this, "Connection Error", Toast.LENGTH_LONG).show();
                             }
                         });
                 MainActivity.getInstance().addToRequestQueue(jsonRequest);
