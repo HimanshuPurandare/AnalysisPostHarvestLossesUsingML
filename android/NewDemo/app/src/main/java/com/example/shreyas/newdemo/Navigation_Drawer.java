@@ -16,11 +16,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
 public class Navigation_Drawer extends Fragment implements NavigationView.OnCreateContextMenuListener,NavigationView.OnNavigationItemSelectedListener
 {
+
+    SharedPreferencesClass sharedPreferencesClass;
     private ActionBarDrawerToggle nDrawerToggle;
     private DrawerLayout nDrawerLayout;
     NavigationView navigationView;
@@ -52,20 +55,28 @@ public class Navigation_Drawer extends Fragment implements NavigationView.OnCrea
         navigationView.setNavigationItemSelectedListener(this);
         nav_menu=navigationView.getMenu();
         signin_item=nav_menu.getItem(0);
-        SharedPreferences sharedPreferences=getContext().getSharedPreferences("SignInData", Context.MODE_PRIVATE);
-        String signedinstatus=sharedPreferences.getString("SignedInStatus", "No");
-        if(signedinstatus.equals("Yes"))
-        {
-            MainActivity.signedin=1;
-        }
-        else
-        {
-            MainActivity.signedin=0;
-        }
+
+        sharedPreferencesClass=new SharedPreferencesClass();
+        sharedPreferencesClass.PullSharedPreferences(getContext());
+
+        View headerLayout = navigationView.getHeaderView(0);
+
+
 
         if(MainActivity.signedin==1)
         {
             signin_item.setTitle("sign-Out");
+
+            TextView tv_nav_name=(TextView)headerLayout.findViewById(R.id.nav_name);
+            TextView tv_nav_mail=(TextView)headerLayout.findViewById(R.id.nav_mailid);
+
+            Log.d(tv_nav_name.getText().toString(),"test");
+            Log.d("test name",headerLayout.findViewById(R.id.nav_name).toString());
+            Log.d("test mail", R.id.nav_mailid + "");
+            tv_nav_mail.setText(MainActivity.Global_Email_Id);
+            tv_nav_name.setText(MainActivity.Global_User_Name+" ("+MainActivity.GlobalUser_Role+")");
+
+
         }
 
 

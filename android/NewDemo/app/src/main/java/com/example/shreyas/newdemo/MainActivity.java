@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity
     public static int signedin=0;
     public static boolean ConnectedToNetwork = true;
 
+    SharedPreferencesClass sharedPreferencesClass;
 
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private static final String TAG = "MainActivity";
@@ -84,9 +86,11 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         sInstance = this;
 
-        PullSharedPreferences();
+        sharedPreferencesClass=new SharedPreferencesClass();
+        sharedPreferencesClass.PullSharedPreferences(getApplicationContext());
         setupToolbar();
 
         setupNavigationDrawer();
@@ -95,27 +99,9 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    private void PullSharedPreferences()
-    {
-        SharedPreferences sharedPreferences=getSharedPreferences("SignInData", Context.MODE_PRIVATE);
-        String signedinstatus=sharedPreferences.getString("SignedInStatus", "No");
-        if(signedinstatus.equals("Yes"))
-        {
-            signedin=1;
-        }
-        else
-        {
-            signedin=0;
-        }
-        Global_Email_Id=sharedPreferences.getString("SignedInEmailId","(Email)");
-        Global_Email_Id=sharedPreferences.getString("SignedInName","(UserName)");
-        Global_Email_Id=sharedPreferences.getString("SignedInRole","UserType");
 
+    private void setupToolbar()
 
-
-    }
-
-    void setupToolbar()
     {
         toolbar = (Toolbar) findViewById(R.id.mytoolbar);
         setSupportActionBar(toolbar);
