@@ -5,7 +5,6 @@
     android:background="@color/colorPrimary"
     android:titleTextColor="@color/Text_Icon"
     android:subtitleTextColor="@color/LightPrimaryColor"
-    android:subtitle="Pune"
 
     >
 
