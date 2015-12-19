@@ -1,5 +1,6 @@
 package com.example.shreyas.newdemo;
 
+import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -7,11 +8,16 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.Volley;
 import com.astuetz.PagerSlidingTabStrip;
 
 public class MainActivity extends AppCompatActivity
@@ -19,14 +25,61 @@ public class MainActivity extends AppCompatActivity
     private Toolbar toolbar;
     private Navigation_Drawer drawerfragment;
     private Menu optionsMenu;
+    private static MainActivity sInstance;
 
+
+//    public static String ServerIP="http://192.168.1.131:5000";
+    public static String ServerIP="http://10.42.0.249:5000";
+
+    public static int signedin=0;
+    public static boolean ConnectedToNetwork = true;
+
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    private static final String TAG = "MainActivity";
+
+    private RequestQueue mRequestQueue;
+    public <T> void addToRequestQueue(Request<T> req, String tag) {
+        // set the default tag if tag is empty
+        req.setTag(TextUtils.isEmpty(tag) ? TAG : tag);
+
+        VolleyLog.d("Adding request to queue: %s", req.getUrl());
+
+        getRequestQueue().add(req);
+    }
+
+    /**
+     * Adds the specified request to the global queue using the Default TAG.
+     *
+     * @param req
+     * */
+    public <T> void addToRequestQueue(Request<T> req) {
+        // set the default tag if tag is empty
+        req.setTag(TAG);
+
+        getRequestQueue().add(req);
+    }
+
+    public static synchronized MainActivity getInstance() {
+        return sInstance ;
+    }
+
+    public RequestQueue getRequestQueue() {
+        // lazy initialize the request queue, the queue instance will be
+        // created when it is accessed for the first time
+        if (mRequestQueue == null) {
+            mRequestQueue = Volley.newRequestQueue(getApplicationContext());
+        }
+
+        return mRequestQueue;
+    }
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        sInstance = this;
 
         setupToolbar();
 

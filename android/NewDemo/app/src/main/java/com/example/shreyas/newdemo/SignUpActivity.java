@@ -1,9 +1,7 @@
 package com.example.shreyas.newdemo;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.LoaderManager;
+import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
@@ -16,20 +14,16 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -45,82 +39,43 @@ import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
-public class SignIn extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>
+public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks<Cursor>
 {
-    /**
-     * Id to identity READ_CONTACTS permission request.
-     */
-    private static final int REQUEST_READ_CONTACTS = 0;
-
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-    // private UserLoginTask mAuthTask = null;
-
-    // UI references.
-    private AutoCompleteTextView mEmailView;
+    private AutoCompleteTextView signup_email;
     private EditText mPasswordView;
-    private View mProgressView;
-    private View mLoginFormView;
+    private EditText mConfirmPassword;
+    private EditText name;
+    private RadioButton rd_farmer,rd_gdm,rd_both;
+
+    private static final int REQUEST_READ_CONTACTS = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.content_sign_in);
-        // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        setContentView(R.layout.activity_sign_up);
+
+        signup_email = (AutoCompleteTextView) findViewById(R.id.signup_email);
         populateAutoComplete();
 
-        mPasswordView = (EditText) findViewById(R.id.password);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    return true;
-                }
-                return false;
-            }
-        });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        mPasswordView = (EditText) findViewById(R.id.signup_password);
+        mConfirmPassword = (EditText) findViewById(R.id.signup_confirm_password);
+        name = (EditText) findViewById(R.id.signup_name);
+        rd_farmer=(RadioButton)findViewById(R.id.role_farmer);
+        rd_gdm=(RadioButton)findViewById(R.id.role_gdmanager);
+        rd_both=(RadioButton)findViewById(R.id.role_both);
+
+        Button mEmailSignInButton = (Button) findViewById(R.id.register_button);
         mEmailSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin();
+                attemptSignup();
             }
         });
 
 
-        Button mEmailSignUpButton = (Button) findViewById(R.id.email_sign_up_button);
-        mEmailSignUpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(SignIn.this,SignUpActivity.class);
-                startActivity(i);
-                finish();
-            }
-        });
 
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView  = findViewById(R.id.login_progress);
     }
-
-
-    @Override
-    public void onBackPressed() {
-        Intent i = new Intent(SignIn.this,MainActivity.class );
-        startActivity(i);
-        finish();
-    }
-
 
 
     private void populateAutoComplete() {
@@ -139,7 +94,7 @@ public class SignIn extends AppCompatActivity implements LoaderManager.LoaderCal
             return true;
         }
         if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
-            Snackbar.make(mEmailView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
+            Snackbar.make(signup_email, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
                     .setAction(android.R.string.ok, new View.OnClickListener() {
                         @Override
                         @TargetApi(Build.VERSION_CODES.M)
@@ -167,23 +122,51 @@ public class SignIn extends AppCompatActivity implements LoaderManager.LoaderCal
     }
 
 
+//    @Override
+//    public void onBackPressed() {
+//        Intent i = new Intent(SignUpActivity.this,LoginActivity.class);
+//        startActivity(i);
+//        finish();
+//    }
+//
+
+
+
     /**
      * Attempts to sign in or register the account specified by the login form.
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    private void attemptLogin() {
+    private void attemptSignup() {
         //if (mAuthTask != null) {
         //    return;
         //}
 
         // Reset errors.
-        mEmailView.setError(null);
+        signup_email.setError(null);
         mPasswordView.setError(null);
 
-        // Store values at the time of the login attempt.
-        final String email = mEmailView.getText().toString();
+        // Store values at the time of the signup attempt.
+        final String string_name = name.getText().toString();
+        final String email = signup_email.getText().toString();
         final String password = mPasswordView.getText().toString();
+        final String confirm_passowrd = mConfirmPassword.getText().toString();
+        final String user_role;
+
+
+        if(rd_farmer.isChecked())
+        {
+
+            user_role="Farmer";
+        }
+        else if(rd_gdm.isChecked())
+        {
+            user_role="Go-Down Manager";
+        }
+        else
+        {
+            user_role="Both";
+        }
 
         boolean cancel = false;
         View focusView = null;
@@ -194,15 +177,21 @@ public class SignIn extends AppCompatActivity implements LoaderManager.LoaderCal
             focusView = mPasswordView;
             cancel = true;
         }
+        if(!confirm_passowrd.equals(password))
+        {
+            mPasswordView.setError(getString(R.string.error_password_mismatch));
+            focusView = mPasswordView;
+            cancel = true;
+        }
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
+            signup_email.setError(getString(R.string.error_field_required));
+            focusView = signup_email;
             cancel = true;
         } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
+            signup_email.setError(getString(R.string.error_invalid_email));
+            focusView = signup_email;
             cancel = true;
         }
 
@@ -213,38 +202,33 @@ public class SignIn extends AppCompatActivity implements LoaderManager.LoaderCal
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(true);
-            // mAuthTask = new UserLoginTask(email, password);
-
-            // mAuthTask.execute((Void) null);
-
             SharedPreferences sharedPreferences=getSharedPreferences("AppRegistration", Context.MODE_PRIVATE);
 
             String token=sharedPreferences.getString("RegistrationToken", "-");
-
-
-            if(MainActivity.ConnectedToNetwork) {
+            if(MainActivity.ConnectedToNetwork)
+            {
 
                 JSONObject j = new JSONObject();
                 try {
-                    j.put("SignInUid", email);
-                    j.put("SignInPwd", password);
+                    j.put("SignUpUid", email);
+                    j.put("SignUpPwd", password);
+                    j.put("SignUpName", string_name);
+                    j.put("SignUpRole", user_role);
+
                     if (token.equals("-"))
                     {
-                        Log.d("RegistrationToken : ", "NULL");
+                        Log.d("RegistrationToken : ","NULL");
                     }
                     else
                     {
                         j.put("registrationtoken",token);
                     }
 
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-                String url = MainActivity.ServerIP + "/signin/";
-
+                String url = MainActivity.ServerIP + "/signup/";
                 JsonObjectRequest jsonRequest = new JsonObjectRequest
                         (Request.Method.POST, url, j, new Response.Listener<JSONObject>() {
                             @Override
@@ -254,26 +238,18 @@ public class SignIn extends AppCompatActivity implements LoaderManager.LoaderCal
                                     response = response.getJSONObject("Android");
                                     String signinresult = response.getString("Result");
                                     if (signinresult.equals("Valid")) {
-                                        Intent i = new Intent(SignIn.this, MainActivity.class);
+                                        Intent i = new Intent(SignUpActivity.this, MainActivity.class);
                                         MainActivity.signedin = 1;
                                         SharedPreferences sharedPreferences = getSharedPreferences("SignInData", Context.MODE_PRIVATE);
                                         SharedPreferences.Editor editor = sharedPreferences.edit();
                                         editor.putString("SignedInStatus", "Yes");
                                         editor.putString("SignedInEmailId", email);
-
-                                        String string_name = response.getString("Name");
-                                        String user_role = response.getString("Role");
-
                                         editor.putString("SignedInName", string_name);
                                         editor.putString("SignedInRole",user_role);
                                         editor.commit();
+
                                         startActivity(i);
                                         finish();
-                                    } else {
-                                        showProgress(false);
-
-                                        Toast.makeText(SignIn.this, "Incorrect username or password", Toast.LENGTH_LONG);
-
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -287,14 +263,12 @@ public class SignIn extends AppCompatActivity implements LoaderManager.LoaderCal
                             }
                         });
                 MainActivity.getInstance().addToRequestQueue(jsonRequest);
+
             }
             else
             {
-                showProgress(false);
-                Log.d("Login activity check",MainActivity.ConnectedToNetwork+"");
-                Toast.makeText(getApplicationContext(),"No Internet Connection",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
             }
-
         }
     }
 
@@ -308,41 +282,6 @@ public class SignIn extends AppCompatActivity implements LoaderManager.LoaderCal
         return password.length() > 4;
     }
 
-    /**
-     * Shows the progress UI and hides the login form.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
-    }
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
@@ -392,10 +331,17 @@ public class SignIn extends AppCompatActivity implements LoaderManager.LoaderCal
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(SignIn.this,
+                new ArrayAdapter<>(SignUpActivity.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
-        mEmailView.setAdapter(adapter);
+        signup_email.setAdapter(adapter);
     }
 
+
+    //Radiobutton
+
+    public void onRadioButtonClicked(View view) {
+
+
+        }
 }
