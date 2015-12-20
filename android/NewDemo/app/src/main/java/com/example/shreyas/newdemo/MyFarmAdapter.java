@@ -1,6 +1,7 @@
 package com.example.shreyas.newdemo;
 
 import android.content.Intent;
+import android.media.Image;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.List;
@@ -46,13 +48,13 @@ public class MyFarmAdapter extends RecyclerView.Adapter<MyFarmAdapter.PersonView
     public static class PersonViewHolder extends RecyclerView.ViewHolder {
         CardView cv;
         TextView Farmname;
-        Button edit_btn;
+        ImageButton edit_btn;
 
         PersonViewHolder(final View itemView) {
             super(itemView);
             cv = (CardView)itemView.findViewById(R.id.myfarmcv);
             Farmname = (TextView)itemView.findViewById(R.id.name_of_farm);
-            edit_btn=(Button)itemView.findViewById(R.id.farm_card_edit_btn);
+            edit_btn=(ImageButton)itemView.findViewById(R.id.farm_card_edit_btn);
 
             edit_btn.setOnClickListener(new View.OnClickListener(){
 

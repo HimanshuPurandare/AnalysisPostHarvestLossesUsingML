@@ -44,11 +44,24 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             {
                 LayoutInflater layoutInflater = (LayoutInflater) this.context
                         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                convertView = layoutInflater.inflate(R.layout.list_item, null);
-                TextView expandedListTextView = (TextView) convertView
-                        .findViewById(R.id.expandedListItem);
-                expandedListTextView.setText(expandedListText);
-                Log.d("position", listPosition + " " + expandedListPosition);
+                convertView = layoutInflater.inflate(R.layout.list_item1, null);
+
+                TextView t1 = (TextView) convertView.findViewById(R.id.t1);
+                TextView t2 = (TextView) convertView.findViewById(R.id.t2);
+                TextView t3 = (TextView) convertView.findViewById(R.id.t3);
+                TextView t4 = (TextView) convertView.findViewById(R.id.t4);
+                TextView t5 = (TextView) convertView.findViewById(R.id.t5);
+                TextView t6 = (TextView) convertView.findViewById(R.id.t6);
+
+                t1.setText("Temp");
+                t2.setText("Humidity");
+
+                t3.setText("expandedListText");
+                t4.setText(expandedListText);
+
+                t5.setText(expandedListText);
+                t6.setText(expandedListText);
+
             }
             else if(listPosition==1)
             {

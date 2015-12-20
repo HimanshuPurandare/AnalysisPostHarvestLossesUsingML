@@ -57,7 +57,6 @@ public class ExpandableListDataPump
 
         predictions.add("hi");
 
-
         notifications.add("hi");
         notifications.add("hiii");
 
