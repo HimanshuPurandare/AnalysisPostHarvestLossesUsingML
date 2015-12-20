@@ -21,9 +21,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class UpdateFarm extends AppCompatActivity
-{
-    private String farmname,cropname,seedtype,farmarea,sowingdate,harvestingdate,hwkitid;
+public class UpdateFarm extends AppCompatActivity {
+    private String farmname, cropname, seedtype, farmarea, sowingdate, harvestingdate, hwkitid;
 
     Toolbar toolbar;
     /**
@@ -50,12 +49,12 @@ public class UpdateFarm extends AppCompatActivity
     }
 
     private void FetchfarmData() {
-        if(MainActivity.ConnectedToNetwork) {
+        if (MainActivity.ConnectedToNetwork) {
 
             JSONObject j = new JSONObject();
             try {
-                j.put("UserName",MainActivity.Global_User_Name);
-                j.put("FarmName",farmname);
+                j.put("UserName", MainActivity.Global_User_Name);
+                j.put("FarmName", farmname);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -71,15 +70,14 @@ public class UpdateFarm extends AppCompatActivity
                             try {
                                 response = response.getJSONObject("Android");
                                 String signinresult = response.getString("Result");
-                                if (signinresult.equals("Valid"))
-                                {
+                                if (signinresult.equals("Valid")) {
 
                                     cropname = response.getString("FarmName");
-                                    farmarea= response.getString("FarmArea");
-                                    sowingdate= response.getString("SowingDate");
-                                    harvestingdate= response.getString("HarvestingDate");
-                                    seedtype= response.getString("Seedtype");
-                                    hwkitid= response.getString("HwKitID");
+                                    farmarea = response.getString("FarmArea");
+                                    sowingdate = response.getString("SowingDate");
+                                    harvestingdate = response.getString("HarvestingDate");
+                                    seedtype = response.getString("Seedtype");
+                                    hwkitid = response.getString("HwKitID");
 
                                 } else {
 
@@ -101,11 +99,9 @@ public class UpdateFarm extends AppCompatActivity
                         }
                     });
             MainActivity.getInstance().addToRequestQueue(jsonRequest);
-        }
-        else
-        {
-            Log.d("Login activity check",MainActivity.ConnectedToNetwork+"");
-            Toast.makeText(getApplicationContext(),"No Internet Connection",Toast.LENGTH_LONG).show();
+        } else {
+            Log.d("Login activity check", MainActivity.ConnectedToNetwork + "");
+            Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
         }
 
 
@@ -118,4 +114,5 @@ public class UpdateFarm extends AppCompatActivity
         toolbar.setTitleTextColor(getResources().getColor(R.color.Text_Icon));
         toolbar.setSubtitleTextColor(getResources().getColor(R.color.LightPrimaryColor));
     }
+}
 

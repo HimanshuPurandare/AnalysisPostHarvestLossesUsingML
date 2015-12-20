@@ -8,6 +8,14 @@ import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,16 +25,19 @@ public class MyFarm extends AppCompatActivity {
     private Toolbar toolbar;
 
     ExpandableListView expandableListView;
-    ExpandableListAdapter expandableListAdapter;
+    static ExpandableListAdapter expandableListAdapter;
     List expandableListTitle;
     HashMap expandableListDetail;
+
+    static String farmname;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_farm);
 
-        String farmname = getIntent().getStringExtra("FarmName");
+        farmname = getIntent().getStringExtra("FarmName");
 
         Log.d("FarmName",farmname);
 
@@ -82,4 +93,9 @@ public class MyFarm extends AppCompatActivity {
         toolbar.setTitleTextColor(getResources().getColor(R.color.Text_Icon));
         toolbar.setSubtitleTextColor(getResources().getColor(R.color.LightPrimaryColor));
     }
+
+
+
+
+
 }
