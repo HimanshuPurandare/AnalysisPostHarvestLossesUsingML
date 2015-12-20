@@ -37,6 +37,7 @@
                 android:id="@+id/farm_card_edit_btn"
                 android:text="Edit"
                 android:padding="6dp"
+                android:paddingLeft="18dp"
                 android:background="@color/colorAccent"
                 android:textStyle="italic"
                 />

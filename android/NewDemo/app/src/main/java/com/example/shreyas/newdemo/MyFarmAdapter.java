@@ -53,9 +53,19 @@ public class MyFarmAdapter extends RecyclerView.Adapter<MyFarmAdapter.PersonView
 
             cv.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
-                    Intent i = new Intent(view.getContext(),MyFarm.class).putExtra("FarmName",Farmname.getText());
-                    view.getContext().startActivity(i);
+                public void onClick(View view)
+                {
+                    if(view.getId()==R.id.farm_card_edit_btn)
+                    {
+                        Intent i=new Intent(view.getContext(),UpdateFarm.class).putExtra("FarmName",Farmname.getText());
+                        view.getContext().startActivity(i);
+                    }
+                    else
+                    {
+                        Intent i = new Intent(view.getContext(), MyFarm.class).putExtra("FarmName", Farmname.getText());
+                        view.getContext().startActivity(i);
+
+                    }
                 }
             });
         }
