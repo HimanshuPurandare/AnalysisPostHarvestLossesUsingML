@@ -100,6 +100,22 @@ def getfarms():
     print response_to_android
     return jsonify(Android = response_to_android)   
 
+@app.route('/getfarminfo/',methods=['POST', 'GET'])
+def fetchfarminfo():
+	received_data = receive_from_android(request)
+	print received_data
+	returnval=return_farm_info(received_data)
+	print returnval['AddFarmName']
+	datalist={"Result":"Valid"}
+	datalist['AddFarmName']=returnval['AddFarmName']
+	datalist['AddFarmCropType']=returnval['AddFarmCropType']
+	datalist['AddFarmHWID']=returnval['AddFarmHWID']
+	datalist['AddFarmEndDate']=returnval['AddFarmEndDate']
+	datalist['AddFarmStartDate']=returnval['AddFarmStartDate']
+	datalist['AddFarmCrop']=returnval['AddFarmCrop']
+	datalist['AddFarmArea']=returnval['AddFarmArea']
+	
+	return jsonify(Android = datalist)   
 
 
 @app.route('/getwarehouses/',methods=['POST', 'GET'])
@@ -131,6 +147,7 @@ def hello_world():
 
 
 if __name__ == '__main__':
-    create_collections()
+	create_collections()
 #    app.run(host="192.168.0.105")
-    app.run(host="192.168.1.131")
+#    app.run(host="192.168.1.131")
+	app.run(host="10.42.0.1")	

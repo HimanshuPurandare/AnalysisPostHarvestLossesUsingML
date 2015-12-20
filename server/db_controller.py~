@@ -60,13 +60,21 @@ def return_farms(received_data):
     print "list",list_of_farms
     return list_of_farms
     
+
+def return_farm_info(received_data):
+	farm_data=db['farm_data']
+	print "collection created"
+	farm_info=farm_data.find_one({"AddFarmUID":received_data['UserID'],"AddFarmName":received_data['FarmName']})
+	print farm_info
+	return farm_info    
+    
 def return_warehouses(received_data):
     warehouse_data = db['warehouse_data']
     print received_data['Email']
-    list_of_farms = warehouse_data.find({"AddWarehouseUID":received_data['Email']})
+    list_of_warehouses = warehouse_data.find({"AddWarehouseUID":received_data['Email']})
     print "hty"
-    print "list",list_of_farms
-    return list_of_farms
+    print "list",list_of_warehouses
+    return list_of_warehouses
     
     
 def IsValidUser(email,password):
