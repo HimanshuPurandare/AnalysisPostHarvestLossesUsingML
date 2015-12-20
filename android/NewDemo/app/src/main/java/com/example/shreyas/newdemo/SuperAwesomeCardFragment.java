@@ -36,18 +36,24 @@ public class SuperAwesomeCardFragment extends Fragment {
 
     private int position;
 
-    MyFarmAdapter adap;
+    MyFarmAdapter fadap;
+    MyWareHouseAdapter wadap;
+
 
     List<General_info> gen_info;
     List<General_info> news;
     List<Farm_info> farmlist;
+    List<WareHouse_Info> warehouselist;
+
 
 
     public SuperAwesomeCardFragment()
     {
         farmlist = new ArrayList<Farm_info>();
+        warehouselist = new ArrayList<WareHouse_Info>();
 
-        adap = new MyFarmAdapter(farmlist);
+        fadap = new MyFarmAdapter(farmlist);
+        wadap = new MyWareHouseAdapter(warehouselist);
     }
 
     private void initializeData()
@@ -114,7 +120,7 @@ public class SuperAwesomeCardFragment extends Fragment {
                         // farmlist.add(new Farm_info(fname));
 
 
-                        adap.notifyDataSetChanged();
+                        fadap.notifyDataSetChanged();
 
 
 
@@ -137,9 +143,77 @@ public class SuperAwesomeCardFragment extends Fragment {
         {
             Toast.makeText(getActivity(),"No Internet Connection",Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void setwarehouses()
+    {
+        warehouselist.clear();
+        Log.d("Connected to network", MainActivity.ConnectedToNetwork + "");
+        if(MainActivity.ConnectedToNetwork==true)
+        {
+
+            JSONObject j;
+            j = new JSONObject();
+            try {
+                j.put("Email",MainActivity.Global_Email_Id);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            String url = MainActivity.ServerIP + "/getwarehouses/";
+
+
+            JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, url, j, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    // the response is already constructed as a JSONObject!
+                    Log.d("Onresponse", "yes");
+                    try {
+                        response = response.getJSONObject("Android");
+                        //String fname = response.getString("AddFarmName");
+
+                        JSONArray a = new JSONArray();
+
+                        a = response.getJSONArray("AddWareHouseName");
+
+                        int l = a.length();
+
+                        for(int i=0;i<l;i++)
+                        {
+                            warehouselist.add(new WareHouse_Info(a.getString(i)));
+                        }
+
+
+                        // farmlist.add(new Farm_info(fname));
+
+
+                        wadap.notifyDataSetChanged();
+
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    error.printStackTrace();
+                }
+            });
+
+
+            MainActivity.getInstance().addToRequestQueue(jsonRequest);
+        }
+        else
+        {
+            Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_LONG).show();
+        }
 
 
     }
+
 
 
     public static SuperAwesomeCardFragment newInstance(int position) {
@@ -245,13 +319,35 @@ public class SuperAwesomeCardFragment extends Fragment {
 
                     setfarms();
 
-                    rv.setAdapter(adap);
+                    rv.setAdapter(fadap);
                     return rootView;
                 }
                 else if(MainActivity.GlobalUser_Role.equals("Go-Down Manager"))
                 {
                     Log.d("Add","Warehouse");
-                    return null;
+                    View rootView = inflater.inflate(R.layout.c, container, false);
+
+                    FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+                    fab.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view)
+                        {
+                            Log.d("Add","Farm");
+                            Intent i = new Intent(getActivity(),AddWarehouse.class );
+                            startActivity(i);
+                            getActivity().finish();
+                        }
+                    });
+
+                    RecyclerView rv = (RecyclerView) rootView.findViewById(R.id.rv3);
+                    rv.setHasFixedSize(true);
+                    LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+                    rv.setLayoutManager(llm);
+
+                    setwarehouses();
+
+                    rv.setAdapter(wadap);
+                    return rootView;
                 }
                 else if(MainActivity.GlobalUser_Role.equals("Both"))
                 {
@@ -263,7 +359,7 @@ public class SuperAwesomeCardFragment extends Fragment {
                     Log.d("Ohhh","shittt");
                     return null;
                 }
-                
+
             }
             else
             {

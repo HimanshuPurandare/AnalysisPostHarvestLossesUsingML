@@ -83,6 +83,8 @@
 
         <activity android:name=".AddFarm" >
         </activity>
+        <activity android:name=".AddWarehouse" >
+        </activity>
     </application>
 
 </manifest>
