@@ -52,7 +52,6 @@ public class MyFarm extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),
                         expandableListTitle.get(groupPosition) + " List Collapsed.",
                         Toast.LENGTH_SHORT).show();
-
             }
         });
 
@@ -83,5 +82,4 @@ public class MyFarm extends AppCompatActivity {
         toolbar.setTitleTextColor(getResources().getColor(R.color.Text_Icon));
         toolbar.setSubtitleTextColor(getResources().getColor(R.color.LightPrimaryColor));
     }
-
 }

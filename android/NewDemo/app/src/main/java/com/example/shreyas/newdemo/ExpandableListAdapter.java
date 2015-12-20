@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +39,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     public View getChildView(int listPosition, final int expandedListPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
         final String expandedListText = (String) getChild(listPosition, expandedListPosition);
-        if (convertView == null) {
+        if (convertView == null)
+        {
             LayoutInflater layoutInflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.list_item, null);
@@ -46,6 +48,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         TextView expandedListTextView = (TextView) convertView
                 .findViewById(R.id.expandedListItem);
         expandedListTextView.setText(expandedListText);
+        Log.d("position",listPosition+" "+expandedListPosition);
         return convertView;
     }
 

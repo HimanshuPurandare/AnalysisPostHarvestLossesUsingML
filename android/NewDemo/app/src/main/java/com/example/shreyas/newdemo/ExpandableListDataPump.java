@@ -12,30 +12,30 @@ public class ExpandableListDataPump {
     public static HashMap<String, List<String>> getData() {
         HashMap<String, List<String>> expandableListDetail = new HashMap<String, List<String>>();
 
-        List<String> technology = new ArrayList<String>();
-        technology.add("Beats sued for noise-cancelling tech");
-        technology.add("Wikipedia blocks US Congress edits");
-        technology.add("Google quizzed over deleted links");
-        technology.add("Nasa seeks aid with Earth-Mars links");
-        technology.add("The Good, the Bad and the Ugly");
+        List<String> farmdata = new ArrayList<String>();
+        List<String> weatherdata = new ArrayList<String>();
+        List<String> predictions = new ArrayList<String>();
+        List<String> notifications = new ArrayList<String>();
 
-        List<String> entertainment = new ArrayList<String>();
-        entertainment.add("Goldfinch novel set for big screen");
-        entertainment.add("Anderson stellar in Streetcar");
-        entertainment.add("Ronstadt receives White House honour");
-        entertainment.add("Toronto to open with The Judge");
-        entertainment.add("British dancer return from Russia");
+        farmdata.add("hi");
+        farmdata.add("hiii");
 
-        List<String> science = new ArrayList<String>();
-        science.add("Eggshell may act like sunblock");
-        science.add("Brain hub predicts negative events");
-        science.add("California hit by raging wildfires");
-        science.add("Rosetta's comet seen in close-up");
-        science.add("Secret of sandstone shapes revealed");
 
-        expandableListDetail.put("TECHNOLOGY NEWS", technology);
-        expandableListDetail.put("ENTERTAINMENT NEWS", entertainment);
-        expandableListDetail.put("SCIENCE & ENVIRONMENT NEWS", science);
+        weatherdata.add("hi");
+        weatherdata.add("hiii");
+
+
+        predictions.add("hi");
+        predictions.add("hiii");
+
+
+        notifications.add("hi");
+        notifications.add("hiii");
+
+        expandableListDetail.put("FARM DATA", farmdata);
+        expandableListDetail.put("WEATHER DATA", weatherdata);
+        expandableListDetail.put("PREDICTIONS", predictions);
+        expandableListDetail.put("NOTIFICATIONS", notifications);
         return expandableListDetail;
     }
 }
