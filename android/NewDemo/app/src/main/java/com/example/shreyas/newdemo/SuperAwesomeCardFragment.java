@@ -221,44 +221,49 @@ public class SuperAwesomeCardFragment extends Fragment {
             else if(MainActivity.signedin==1)
             {
 
-                View rootView = inflater.inflate(R.layout.c, container, false);
+                if(MainActivity.GlobalUser_Role.equals("Farmer"))
+                {
 
-                FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
-                fab.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view)
-                    {
-                        if(MainActivity.GlobalUser_Role.equals("Farmer"))
+                    View rootView = inflater.inflate(R.layout.c, container, false);
+
+                    FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+                    fab.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view)
                         {
                             Log.d("Add","Farm");
                             Intent i = new Intent(getActivity(),AddFarm.class );
                             startActivity(i);
                             getActivity().finish();
                         }
-                        else if(MainActivity.GlobalUser_Role.equals("Go-Down Manager"))
-                        {
-                            Log.d("Add","Warehouse");
-                        }
-                        else if(MainActivity.GlobalUser_Role.equals("Both"))
-                        {
-                            Log.d("Show","Dialog");
-                        }
-                        else
-                        {
-                            Log.d("Ohhh","shittt");
-                        }
-                    }
-                });
+                    });
 
-                RecyclerView rv = (RecyclerView) rootView.findViewById(R.id.rv3);
-                rv.setHasFixedSize(true);
-                LinearLayoutManager llm = new LinearLayoutManager(getActivity());
-                rv.setLayoutManager(llm);
+                    RecyclerView rv = (RecyclerView) rootView.findViewById(R.id.rv3);
+                    rv.setHasFixedSize(true);
+                    LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+                    rv.setLayoutManager(llm);
 
-                setfarms();
+                    setfarms();
 
-                rv.setAdapter(adap);
-                return rootView;
+                    rv.setAdapter(adap);
+                    return rootView;
+                }
+                else if(MainActivity.GlobalUser_Role.equals("Go-Down Manager"))
+                {
+                    Log.d("Add","Warehouse");
+                    return null;
+                }
+                else if(MainActivity.GlobalUser_Role.equals("Both"))
+                {
+                    Log.d("Show","Dialog");
+                    return null;
+                }
+                else
+                {
+                    Log.d("Ohhh","shittt");
+                    return null;
+                }
+                
             }
             else
             {
@@ -296,7 +301,6 @@ public class SuperAwesomeCardFragment extends Fragment {
             RVAdapter adapter = new RVAdapter(news);
             adapter.notifyDataSetChanged();
             rv.setAdapter(adapter);
-
 
             //rootView.setId(i);
             return rootView;
