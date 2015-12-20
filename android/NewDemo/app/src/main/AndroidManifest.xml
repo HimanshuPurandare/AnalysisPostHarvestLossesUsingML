@@ -85,6 +85,8 @@
         </activity>
         <activity android:name=".AddWarehouse" >
         </activity>
+        <activity android:name=".MyFarm" >
+        </activity>
     </application>
 
 </manifest>
