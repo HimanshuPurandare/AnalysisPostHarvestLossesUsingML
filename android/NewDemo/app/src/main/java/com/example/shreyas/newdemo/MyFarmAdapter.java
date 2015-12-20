@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.List;
@@ -45,27 +46,29 @@ public class MyFarmAdapter extends RecyclerView.Adapter<MyFarmAdapter.PersonView
     public static class PersonViewHolder extends RecyclerView.ViewHolder {
         CardView cv;
         TextView Farmname;
+        Button edit_btn;
 
         PersonViewHolder(final View itemView) {
             super(itemView);
             cv = (CardView)itemView.findViewById(R.id.myfarmcv);
             Farmname = (TextView)itemView.findViewById(R.id.name_of_farm);
+            edit_btn=(Button)itemView.findViewById(R.id.farm_card_edit_btn);
 
+            edit_btn.setOnClickListener(new View.OnClickListener(){
+
+                @Override
+                public void onClick(View v) {
+                    Intent i=new Intent(v.getContext(),UpdateFarm.class).putExtra("FarmName",Farmname.getText());
+                    v.getContext().startActivity(i);
+
+                }
+            });
             cv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view)
                 {
-                    if(view.getId()==R.id.farm_card_edit_btn)
-                    {
-                        Intent i=new Intent(view.getContext(),UpdateFarm.class).putExtra("FarmName",Farmname.getText());
-                        view.getContext().startActivity(i);
-                    }
-                    else
-                    {
-                        Intent i = new Intent(view.getContext(), MyFarm.class).putExtra("FarmName", Farmname.getText());
-                        view.getContext().startActivity(i);
-
-                    }
+                    Intent i = new Intent(view.getContext(), MyFarm.class).putExtra("FarmName", Farmname.getText());
+                    view.getContext().startActivity(i);
                 }
             });
         }
