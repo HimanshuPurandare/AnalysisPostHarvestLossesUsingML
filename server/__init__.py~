@@ -88,6 +88,7 @@ def getfarms():
     response_to_android = {"AddFarmName":farmlist}
     returnval = return_farms(received_data) 
     print "hello"
+    
     a = returnval[0]
     print a['AddFarmName']
     print "hi"
@@ -133,4 +134,5 @@ def hello_world():
 if __name__ == '__main__':
     create_collections()
 #    app.run(host="192.168.0.105")
-    app.run(host="192.168.1.131")
+#    app.run(host="192.168.1.131")
+    app.run(host="10.42.0.249")
