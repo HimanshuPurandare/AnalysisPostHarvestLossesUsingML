@@ -3,6 +3,7 @@ from send_receive import *
 from flask import request
 import requests
 from db_controller import *
+from send_notification import *
 
 app = Flask(__name__)
 
@@ -52,6 +53,28 @@ def getfarmstatus():
     data = {"Temperature":"320","Humidity":"4","SoilMoisture":"10"}
     return jsonify(Android = data)
 
+
+@app.route('/getnotifications/',methods=['POST', 'GET'])
+def getnotifications():
+    received_data = receive_from_android(request)
+    print received_data
+    notification_list=get_notifications(received_data)
+    for i in notification_list:
+        print i['date']
+    print "returned from functin"
+    response_list=[]
+    for i in notification_list:
+        response_list.append({"Message":i['Message'],"date":i['date']})   
+    print response_list
+
+
+    
+    return jsonify(Android = {"list":response_list} )   
+
+
+
+
+
 @app.route('/registerapp/',methods=['POST', 'GET'])
 def registerapp():
     received_data = receive_from_android(request)
@@ -99,8 +122,27 @@ def getfarms():
         print "yes"
     response_to_android['AddFarmName'] = farmlist
     print response_to_android
+    
+    
+    
     return jsonify(Android = response_to_android)   
 
+@app.route('/getfarminfo/',methods=['POST', 'GET'])
+def fetchfarminfo():
+	received_data = receive_from_android(request)
+	print received_data
+	returnval=return_farm_info(received_data)
+	print returnval['AddFarmName']
+	datalist={"Result":"Valid"}
+	datalist['AddFarmName']=returnval['AddFarmName']
+	datalist['AddFarmCropType']=returnval['AddFarmCropType']
+	datalist['AddFarmHWID']=returnval['AddFarmHWID']
+	datalist['AddFarmEndDate']=returnval['AddFarmEndDate']
+	datalist['AddFarmStartDate']=returnval['AddFarmStartDate']
+	datalist['AddFarmCrop']=returnval['AddFarmCrop']
+	datalist['AddFarmArea']=returnval['AddFarmArea']
+	
+	return jsonify(Android = datalist)   
 
 
 @app.route('/getwarehouses/',methods=['POST', 'GET'])
@@ -129,10 +171,16 @@ def getwarehouses():
 def hello_world():
     print hello
     return 'Hello World!'
+    
+    
 
 
 if __name__ == '__main__':
-    create_collections()
+	create_collections()
+#	get_notifications({"UserID":"aa@aa","Farmname":"farm1"})
+#	sendnotification('aa@aa','farm1','d6Sw4Ip5wkk:APA91bHwXk9vRWxgbaN5is8SLEzPBM8OSgATBOXATSggCW8w4envsEvaDHXitQo56PYFeOp6KNXrwhRoeqCqyefPr6RSHGr7fNaMVfAlk1H2igStZzoFPo7s-0wKWCrm6RKdIJ4gl6eE','Notification Sent*****!!!')
+	app.run(host="10.42.0.249")
 #    app.run(host="192.168.0.105")
 #    app.run(host="192.168.1.131")
-    app.run(host="10.42.0.249")
+    
+

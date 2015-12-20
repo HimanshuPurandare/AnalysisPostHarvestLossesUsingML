@@ -15,6 +15,8 @@ def create_collections():
         app_info = db['app_info']
     if 'user_info' not in collections_list:
         user_info = db['user_info']
+    if 'notifications' not in collections_list:
+        noti = db['notifications'] 
     if 'farm_data' not in collections_list:
         farm_data = db['farm_data']
     if 'warehouse_data' not in collections_list:
@@ -60,13 +62,21 @@ def return_farms(received_data):
     print "list",list_of_farms
     return list_of_farms
     
+
+def return_farm_info(received_data):
+	farm_data=db['farm_data']
+	print "collection created"
+	farm_info=farm_data.find_one({"AddFarmUID":received_data['UserID'],"AddFarmName":received_data['FarmName']})
+	print farm_info
+	return farm_info    
+    
 def return_warehouses(received_data):
     warehouse_data = db['warehouse_data']
     print received_data['Email']
-    list_of_farms = warehouse_data.find({"AddWarehouseUID":received_data['Email']})
+    list_of_warehouses = warehouse_data.find({"AddWarehouseUID":received_data['Email']})
     print "hty"
-    print "list",list_of_farms
-    return list_of_farms
+    print "list",list_of_warehouses
+    return list_of_warehouses
     
     
 def IsValidUser(email,password):
@@ -82,3 +92,24 @@ def IsValidUser(email,password):
             info.append(list_of_users['SignUpRole'])
             info.append(list_of_users['SignUpName'])
         return info
+        
+        
+def AddNotification(userID,farmname,token,message):
+    notifications=db['notifications']
+    notifications.insert_one({"UserID":userID,"Farmname":farmname,"Token":token,"Message":message,"date":str(datetime.now())})
+    
+def get_notifications(received_data):
+    notifications=db['notifications']
+    print "collection created"
+    print received_data['UserID']
+    print received_data['Farmname']
+
+    notification_data=notifications.find({"UserID":received_data['UserID'],"Farmname":received_data['Farmname']})
+    print "niranjan"
+    a=[]
+    notification_data1=sorted(notification_data,key=lambda x:x['date'])
+    for i in notification_data1:
+        a.append(i)
+    return a
+    
+

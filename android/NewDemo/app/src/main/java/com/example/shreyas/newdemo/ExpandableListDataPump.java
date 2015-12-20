@@ -12,6 +12,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,7 +27,7 @@ public class ExpandableListDataPump
     static List<String> predictions;
     static List<String> notifications;
 
-    static String cropname = "",farmarea="",sowingdate="",harvestingdate="",seedtype="",hwkitid="";
+    static String cropname = "",farmarea="",sowingdatestart="",sowingdateend="",seedtype="",hwkitid="";
     public static HashMap<String, List<String>> getData()
     {
         HashMap<String, List<String>> expandableListDetail = new HashMap<String, List<String>>();
@@ -36,8 +37,9 @@ public class ExpandableListDataPump
         predictions = new ArrayList<String>();
         notifications = new ArrayList<String>();
 
-        farmdata.add("Crop name : "+ cropname);
-        farmdata.add("Farm area : "+farmarea);
+
+        FetchfarmData();
+        FetchNotificationData();
 
 
         weatherdata.add("hi");
@@ -66,19 +68,21 @@ public class ExpandableListDataPump
         return expandableListDetail;
     }
 
-    private void FetchfarmData() {
+    private static void FetchfarmData() {
         if (MainActivity.ConnectedToNetwork) {
 
             JSONObject j = new JSONObject();
             try {
-                j.put("UserName", MainActivity.Global_User_Name);
-                j.put("FarmName", MyFarm.farmname);
+
+                j.put("UserID",MainActivity.Global_Email_Id);
+                j.put("FarmName",MyFarm.farmname);
+
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            String url = MainActivity.ServerIP + "/getupdatefarmdata/";
+            String url = MainActivity.ServerIP + "/getfarminfo/";
 
             JsonObjectRequest jsonRequest = new JsonObjectRequest
                     (Request.Method.POST, url, j, new Response.Listener<JSONObject>() {
@@ -90,16 +94,28 @@ public class ExpandableListDataPump
                                 String signinresult = response.getString("Result");
                                 if (signinresult.equals("Valid")) {
 
-                                    cropname = response.getString("FarmName");
-                                    farmarea = response.getString("FarmArea");
-                                    sowingdate = response.getString("SowingDate");
-                                    harvestingdate = response.getString("HarvestingDate");
-                                    seedtype = response.getString("Seedtype");
-                                    hwkitid = response.getString("HwKitID");
+                                    cropname = response.getString("AddFarmCrop");
+                                    farmarea= response.getString("AddFarmArea");
+                                    sowingdatestart= response.getString("AddFarmStartDate");
+                                    sowingdateend= response.getString("AddFarmEndDate");
+                                    seedtype= response.getString("AddFarmCropType");
+                                    hwkitid= response.getString("AddFarmHWID");
+
+                                    farmdata.add("Crop name : " + cropname);
+                                    farmdata.add("Seed Type : " + seedtype);
+                                    farmdata.add("Farm area : " + farmarea);
+
+                                    sowingdateend.replace("/", "-");
+                                    sowingdatestart.replace("/","-");
+
+                                    farmdata.add("Period of Sowing : " + sowingdatestart +" to "+sowingdateend);
+                                    farmdata.add("Hardware ID : " + hwkitid);
 
                                     MyFarm.expandableListAdapter.notifyDataSetChanged();
 
-                                } else {
+                                }
+                                else {
+
 
 
                                 }
@@ -120,8 +136,74 @@ public class ExpandableListDataPump
             MainActivity.getInstance().addToRequestQueue(jsonRequest);
         } else {
             Log.d("Login activity check", MainActivity.ConnectedToNetwork + "");
+
         }
 
 
     }
+
+
+    private static void FetchNotificationData() {
+        if (MainActivity.ConnectedToNetwork) {
+
+            JSONObject j = new JSONObject();
+            try {
+
+                j.put("UserID",MainActivity.Global_Email_Id);
+                j.put("Farmname",MyFarm.farmname);
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            String url = MainActivity.ServerIP + "/getnotifications/";
+
+            JsonObjectRequest jsonRequest = new JsonObjectRequest
+                    (Request.Method.POST, url, j, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            // the response is already constructed as a JSONObject!
+                            try {
+                                response = response.getJSONObject("Android");
+                                {
+                                    JSONArray j=new JSONArray();
+                                    j=response.getJSONArray("list");
+                                    JSONObject u=new JSONObject();
+                                    for(int i=0;i<j.length();i++)
+                                    {
+                                        u=j.getJSONObject(i);
+                                        notifications.add(u.getString("Message")+" :  "+u.getString("date"));
+                                        Log.d("data",u.toString());
+                                    }
+
+                                    MyFarm.expandableListAdapter.notifyDataSetChanged();
+
+                                }
+                            } catch (JSONException e) {
+
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            error.printStackTrace();
+
+
+                        }
+                    });
+            MainActivity.getInstance().addToRequestQueue(jsonRequest);
+        } else {
+            Log.d("Login activity check", MainActivity.ConnectedToNetwork + "");
+
+        }
+
+
+    }
+
+
+
+
 }

@@ -249,13 +249,13 @@ public class AddFarm extends AppCompatActivity {
         {
             if(dateflag==0)
             {
-                et.setText(selectedDay + "/" + (selectedMonth + 1) + "/"
+                et.setText(selectedDay + "-" + (selectedMonth + 1) + "-"
                         + selectedYear);
 
             }
             else
             {
-                et1.setText(selectedDay + "/" + (selectedMonth + 1) + "/"
+                et1.setText(selectedDay + "-" + (selectedMonth + 1) + "-"
                         + selectedYear);
             }
         }

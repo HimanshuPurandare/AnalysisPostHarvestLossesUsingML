@@ -25,11 +25,7 @@ public class UpdateFarm extends AppCompatActivity {
     private String farmname, cropname, seedtype, farmarea, sowingdate, harvestingdate, hwkitid;
 
     Toolbar toolbar;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +39,6 @@ public class UpdateFarm extends AppCompatActivity {
 
         FetchfarmData();
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     private void FetchfarmData() {
@@ -53,14 +46,16 @@ public class UpdateFarm extends AppCompatActivity {
 
             JSONObject j = new JSONObject();
             try {
-                j.put("UserName", MainActivity.Global_User_Name);
-                j.put("FarmName", farmname);
+
+                j.put("UserID",MainActivity.Global_Email_Id);
+                j.put("FarmName",farmname);
+
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            String url = MainActivity.ServerIP + "/getupdatefarmdata/";
+            String url = MainActivity.ServerIP + "/getfarminfo/";
 
             JsonObjectRequest jsonRequest = new JsonObjectRequest
                     (Request.Method.POST, url, j, new Response.Listener<JSONObject>() {
@@ -72,14 +67,21 @@ public class UpdateFarm extends AppCompatActivity {
                                 String signinresult = response.getString("Result");
                                 if (signinresult.equals("Valid")) {
 
-                                    cropname = response.getString("FarmName");
-                                    farmarea = response.getString("FarmArea");
-                                    sowingdate = response.getString("SowingDate");
-                                    harvestingdate = response.getString("HarvestingDate");
-                                    seedtype = response.getString("Seedtype");
-                                    hwkitid = response.getString("HwKitID");
+                                    cropname = response.getString("AddFarmCrop");
+                                    farmarea= response.getString("AddFarmArea");
+                                    sowingdate= response.getString("AddFarmStartDate");
+                                    harvestingdate= response.getString("AddFarmEndDate");
+                                    seedtype= response.getString("AddFarmCropType");
+                                    hwkitid= response.getString("AddFarmHWID");
+                                    Log.d("cropname",cropname);
+                                    Log.d("area",farmarea);
+                                    Log.d("hw id",hwkitid);
+                                    Log.d("sowingdate",sowingdate);
+                                    Log.d("harvesting date",harvestingdate);
+                                    Log.d("seedtype",seedtype);
 
-                                } else {
+                                }
+                                else {
 
                                     Toast.makeText(UpdateFarm.this, "Error in Fetching Data", Toast.LENGTH_LONG).show();
 
