@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -29,6 +30,7 @@ import java.util.List;
 
 public class AddFarm extends AppCompatActivity {
 
+//    private Toolbar toolbar;
     private Spinner spinner1;
     private EditText f_name,f_area,hd_id;
     public static  Spinner spinner2;
@@ -54,6 +56,8 @@ public class AddFarm extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_farm);
+
+     //   setupToolbar();
 
         f_name = (EditText) findViewById(R.id.farm_name);
         f_area= (EditText) findViewById(R.id.area_farm);
@@ -145,6 +149,19 @@ public class AddFarm extends AppCompatActivity {
         });
 
     }
+//
+//    void setupToolbar()
+//    {
+//        toolbar = (Toolbar) findViewById(R.id.mytoolbar);
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setTitle("New Field");
+//        //getSupportActionBar().setSubtitle("Pune");
+//        toolbar.setTitleTextColor(getResources().getColor(R.color.Text_Icon));
+//        toolbar.setSubtitleTextColor(getResources().getColor(R.color.LightPrimaryColor));
+//    }
+
+
+
     public void addListenerOnSpinnerItemSelection(){
 
         spinner1.setOnItemSelectedListener(new CustomOnItemSelectedListener());

@@ -3,6 +3,7 @@ package com.example.shreyas.newdemo;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,12 +24,14 @@ public class AddWarehouse extends AppCompatActivity
     EditText et_name;
     Button btn_addwh;
 
-
+    private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_warehouse);
+
+        setupToolbar();
 
         et_name=(EditText)findViewById(R.id.warehousename);
         btn_addwh=(Button)findViewById(R.id.addwarehouse);
@@ -44,6 +47,17 @@ public class AddWarehouse extends AppCompatActivity
 
 
     }
+
+    void setupToolbar()
+    {
+        toolbar = (Toolbar) findViewById(R.id.mytoolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("New Section");
+        //getSupportActionBar().setSubtitle("Pune");
+        toolbar.setTitleTextColor(getResources().getColor(R.color.Text_Icon));
+        toolbar.setSubtitleTextColor(getResources().getColor(R.color.LightPrimaryColor));
+    }
+
 
     private void attemptAddWarehouse()
     {
