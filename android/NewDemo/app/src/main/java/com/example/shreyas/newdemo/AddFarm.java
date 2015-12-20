@@ -30,7 +30,7 @@ import java.util.List;
 
 public class AddFarm extends AppCompatActivity {
 
-//    private Toolbar toolbar;
+    private Toolbar toolbar;
     private Spinner spinner1;
     private EditText f_name,f_area,hd_id;
     public static  Spinner spinner2;
@@ -57,7 +57,7 @@ public class AddFarm extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_farm);
 
-     //   setupToolbar();
+        setupToolbar();
 
         f_name = (EditText) findViewById(R.id.farm_name);
         f_area= (EditText) findViewById(R.id.area_farm);
@@ -149,16 +149,16 @@ public class AddFarm extends AppCompatActivity {
         });
 
     }
-//
-//    void setupToolbar()
-//    {
-//        toolbar = (Toolbar) findViewById(R.id.mytoolbar);
-//        setSupportActionBar(toolbar);
-//        getSupportActionBar().setTitle("New Field");
-//        //getSupportActionBar().setSubtitle("Pune");
-//        toolbar.setTitleTextColor(getResources().getColor(R.color.Text_Icon));
-//        toolbar.setSubtitleTextColor(getResources().getColor(R.color.LightPrimaryColor));
-//    }
+
+    void setupToolbar()
+    {
+        toolbar = (Toolbar) findViewById(R.id.mytoolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("New Field");
+        //getSupportActionBar().setSubtitle("Pune");
+        toolbar.setTitleTextColor(getResources().getColor(R.color.Text_Icon));
+        toolbar.setSubtitleTextColor(getResources().getColor(R.color.LightPrimaryColor));
+    }
 
 
 

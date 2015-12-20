@@ -5,6 +5,7 @@
     tools:context="com.example.shreyas.demo.AddWarehouse"
     android:orientation="vertical"
 
+
     >
     <include android:id="@+id/mytoolbar" layout="@layout/mytoolbar" />
 
@@ -35,6 +36,17 @@
                     android:layout_height="wrap_content"
                     android:text="Add WareHouse"
                     android:id="@+id/addwarehouse"
+                    android:textStyle="bold"
+                    android:layout_marginTop="16dp"
+                    style="?android:textAppearanceSmall"
+
+
+                    android:shadowColor="#A8A8A8"
+                    android:shadowDx="0"
+                    android:shadowDy="0"
+                    android:shadowRadius="5"
+                    android:background="@drawable/buttonshape"
+                    android:textColor="#FFFFFF"
 
                     />
 
