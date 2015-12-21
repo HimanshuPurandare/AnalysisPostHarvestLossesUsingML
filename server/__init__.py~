@@ -4,6 +4,10 @@ from flask import request
 import requests
 from db_controller import *
 from send_notification import *
+from harvest import *
+from final_disease import *
+from final_fifo import *
+from final_opti import *
 
 app = Flask(__name__)
 
@@ -167,6 +171,67 @@ def getwarehouses():
     print response_to_android
     return jsonify(Android = response_to_android)   
 
+
+
+
+@app.route('/getfarmpredictions/',methods=['POST', 'GET'])
+def getfarmpredictions():
+	received_data = receive_from_android(request)
+	print received_data
+
+#	polishing:fetching of weather data for resp farm to be done using rand function
+	harvesting_time=predict_harvesting_time()
+	print "in getfarmpredictions functions",harvesting_time
+	datalist={"Result":"Valid"}
+	datalist['Harvesting_Time']=harvesting_time
+	
+	predicted_disease=str(predict_disease(23,80))
+	print predicted_disease
+	
+
+	
+	
+	
+	return jsonify(Android = datalist)   
+
+
+
+
+@app.route('/getgodownpredictions/',methods=['POST', 'GET'])
+def getgodownpredictions():
+	received_data = receive_from_android(request)
+	print received_data
+
+	datalist={"Result":"Valid"}
+	dispatch_list=predict_dispatch_sequence()
+	dispatch={}
+	for i in range(len(dispatch_list)):
+		dispatch[i]=dispatch_list[i]
+	datalist['Dispatch_List']=dispatch_list
+	
+	opti_temp,opti_hum=get_opti_temp()
+	
+	
+
+	
+	
+	
+	return jsonify(Android = datalist)   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @app.route('/')
 def hello_world():
     print hello
@@ -177,10 +242,18 @@ def hello_world():
 
 if __name__ == '__main__':
 	create_collections()
+	print predict_harvesting_time()
+	print predict_disease(23,80)
+	print predict_dispatch_sequence()
+	print get_opti_temp()
+	
+	
+	
+	
 #	get_notifications({"UserID":"aa@aa","Farmname":"farm1"})
 #	sendnotification('aa@aa','farm1','d6Sw4Ip5wkk:APA91bHwXk9vRWxgbaN5is8SLEzPBM8OSgATBOXATSggCW8w4envsEvaDHXitQo56PYFeOp6KNXrwhRoeqCqyefPr6RSHGr7fNaMVfAlk1H2igStZzoFPo7s-0wKWCrm6RKdIJ4gl6eE','Notification Sent*****!!!')
-	app.run(host="10.42.0.249")
+#	app.run(host="10.42.0.249")
 #    app.run(host="192.168.0.105")
-#    app.run(host="192.168.1.131")
+	app.run(host="192.168.0.115")
     
 

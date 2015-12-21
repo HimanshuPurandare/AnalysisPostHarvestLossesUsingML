@@ -1,6 +1,6 @@
 from pymongo import *
 from datetime import datetime
-
+from FilesToDatabasenew import *
 """
 database name --> server_db
 various
@@ -23,6 +23,28 @@ def create_collections():
         farm_data = db['warehouse_data']
     if 'daily_data_farmers' not in collections_list:
         daily_data_farmers = db['daily_data_farmers']
+	if 'weather_data' not in collections_list:
+		weather=db['weather_data']	
+	
+	
+	
+	if 'corpusharvest' not in collections_list:
+		corp=db['corpusharvest']
+		CreateHarvestData(corp)
+
+	if 'corpusoptitemp' not in collections_list:
+		corp=db['corpusoptitemp']
+		CreateOptiTempData(corp)
+
+	if 'corpusfifo' not in collections_list:
+		corp=db['corpusfifo']
+		CreateFifoData(corp)
+	if 'corpusdisease' not in collections_list:
+		corp=db['corpusdisease']
+		CreateDiseaseData(corp)
+
+
+
     if 'corpus_farm' not in collections_list:
         corpus_farm = db['corpus_farm']
     if 'daily_data_godown' not in collections_list:
@@ -86,7 +108,7 @@ def IsValidUser(email,password):
     print "list of users : " ,list_of_users
     info = []
     if(list_of_users) == None:
-        return info
+        return info 
     else:
         if list_of_users['SignUpPwd']==password:
             info.append(list_of_users['SignUpRole'])
@@ -112,4 +134,4 @@ def get_notifications(received_data):
         a.append(i)
     return a
     
-
+	
