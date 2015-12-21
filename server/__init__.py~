@@ -45,13 +45,16 @@ def add_user():
     #send appropriate results
     return 'Hello World!'
 
-@app.route('/getfarmstatus/',methods=['POST', 'GET'])
+
+@app.route('/getdailyweatherdata/',methods=['POST', 'GET'])
 def getfarmstatus():
-    #r = requests.get("http://192.168.0.116:5000/")
-    #r = requests.get("http://192.168.1.133:5000/")
-    #print r.text
-    data = {"Temperature":"320","Humidity":"4","SoilMoisture":"10"}
-    return jsonify(Android = data)
+    print request
+    print request.form
+    print request.data
+    response_from_server=receive_from_rpi(request)
+    print response_from_server
+    #data = {"Temperature":"320","Humidity":"4","SoilMoisture":"10"}
+    return "ok"
 
 
 @app.route('/getnotifications/',methods=['POST', 'GET'])
@@ -167,9 +170,20 @@ def getwarehouses():
     print response_to_android
     return jsonify(Android = response_to_android)   
 
-@app.route('/')
+@app.route('/',methods=['POST', 'GET'])
 def hello_world():
-    print hello
+    in_data = request.form
+    print in_data
+    key = in_data.keys()
+    print key
+    #temperature.get_temp()
+    length = len(key)
+    print length
+    print request.form
+    for i in range(0,length):
+        print key[i]
+        print request.form[key[i]]
+        
     return 'Hello World!'
     
     
@@ -177,10 +191,11 @@ def hello_world():
 
 if __name__ == '__main__':
 	create_collections()
+	app.run(host="192.168.0.105")
 #	get_notifications({"UserID":"aa@aa","Farmname":"farm1"})
 #	sendnotification('aa@aa','farm1','d6Sw4Ip5wkk:APA91bHwXk9vRWxgbaN5is8SLEzPBM8OSgATBOXATSggCW8w4envsEvaDHXitQo56PYFeOp6KNXrwhRoeqCqyefPr6RSHGr7fNaMVfAlk1H2igStZzoFPo7s-0wKWCrm6RKdIJ4gl6eE','Notification Sent*****!!!')
-	app.run(host="10.42.0.249")
-#    app.run(host="192.168.0.105")
+#	app.run(host="10.42.0.249")
+    
 #    app.run(host="192.168.1.131")
     
 
