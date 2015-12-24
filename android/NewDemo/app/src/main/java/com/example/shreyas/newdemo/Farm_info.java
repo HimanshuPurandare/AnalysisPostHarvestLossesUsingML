@@ -11,11 +11,14 @@ public class Farm_info
     String Humi;
     String sm;
 
-    Farm_info(String a,String b,String c,String d)
+    String location_url;
+
+    Farm_info(String a,String b,String c,String d,String e)
     {
         this.farm_name = a;
         this.temp = b;
         this.Humi = c;
         this.sm = d;
+        this.location_url = e;
     }
 }

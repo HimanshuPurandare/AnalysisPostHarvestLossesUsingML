@@ -51,9 +51,9 @@ public class MainActivity extends AppCompatActivity
 
 //    public static String ServerIP="http://192.168.0.115:5000";
 //    public static String ServerIP="http://10.42.0.249:5000";
-    public static String ServerIP="http://192.168.0.105:5000";
+//    public static String ServerIP="http://192.168.0.105:5000";
 //    public static String ServerIP="http://10.42.0.1:5000";
-//      public static String ServerIP = "http://192.168.1.131:5000";
+      public static String ServerIP = "http://192.168.1.131:5000";
     public static int signedin=0;
     public static boolean ConnectedToNetwork = true;
 

@@ -132,6 +132,7 @@ def getfarms():
         farm = {}
         farm['FarmName'] = i['AddFarmName']
         farm['HWID'] = i['AddFarmHWID']
+        farm['URL'] = i['AddFarmURL']
         weatherdata = return_daily_data_farmer(farm['HWID'])
         
         if(weatherdata==None):
@@ -174,10 +175,6 @@ def fetchfarminfo():
 	datalist['AddFarmArea']=returnval['AddFarmArea']
 	
 	return jsonify(Android = datalist)   
-
-
-
-
 
 
 @app.route('/getfarmpredictions/',methods=['POST', 'GET'])
@@ -294,7 +291,7 @@ def hello_world():
 
 if __name__ == '__main__':
     create_collections()
-    app.run(host="192.168.0.105")
+#    app.run(host="192.168.0.105")
 
 
 
@@ -318,7 +315,7 @@ if __name__ == '__main__':
 
 #	app.run(host="10.42.0.249")
     
-#    app.run(host="192.168.1.131")
+    app.run(host="192.168.1.131")
 	
 #	get_notifications({"UserID":"aa@aa","Farmname":"farm1"})
 #	sendnotification('aa@aa','farm1','d6Sw4Ip5wkk:APA91bHwXk9vRWxgbaN5is8SLEzPBM8OSgATBOXATSggCW8w4envsEvaDHXitQo56PYFeOp6KNXrwhRoeqCqyefPr6RSHGr7fNaMVfAlk1H2igStZzoFPo7s-0wKWCrm6RKdIJ4gl6eE','Notification Sent*****!!!')

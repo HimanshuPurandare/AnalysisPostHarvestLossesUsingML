@@ -115,7 +115,7 @@ public class SuperAwesomeCardFragment extends Fragment {
                         for(int i=0;i<l;i++)
                         {
                             JSONObject temp = a.getJSONObject(i);
-                            farmlist.add(new Farm_info(temp.getString("FarmName"),temp.getString("MaxTemperature")+"/"+temp.getString("MinTemperature"),temp.getString("MaxHumidity")+"/"+temp.getString("MinHumidity"),temp.getString("MaxSM")+"/"+temp.getString("MinSM")));
+                            farmlist.add(new Farm_info(temp.getString("FarmName"),temp.getString("MaxTemperature")+"/"+temp.getString("MinTemperature"),temp.getString("MaxHumidity")+"/"+temp.getString("MinHumidity"),temp.getString("MaxSM")+"/"+temp.getString("MinSM"),temp.getString("URL")));
                         }
 
 
@@ -308,6 +308,7 @@ public class SuperAwesomeCardFragment extends Fragment {
                         public void onClick(View view)
                         {
                             Log.d("Add","Farm");
+                            AddFarm.location_set=false;
                             Intent i = new Intent(getActivity(),AddFarm.class );
                             startActivity(i);
                             getActivity().finish();

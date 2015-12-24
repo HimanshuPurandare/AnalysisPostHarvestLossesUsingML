@@ -1,7 +1,10 @@
 package com.example.shreyas.newdemo;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.Image;
+import android.os.AsyncTask;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,8 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -34,6 +39,9 @@ public class MyFarmAdapter extends RecyclerView.Adapter<MyFarmAdapter.PersonView
         personViewHolder.temp.setText(farms.get(i).temp);
         personViewHolder.humi.setText(farms.get(i).Humi);
         personViewHolder.sm.setText(farms.get(i).sm);
+        Log.d("Locat", farms.get(i).location_url);
+
+        new DownloadImageTask(personViewHolder.imv1).execute(farms.get(i).location_url.replaceAll("\\\\",""));
         Log.d("onbind", "c");
     }
     @Override
@@ -52,6 +60,8 @@ public class MyFarmAdapter extends RecyclerView.Adapter<MyFarmAdapter.PersonView
         TextView Farmname;
         ImageButton edit_btn;
 
+        ImageView imv1;
+
         TextView temp,humi,sm,n1,n2,n3;
 
         PersonViewHolder(final View itemView) {
@@ -67,6 +77,8 @@ public class MyFarmAdapter extends RecyclerView.Adapter<MyFarmAdapter.PersonView
             n1 = (TextView)itemView.findViewById(R.id.name_temp);
             n2 = (TextView)itemView.findViewById(R.id.name_humidity);
             n3 = (TextView)itemView.findViewById(R.id.name_sm);
+
+            imv1 = (ImageView)itemView.findViewById(R.id.location_display_on_card);
 
             n1.setText("T(°C)");
             n2.setText("RH(%)");
@@ -95,5 +107,31 @@ public class MyFarmAdapter extends RecyclerView.Adapter<MyFarmAdapter.PersonView
     MyFarmAdapter(List<Farm_info> persons){
         this.farms = persons;
     }
+
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public DownloadImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
+        }
+    }
+
 
 }

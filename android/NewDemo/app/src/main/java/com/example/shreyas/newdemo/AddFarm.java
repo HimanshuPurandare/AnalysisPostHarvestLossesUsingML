@@ -25,6 +25,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,6 +34,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.regex.*;
 
 public class AddFarm extends AppCompatActivity {
 
@@ -60,8 +62,9 @@ public class AddFarm extends AppCompatActivity {
     public static String farm_area;
     public static String start_date,end_date;
     public static String hwid;
+    public static String URL;
 
-    public static boolean location_set = false;
+    public static boolean location_set;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +77,7 @@ public class AddFarm extends AppCompatActivity {
         im1.setImageResource(R.drawable.location);
 
         te = (TextView) findViewById(R.id.click_here);
-        te.setText("Choose location");
+        te.setText("Click here to choose location");
 
 
         im1.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +87,37 @@ public class AddFarm extends AppCompatActivity {
                 setlocation();
             }
         });
+
+        if(location_set) {
+            te.setText("");
+
+            Intent intent = getIntent();
+            //ArrayList<Double> t = intent.getDoubleArrayExtra("list");
+            String s = intent.getStringExtra("list");
+            Log.d("Locations",s);
+
+            String[] values = s.split(",");
+
+            String url = "https://maps.googleapis.com/maps/api/staticmap?&size=600x600&maptype=roadmap&sensor=false";
+            url = url + "&markers=color:red%7Clabel:S%7C"+values[0].replaceAll("\\[lat/lng: \\(","")+","+values[1].replaceAll("\\)","");
+            for(int i=2;i<values.length;i++)
+            {
+                url = url + "&markers=color:red%7Clabel:S%7C"+values[i].replaceAll(" lat/lng: \\(","")+","+values[++i].replaceAll("\\)","");
+            }
+            url = url.replaceAll("\\]","");
+            url = url + "&path=weight:5%7Cfillcolor:orange%7Ccolor:red";
+            url = url + "%7C" +values[0].replaceAll("\\[lat/lng: \\(","")+","+values[1].replaceAll("\\)","");
+            for(int i=2;i<values.length;i++)
+            {
+                url = url + "%7C"+values[i].replaceAll(" lat/lng: \\(","")+","+values[++i].replaceAll("\\)","");
+            }
+            url = url.replaceAll("\\]","");
+            url = url + "%7C" +values[0].replaceAll("\\[lat/lng: \\(","")+","+values[1].replaceAll("\\)","");
+            URL = url;
+            Log.d("URL",URL);
+            new DownloadImageTask(im1).execute(url);
+            //new DownloadImageTask(im1).execute("https://maps.googleapis.com/maps/api/staticmap?&size=600x600&maptype=roadmap&sensor=false&markers=color:blue%7Clabel:S%7C40.702147,-74.015794&markers=color:green%7Clabel:G%7C40.711614,-74.012318&markers=color:red%7Clabel:C%7C40.718217,-73.998284&path=weight:5%7Cfillcolor:orange%7Ccolor:red%7C40.702147,-74.015794%7C40.711614,-74.012318%7C40.718217,-73.998284%7C40.702147,-74.015794");
+        }
 
 
         f_name = (EditText) findViewById(R.id.farm_name);
@@ -115,10 +149,6 @@ public class AddFarm extends AppCompatActivity {
                 (android.R.layout.simple_dropdown_item_1line);
 
         spinner1.setAdapter(dataAdapter);
-
-        // Spinner item selection Listener
-
-
 
 
         dataAdapter1 = new ArrayAdapter<String>
@@ -179,13 +209,12 @@ public class AddFarm extends AppCompatActivity {
 
     void setlocation()
     {
-        if(location_set) {
-            new DownloadImageTask(im1)
-                    .execute("https://maps.googleapis.com/maps/api/staticmap?&size=600x600&maptype=roadmap&sensor=false&markers=color:blue%7Clabel:S%7C40.702147,-74.015794&markers=color:green%7Clabel:G%7C40.711614,-74.012318&markers=color:red%7Clabel:C%7C40.718217,-73.998284&path=weight:5%7Cfillcolor:orange%7Ccolor:red%7C40.702147,-74.015794%7C40.711614,-74.012318%7C40.718217,-73.998284%7C40.702147,-74.015794");
-        }
-        else
-        {
 
+
+        {
+            Intent i = new Intent(AddFarm.this,MyMapActivity.class);
+            startActivity(i);
+            finish();
         }
     }
 
@@ -257,6 +286,7 @@ public class AddFarm extends AppCompatActivity {
                 j.put("AddFarmStartDate", start_date);
                 j.put("AddFarmEndDate", end_date);
                 j.put("AddFarmHWID", hwid);
+                j.put("AddFarmURL",URL);
 
             } catch (JSONException e)
             {

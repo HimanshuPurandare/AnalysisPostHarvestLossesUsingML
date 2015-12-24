@@ -31,6 +31,7 @@ dependencies {
     compile 'com.mcxiaoke.volley:library-aar:1.0.+'
     compile 'com.google.android.gms:play-services-gcm:8.3.0'
     compile 'org.apache.commons:commons-io:1.3.2'
+    compile 'com.google.android.gms:play-services:8.3.0'
     apply plugin: 'com.google.gms.google-services'
 
     compile 'com.google.android.gms:play-services-appindexing:8.3.0'
