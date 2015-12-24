@@ -3,6 +3,9 @@ package com.example.shreyas.newdemo;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -13,7 +16,9 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -24,6 +29,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -41,6 +47,9 @@ public class AddFarm extends AppCompatActivity {
     private int month,month1;
     private int year,year1;
     private EditText et,et1;
+    private ImageView im1;
+
+    private TextView te;
 
     public static String farm_name;
     public static String crop="Wheat";
@@ -52,12 +61,30 @@ public class AddFarm extends AppCompatActivity {
     public static String start_date,end_date;
     public static String hwid;
 
+    public static boolean location_set = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_farm);
 
         setupToolbar();
+
+        im1 = (ImageView)findViewById(R.id.location_display);
+        im1.setImageResource(R.drawable.location);
+
+        te = (TextView) findViewById(R.id.click_here);
+        te.setText("Choose location");
+
+
+        im1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                te.setText("");
+                setlocation();
+            }
+        });
+
 
         f_name = (EditText) findViewById(R.id.farm_name);
         f_area= (EditText) findViewById(R.id.area_farm);
@@ -148,6 +175,43 @@ public class AddFarm extends AppCompatActivity {
             }
         });
 
+    }
+
+    void setlocation()
+    {
+        if(location_set) {
+            new DownloadImageTask(im1)
+                    .execute("https://maps.googleapis.com/maps/api/staticmap?&size=600x600&maptype=roadmap&sensor=false&markers=color:blue%7Clabel:S%7C40.702147,-74.015794&markers=color:green%7Clabel:G%7C40.711614,-74.012318&markers=color:red%7Clabel:C%7C40.718217,-73.998284&path=weight:5%7Cfillcolor:orange%7Ccolor:red%7C40.702147,-74.015794%7C40.711614,-74.012318%7C40.718217,-73.998284%7C40.702147,-74.015794");
+        }
+        else
+        {
+
+        }
+    }
+
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public DownloadImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
+        }
     }
 
     void setupToolbar()

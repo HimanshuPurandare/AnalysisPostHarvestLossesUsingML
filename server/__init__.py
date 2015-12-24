@@ -4,6 +4,12 @@ from flask import request
 import requests
 from db_controller import *
 from send_notification import *
+from harvest import *
+from final_disease import *
+from final_fifo import *
+from final_opti import *
+import json
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -46,15 +52,17 @@ def add_user():
     return 'Hello World!'
 
 
-@app.route('/getdailyweatherdata/',methods=['POST', 'GET'])
+@app.route('/getdailyweatherdatafrompi/',methods=['POST', 'GET'])
 def getfarmstatus():
-    print request
-    print request.form
-    print request.data
-    response_from_server=receive_from_rpi(request)
-    print response_from_server
-    #data = {"Temperature":"320","Humidity":"4","SoilMoisture":"10"}
-    return "ok"
+    in_data = receive_from_rpi(request)
+    print in_data
+    #adding this data to 
+    print "date=",datetime.now()
+    weather = { "MaxTemperature" : in_data['MaxTemperature'],"MaxHumidity":in_data['MaxHumidity'],"MaxSM":in_data['MaxSM'],"MinTemperature":in_data['MinTemperature'],"MinHumidity":in_data['MinHumidity'],"MinSM":in_data['MinSM'],"HWID": in_data['HWID'],"date":str(datetime.now())}
+    
+    add_daily_farm_data(weather)
+    
+    return 'Hello World!'
 
 
 @app.route('/getnotifications/',methods=['POST', 'GET'])
@@ -111,22 +119,42 @@ def getfarms():
     received_data = receive_from_android(request)
     print received_data
     farmlist = []
-    response_to_android = {"AddFarmName":farmlist}
+    response_to_android = {}
     returnval = return_farms(received_data) 
     print "hello"
     
     a = returnval[0]
-    print a['AddFarmName']
+    print a
     print "hi"
     
     for i in returnval:
         print "No"
-        farmlist.append(i['AddFarmName'])
+        farm = {}
+        farm['FarmName'] = i['AddFarmName']
+        farm['HWID'] = i['AddFarmHWID']
+        weatherdata = return_daily_data_farmer(farm['HWID'])
+        
+        if(weatherdata==None):
+            farm['MaxTemperature'] = "-"
+            farm['MaxHumidity'] = "-"
+            farm['MaxSM'] = "-"
+        
+            farm['MinTemperature'] = "-"
+            farm['MinHumidity'] = "-"
+            farm['MinSM'] = "-"
+        else:
+            farm['MaxTemperature'] = weatherdata["MaxTemperature"]
+            farm['MaxHumidity'] = weatherdata["MaxHumidity"]
+            farm['MaxSM'] = weatherdata["MaxSM"]
+        
+            farm['MinTemperature'] = weatherdata["MinTemperature"]
+            farm['MinHumidity'] = weatherdata['MinHumidity']
+            farm['MinSM'] = weatherdata['MinSM']
+
+        farmlist.append(farm)
         print "yes"
-    response_to_android['AddFarmName'] = farmlist
+    response_to_android['farmlist'] = farmlist
     print response_to_android
-    
-    
     
     return jsonify(Android = response_to_android)   
 
@@ -146,6 +174,59 @@ def fetchfarminfo():
 	datalist['AddFarmArea']=returnval['AddFarmArea']
 	
 	return jsonify(Android = datalist)   
+
+
+
+
+
+
+@app.route('/getfarmpredictions/',methods=['POST', 'GET'])
+def predictions():
+	received_data = receive_from_android(request)
+	print received_data
+	returnval=return_farm_info(received_data)
+	print returnval['AddFarmHWID']
+	datalist={"Result":"Valid"}
+	weatherdata = return_daily_data_farmer(returnval['AddFarmHWID'])
+	if weatherdata==None:
+	    datalist["Result"]="Invalid"
+	else:
+	    print "Valid"
+	    datalist["HTP"] = str(predict_harvesting_time())
+#   get pi address from hwid???
+#	    wd = requests.get('http://192.168.0.101:5000').content
+        wd = requests.get('http://192.168.1.132:5000').content
+        print wd
+        wd=json.loads(wd)
+        wds=wd['current_weather']
+        print "Got the wd",wds['Temperature'],wds['Humidity']
+
+#        datalist["Disease"] = str(predict_disease(23,80))
+        
+        datalist["Disease"] = str(predict_disease(int(float(wds['Temperature'])),(int(float(wds['Humidity'])))))
+        
+	
+	return jsonify(Android = datalist)   
+
+@app.route('/getweatherdata/',methods=['POST', 'GET'])
+def getweatherdata():
+	received_data = receive_from_android(request)
+	print received_data
+	returnval=return_farm_info(received_data)
+	print returnval['AddFarmHWID']
+#	datalist={}
+	weatherdata = return_daily_data_farmer(returnval['AddFarmHWID'])
+	if weatherdata==None:
+	    datalist["Result"]="Invalid"
+	else:	    
+	    print "weather data Valid"
+	    
+	    #wd = requests.get('http://192.168.0.101:5000').content
+        wd = requests.get('http://192.168.1.132:5000').content
+        print wd
+        wd=json.loads(wd)
+        	
+	return jsonify(Android = wd)   
 
 
 @app.route('/getwarehouses/',methods=['POST', 'GET'])
@@ -170,32 +251,79 @@ def getwarehouses():
     print response_to_android
     return jsonify(Android = response_to_android)   
 
+
+
+
+@app.route('/getgodownpredictions/',methods=['POST', 'GET'])
+def getgodownpredictions():
+	received_data = receive_from_android(request)
+	print received_data
+
+	datalist={"Result":"Valid"}
+	dispatch_list=predict_dispatch_sequence()
+	dispatch={}
+	for i in range(len(dispatch_list)):
+		dispatch[i]=dispatch_list[i]
+	datalist['Dispatch_List']=dispatch_list
+	
+	opti_temp,opti_hum=get_opti_temp()
+	
+	
+	return jsonify(Android = datalist)   
+
+@app.route('/sendnotificationtophone/',methods=['POST', 'GET'])
+def sn():
+    hw_id="yaugsbsvw"
+    farm_info=return_farm_info_for_hw(hw_id)
+    user_info=return_user_info(farm_info['AddFarmUID'])
+    token=user_info['registrationtoken']
+    sendnotification(farm_info['AddFarmUID'],farm_info['AddFarmName'],token,"Soil Moisture Too High")
+    
+#    sendnotification(user,farmname,token,message    
+    
+            
+    return 'Hello World!'
+    
+
 @app.route('/',methods=['POST', 'GET'])
 def hello_world():
-    in_data = request.form
-    print in_data
-    key = in_data.keys()
-    print key
-    #temperature.get_temp()
-    length = len(key)
-    print length
-    print request.form
-    for i in range(0,length):
-        print key[i]
-        print request.form[key[i]]
-        
     return 'Hello World!'
     
     
 
 
 if __name__ == '__main__':
-	create_collections()
-	app.run(host="192.168.0.105")
+    create_collections()
+    app.run(host="192.168.0.105")
+
+
+
+
+
+
 #	get_notifications({"UserID":"aa@aa","Farmname":"farm1"})
 #	sendnotification('aa@aa','farm1','d6Sw4Ip5wkk:APA91bHwXk9vRWxgbaN5is8SLEzPBM8OSgATBOXATSggCW8w4envsEvaDHXitQo56PYFeOp6KNXrwhRoeqCqyefPr6RSHGr7fNaMVfAlk1H2igStZzoFPo7s-0wKWCrm6RKdIJ4gl6eE','Notification Sent*****!!!')
+
+
+
+
+
+	
+#	print predict_harvesting_time()
+#	print predict_disease(23,80)
+#	print predict_dispatch_sequence()
+#	print get_opti_temp()
+
+
+
 #	app.run(host="10.42.0.249")
     
 #    app.run(host="192.168.1.131")
+	
+#	get_notifications({"UserID":"aa@aa","Farmname":"farm1"})
+#	sendnotification('aa@aa','farm1','d6Sw4Ip5wkk:APA91bHwXk9vRWxgbaN5is8SLEzPBM8OSgATBOXATSggCW8w4envsEvaDHXitQo56PYFeOp6KNXrwhRoeqCqyefPr6RSHGr7fNaMVfAlk1H2igStZzoFPo7s-0wKWCrm6RKdIJ4gl6eE','Notification Sent*****!!!')
+#	app.run(host="10.42.0.249")
+#    app.run(host="192.168.0.105")
+#	app.run(host="192.168.0.115")
     
 

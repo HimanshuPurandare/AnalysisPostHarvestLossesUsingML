@@ -20,38 +20,107 @@
         android:id="@+id/myfarmcv"
         >
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="6dp"
-            android:orientation="horizontal"
-            >
-            <TextView
-                android:layout_width="wrap_content"
+            <TableLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/name_of_farm"
-                android:textAlignment="center"
-                android:layout_centerInParent="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:textSize="25sp"
-                />
-            <ImageButton
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:id="@+id/farm_card_edit_btn"
-                android:text="Edit"
-                android:minHeight="0dp"
-                android:minWidth="0dp"
-                android:background="@color/colorAccent"
-                android:textStyle="italic"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/edit"
-                android:scaleType="fitXY"
-                />
+                android:shrinkColumns="*"  android:stretchColumns="*" android:background="#ffffff">
 
-          </RelativeLayout>
+
+                <!-- Row 1 with single column -->
+
+                <TableRow
+                    android:id="@+id/r1"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="6dp"
+                        android:orientation="horizontal"
+                        >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/name_of_farm"
+                        android:textAlignment="center"
+                        android:layout_centerInParent="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:textSize="25sp"
+                        />
+
+                    <ImageButton
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:id="@+id/farm_card_edit_btn"
+                        android:text="Edit"
+                        android:minHeight="0dp"
+                        android:minWidth="0dp"
+                        android:background="@color/colorAccent"
+                        android:textStyle="italic"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:src="@drawable/edit"
+                        android:scaleType="fitXY"
+
+                        />
+                    </LinearLayout>
+
+                </TableRow>
+                <TableRow
+                    android:id="@+id/r2"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent">
+
+                    <TextView
+                        android:id="@+id/name_temp" android:text="Row 2 column 1"
+                        android:layout_weight="1" android:background="#d3d3d3"
+                        android:textColor="#000000"
+                        android:padding="20dip" android:gravity="center" android:textSize="20sp"/>
+
+                    <TextView
+                        android:id="@+id/name_humidity" android:text="Row 2 column 2"
+                        android:layout_weight="1" android:background="#dcdcdc"
+                        android:textColor="#000000"
+                        android:padding="20dip" android:gravity="center" android:textSize="20sp"/>
+
+                    <TextView
+                        android:id="@+id/name_sm" android:text="Row 2 column 2"
+                        android:layout_weight="1" android:background="#d3d3d3"
+                        android:textColor="#000000"
+                        android:padding="20dip" android:gravity="center" android:textSize="20sp"/>
+
+                </TableRow>
+                <TableRow
+                    android:id="@+id/r3"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent">
+
+                    <TextView
+                        android:id="@+id/temp" android:text="Row 2 column 1"
+                        android:layout_weight="1" android:background="#dcdcdc"
+                        android:textColor="#000000"
+                        android:padding="20dip" android:gravity="center" android:textSize="10sp"/>
+
+                    <TextView
+                        android:id="@+id/humidity" android:text="Row 2 column 2"
+                        android:layout_weight="1" android:background="#d3d3d3"
+                        android:textColor="#000000"
+                        android:padding="20dip" android:gravity="center" android:textSize="10sp"/>
+
+                    <TextView
+                        android:id="@+id/sm" android:text="Row 2 column 2"
+                        android:layout_weight="1" android:background="#dcdcdc"
+                        android:textColor="#000000"
+                        android:padding="20dip" android:gravity="center" android:textSize="10sp"/>
+
+                </TableRow>
+
+            </TableLayout>
+
+
     </android.support.v7.widget.CardView>
 
 

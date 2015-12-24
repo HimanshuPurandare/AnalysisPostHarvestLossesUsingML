@@ -25,6 +25,32 @@
             >
 
 
+            <FrameLayout android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingBottom="25dp"
+              >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:id="@+id/location_display"
+                android:scaleType="fitEnd"
+                android:layout_marginRight="16dp"
+
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:ellipsize="marquee"
+                android:textSize="18sp"
+                android:id="@+id/click_here"
+                android:layout_gravity="center"
+                android:gravity="center"
+                />
+            </FrameLayout>
             <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 

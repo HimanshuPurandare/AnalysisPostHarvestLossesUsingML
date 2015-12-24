@@ -31,7 +31,9 @@ public class MyFarmAdapter extends RecyclerView.Adapter<MyFarmAdapter.PersonView
     @Override
     public void onBindViewHolder(PersonViewHolder personViewHolder, int i) {
         personViewHolder.Farmname.setText(farms.get(i).farm_name);
-
+        personViewHolder.temp.setText(farms.get(i).temp);
+        personViewHolder.humi.setText(farms.get(i).Humi);
+        personViewHolder.sm.setText(farms.get(i).sm);
         Log.d("onbind", "c");
     }
     @Override
@@ -50,11 +52,25 @@ public class MyFarmAdapter extends RecyclerView.Adapter<MyFarmAdapter.PersonView
         TextView Farmname;
         ImageButton edit_btn;
 
+        TextView temp,humi,sm,n1,n2,n3;
+
         PersonViewHolder(final View itemView) {
             super(itemView);
             cv = (CardView)itemView.findViewById(R.id.myfarmcv);
             Farmname = (TextView)itemView.findViewById(R.id.name_of_farm);
             edit_btn=(ImageButton)itemView.findViewById(R.id.farm_card_edit_btn);
+
+            temp = (TextView)itemView.findViewById(R.id.temp);
+            humi = (TextView)itemView.findViewById(R.id.humidity);
+            sm = (TextView)itemView.findViewById(R.id.sm);
+
+            n1 = (TextView)itemView.findViewById(R.id.name_temp);
+            n2 = (TextView)itemView.findViewById(R.id.name_humidity);
+            n3 = (TextView)itemView.findViewById(R.id.name_sm);
+
+            n1.setText("T(°C)");
+            n2.setText("RH(%)");
+            n3.setText("SM(%)");
 
             edit_btn.setOnClickListener(new View.OnClickListener(){
 

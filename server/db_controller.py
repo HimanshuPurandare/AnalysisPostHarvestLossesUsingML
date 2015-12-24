@@ -1,6 +1,6 @@
 from pymongo import *
 from datetime import datetime
-
+from FilesToDatabasenew import *
 """
 database name --> server_db
 various
@@ -23,6 +23,28 @@ def create_collections():
         farm_data = db['warehouse_data']
     if 'daily_data_farmers' not in collections_list:
         daily_data_farmers = db['daily_data_farmers']
+	if 'weather_data' not in collections_list:
+		weather=db['weather_data']	
+	
+	
+
+	if 'corpusharvest' not in collections_list:
+		corp=db['corpusharvest']
+		CreateHarvestData(corp)
+
+	if 'corpusoptitemp' not in collections_list:
+		corp=db['corpusoptitemp']
+		CreateOptiTempData(corp)
+
+	if 'corpusfifo' not in collections_list:
+		corp=db['corpusfifo']
+		CreateFifoData(corp)
+	if 'corpusdisease' not in collections_list:
+		corp=db['corpusdisease']
+		CreateDiseaseData(corp)
+
+
+
     if 'corpus_farm' not in collections_list:
         corpus_farm = db['corpus_farm']
     if 'daily_data_godown' not in collections_list:
@@ -52,6 +74,32 @@ def add_farm(farmdata):
 def add_warehouse(warehousedata):
     godown_data=db['warehouse_data']
     godown_data.insert_one(warehousedata)
+
+def return_daily_data_farmer(harwareID):
+    daily_data_farmers=db['daily_data_farmers']
+    weatherdata = {}
+    weatherdata=daily_data_farmers.find({"HWID":harwareID})
+    w=sorted(weatherdata,key=lambda x:x['date'])
+    print "w",w
+    print "last w",w[-1]
+    print weatherdata
+    return w[-1]
+
+def add_daily_farm_data(indata):
+    daily_data_farmers=db['daily_data_farmers']
+    daily_data_farmers.insert_one(indata)
+
+def return_user_info(email):
+    user_info = db['user_info']
+    userinfo=user_info.find_one({"SignUpUid":email})
+    print userinfo
+    return userinfo   
+    
+def return_farm_info_for_hw(hw_id):
+    farm_data=db['farm_data']
+    farm=farm_data.find_one({"AddFarmHWID":hw_id})
+    print "got the farm",farm
+    return farm  
 
     
 def return_farms(received_data):
@@ -86,7 +134,7 @@ def IsValidUser(email,password):
     print "list of users : " ,list_of_users
     info = []
     if(list_of_users) == None:
-        return info
+        return info 
     else:
         if list_of_users['SignUpPwd']==password:
             info.append(list_of_users['SignUpRole'])
@@ -112,4 +160,4 @@ def get_notifications(received_data):
         a.append(i)
     return a
     
-
+	

@@ -7,8 +7,15 @@ public class Farm_info
 {
     String farm_name;
 
-    Farm_info(String a)
+    String temp;
+    String Humi;
+    String sm;
+
+    Farm_info(String a,String b,String c,String d)
     {
         this.farm_name = a;
+        this.temp = b;
+        this.Humi = c;
+        this.sm = d;
     }
 }

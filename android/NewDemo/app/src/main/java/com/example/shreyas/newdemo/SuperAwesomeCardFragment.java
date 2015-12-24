@@ -89,6 +89,7 @@ public class SuperAwesomeCardFragment extends Fragment {
             j = new JSONObject();
             try {
                 j.put("Email",MainActivity.Global_Email_Id);
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -107,13 +108,14 @@ public class SuperAwesomeCardFragment extends Fragment {
 
                         JSONArray a = new JSONArray();
 
-                        a = response.getJSONArray("AddFarmName");
+                        a = response.getJSONArray("farmlist");
 
                         int l = a.length();
 
                         for(int i=0;i<l;i++)
                         {
-                            farmlist.add(new Farm_info(a.getString(i)));
+                            JSONObject temp = a.getJSONObject(i);
+                            farmlist.add(new Farm_info(temp.getString("FarmName"),temp.getString("MaxTemperature")+"/"+temp.getString("MinTemperature"),temp.getString("MaxHumidity")+"/"+temp.getString("MinHumidity"),temp.getString("MaxSM")+"/"+temp.getString("MinSM")));
                         }
 
 

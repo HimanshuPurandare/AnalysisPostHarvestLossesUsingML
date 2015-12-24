@@ -40,31 +40,143 @@ public class ExpandableListDataPump
 
         FetchfarmData();
         FetchNotificationData();
+        FetchPredictionsData();
+        FetchWeatherData();
 
-
-        weatherdata.add("hi");
-        weatherdata.add("hiii");
-
-        weatherdata.add("hi");
-        weatherdata.add("hiii");
-        weatherdata.add("hi");
-        weatherdata.add("hiii");
-        weatherdata.add("hi");
-        weatherdata.add("hiii");
-
-
-
-
-        predictions.add("hi");
-
-        notifications.add("hi");
-        notifications.add("hiii");
 
         expandableListDetail.put("FARM DATA", farmdata);
         expandableListDetail.put("WEATHER DATA", weatherdata);
         expandableListDetail.put("PREDICTIONS", predictions);
         expandableListDetail.put("NOTIFICATIONS", notifications);
         return expandableListDetail;
+    }
+
+    private static void FetchWeatherData()
+    {
+        if (MainActivity.ConnectedToNetwork) {
+
+            JSONObject j = new JSONObject();
+            try {
+
+                j.put("UserID",MainActivity.Global_Email_Id);
+                j.put("FarmName",MyFarm.farmname);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            String url = MainActivity.ServerIP + "/getweatherdata/";
+
+            JsonObjectRequest jsonRequest = new JsonObjectRequest
+                    (Request.Method.POST, url, j, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            // the response is already constructed as a JSONObject!
+                            try {
+                                response = response.getJSONObject("Android");
+                                //String signinresult = response.getString("Result");
+                                //if (signinresult.equals("Valid")) {
+                                JSONObject s = response.getJSONObject("current_weather");
+
+                                String a = s.getString("Humidity");
+                                String b = s.getString("Soil Moisture");
+                                String c = s.getString("Temperature");
+
+                                weatherdata.add("Temperature : "+c+"°C");
+                                weatherdata.add("Humidity : "+a+"%");
+                                weatherdata.add("Soil Moisture"+b+"%");
+
+                                MyFarm.expandableListAdapter.notifyDataSetChanged();
+
+                                //}
+                                //else {
+
+
+
+                                //}
+                            } catch (JSONException e) {
+
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            error.printStackTrace();
+
+
+                        }
+                    });
+            MainActivity.getInstance().addToRequestQueue(jsonRequest);
+        } else {
+            Log.d("Login activity check", MainActivity.ConnectedToNetwork + "");
+
+        }
+
+    }
+
+    private static void FetchPredictionsData()
+    {
+        if (MainActivity.ConnectedToNetwork) {
+
+            JSONObject j = new JSONObject();
+            try {
+
+                j.put("UserID",MainActivity.Global_Email_Id);
+                j.put("FarmName",MyFarm.farmname);
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            String url = MainActivity.ServerIP + "/getfarmpredictions/";
+
+            JsonObjectRequest jsonRequest = new JsonObjectRequest
+                    (Request.Method.POST, url, j, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            // the response is already constructed as a JSONObject!
+                            try {
+                                response = response.getJSONObject("Android");
+                                String signinresult = response.getString("Result");
+                                if (signinresult.equals("Valid")) {
+
+                                    String a = response.getString("HTP");
+                                    predictions.add(a);
+                                    Log.d("HT",a);
+                                    predictions.add(response.getString("Disease"));
+
+
+                                    MyFarm.expandableListAdapter.notifyDataSetChanged();
+
+                                }
+                                else {
+
+
+
+                                }
+                            } catch (JSONException e) {
+
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            error.printStackTrace();
+
+
+                        }
+                    });
+            MainActivity.getInstance().addToRequestQueue(jsonRequest);
+        } else {
+            Log.d("Login activity check", MainActivity.ConnectedToNetwork + "");
+
+        }
+
+
     }
 
     private static void FetchfarmData() {
