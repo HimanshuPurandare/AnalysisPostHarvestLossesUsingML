@@ -49,10 +49,10 @@ public class MainActivity extends AppCompatActivity
     public static String Global_User_Name,Global_Email_Id,Global_Regi_Token,GlobalUser_Role;
     public static String Saved_Global_Temp,Saved_Global_Hum,Saved_Global_SM;
 
-    public static String ServerIP="http://192.168.0.118:5000";
+//    public static String ServerIP="http://192.168.0.3:5000";
 //    public static String ServerIP="http://10.42.0.249:5000";
 //    public static String ServerIP="http://192.168.0.105:5000";
-//    public static String ServerIP="http://10.42.0.1:5000";
+    public static String ServerIP="http://10.42.0.1:5000";
 //      public static String ServerIP = "http://192.168.1.131:5000";
     public static int signedin=0;
     public static boolean ConnectedToNetwork = true;

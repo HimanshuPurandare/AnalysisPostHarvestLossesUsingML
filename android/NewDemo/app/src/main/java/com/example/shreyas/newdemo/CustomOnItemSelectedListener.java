@@ -19,27 +19,31 @@ public class CustomOnItemSelectedListener implements OnItemSelectedListener {
         {
             AddFarm.crop = "Wheat";
             AddFarm.wheatlist.clear();
-            AddFarm.wheatlist.add("Wheat1");
-            AddFarm.wheatlist.add("Wheat2");
-            AddFarm.wheatlist.add("Wheat3");
-            AddFarm.wheatlist.add("Wheat4");
+            AddFarm.wheatlist.add("Ajanta");
+            AddFarm.wheatlist.add("Arjun");
+            AddFarm.wheatlist.add("Parabhani-51");
+            AddFarm.wheatlist.add("Malvika");
+
             AddFarm.dataAdapter1.notifyDataSetChanged();
         }
         else if(temp.equals("Rice"))
         {
             AddFarm.crop = "Rice";
             AddFarm.wheatlist.clear();
-            AddFarm.wheatlist.add("Rice1");
-            AddFarm.wheatlist.add("Rice2");
+            AddFarm.wheatlist.add("Ambemohar");
+            AddFarm.wheatlist.add("tambdajog");
+            AddFarm.wheatlist.add("krishnasal");
+            AddFarm.wheatlist.add("champakali");
+
             AddFarm.dataAdapter1.notifyDataSetChanged();
         }
         else if(temp.equals("Onion"))
         {
             AddFarm.crop = "Onion";
             AddFarm.wheatlist.clear();
-            AddFarm.wheatlist.add("Onion1");
-            AddFarm.wheatlist.add("Onion2");
-            AddFarm.wheatlist.add("Onion3");
+            AddFarm.wheatlist.add("Bheema-Red");
+            AddFarm.wheatlist.add("Bheema-Shweta");
+            AddFarm.wheatlist.add("Bheema-Super");
             AddFarm.dataAdapter1.notifyDataSetChanged();
         }
         else if(temp.equals("Wheat1"))

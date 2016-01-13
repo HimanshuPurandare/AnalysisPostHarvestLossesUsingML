@@ -36,7 +36,7 @@ public class ExpandableListDataPump
 
     public static float[] Min,Max,Hum;
     public static String[] date;
-    public static String lattitude="18.5203",longitude="73.8567";
+    public static String lattitude="19.1336",longitude="72.9154";
 
 
     static String cropname = "",farmarea="",sowingdatestart="",sowingdateend="",seedtype="",hwkitid="";

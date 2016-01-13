@@ -11,6 +11,9 @@ from final_opti import *
 import json
 from datetime import datetime
 
+
+from ProcessArduinoData import *
+
 app = Flask(__name__)
 
 @app.route('/signin/',methods=['POST', 'GET'])
@@ -51,10 +54,11 @@ def add_user():
     #send appropriate results
     return 'Hello World!'
 
-
+"""
 @app.route('/getdailyweatherdatafrompi/',methods=['POST', 'GET'])
-def getfarmstatus():
-    in_data = receive_from_rpi(request)
+def getfarmstatus(d):
+#    in_data = receive_from_rpi(request)
+	in_data=d
     print in_data
     #adding this data to 
     print "date=",datetime.now()
@@ -63,20 +67,20 @@ def getfarmstatus():
     add_daily_farm_data(weather)
     
     return 'Hello World!'
-
+"""
 
 @app.route('/getnotifications/',methods=['POST', 'GET'])
 def getnotifications():
     received_data = receive_from_android(request)
-    print received_data
+#    print received_data
     notification_list=get_notifications(received_data)
     for i in notification_list:
         print i['date']
-    print "returned from functin"
+#    print "returned from functin"
     response_list=[]
     for i in notification_list:
         response_list.append({"Message":i['Message'],"date":i['date']})   
-    print response_list
+#    print response_list
 
 
     
@@ -97,17 +101,17 @@ def registerapp():
 @app.route('/addfarm/',methods=['POST', 'GET'])
 def addfarm():
     received_data = receive_from_android(request)
-    print received_data
+#    print received_data
     add_farm(received_data)
     response_to_android = {"Result":"Valid"}
-    print received_data
+#    print received_data
     return jsonify(Android = response_to_android)   
 
 
 @app.route('/addwarehouse/',methods=['POST', 'GET'])
 def addwarehouse():
     received_data = receive_from_android(request)
-    print received_data
+#    print received_data
     add_warehouse(received_data)
     response_to_android = {"Result":"Valid"}
     print received_data
@@ -162,9 +166,9 @@ def getfarms():
 @app.route('/getfarminfo/',methods=['POST', 'GET'])
 def fetchfarminfo():
 	received_data = receive_from_android(request)
-	print received_data
+##	print received_data
 	returnval=return_farm_info(received_data)
-	print returnval['AddFarmName']
+##	print returnval['AddFarmName']
 	datalist={"Result":"Valid"}
 	datalist['AddFarmName']=returnval['AddFarmName']
 	datalist['AddFarmCropType']=returnval['AddFarmCropType']
@@ -180,23 +184,19 @@ def fetchfarminfo():
 @app.route('/getfarmpredictions/',methods=['POST', 'GET'])
 def predictions():
 	received_data = receive_from_android(request)
-	print received_data
 	returnval=return_farm_info(received_data)
-	print returnval['AddFarmHWID']
 	datalist={"Result":"Valid"}
 	weatherdata = return_daily_data_farmer(returnval['AddFarmHWID'])
 	if weatherdata==None:
 	    datalist["Result"]="Invalid"
 	else:
-	    print "Valid"
+	    print "Valid marderrchod himu \n\n\n"
 	    datalist["HTP"] = str(predict_harvesting_time())
 #   get pi address from hwid???
 #	    wd = requests.get('http://192.168.0.101:5000').content
-        wd = requests.get('http://192.168.1.132:5000').content
-        print wd
-        wd=json.loads(wd)
-        wds=wd['current_weather']
-        print "Got the wd",wds['Temperature'],wds['Humidity']
+        
+        
+        wds=get_current_weather_data()
 
 #        datalist["Disease"] = str(predict_disease(23,80))
         
@@ -208,9 +208,7 @@ def predictions():
 @app.route('/getweatherdata/',methods=['POST', 'GET'])
 def getweatherdata():
 	received_data = receive_from_android(request)
-	print received_data
 	returnval=return_farm_info(received_data)
-	print returnval['AddFarmHWID']
 #	datalist={}
 	weatherdata = return_daily_data_farmer(returnval['AddFarmHWID'])
 	if weatherdata==None:
@@ -219,11 +217,12 @@ def getweatherdata():
 	    print "weather data Valid"
 	    
 	    #wd = requests.get('http://192.168.0.101:5000').content
-        wd = requests.get('http://192.168.1.132:5000').content
+        wd = get_current_weather_data()
         print wd
-        wd=json.loads(wd)
+        wds = {"current_weather":wd}
+        #wd=json.loads(wd)
         	
-	return jsonify(Android = wd)   
+	return jsonify(Android = wds)   
 
 
 @app.route('/getwarehouses/',methods=['POST', 'GET'])
@@ -254,7 +253,7 @@ def getwarehouses():
 @app.route('/getgodownpredictions/',methods=['POST', 'GET'])
 def getgodownpredictions():
 	received_data = receive_from_android(request)
-	print received_data
+#	print received_data
 
 	datalist={"Result":"Valid"}
 	dispatch_list=predict_dispatch_sequence()
@@ -268,6 +267,8 @@ def getgodownpredictions():
 	
 	return jsonify(Android = datalist)   
 
+
+"""
 @app.route('/sendnotificationtophone/',methods=['POST', 'GET'])
 def sn():
     hw_id="yaugsbsvw"
@@ -280,7 +281,7 @@ def sn():
     
             
     return 'Hello World!'
-    
+"""    
 
 @app.route('/',methods=['POST', 'GET'])
 def hello_world():
@@ -291,9 +292,9 @@ def hello_world():
 
 if __name__ == '__main__':
     create_collections()
-    app.run(host="192.168.0.118")
-
-#    app.run(host="192.168.0.105")
+#    print get_current_weather_data()
+#    app.run(host="192.168.0.3")
+    app.run(host="10.42.0.1")
 
 
 
@@ -308,10 +309,10 @@ if __name__ == '__main__':
 
 
 	
-#	print predict_harvesting_time()
-#	print predict_disease(23,80)
-#	print predict_dispatch_sequence()
-#	print get_opti_temp()
+##	print predict_harvesting_time()
+##	print predict_disease(23,80)
+##	print predict_dispatch_sequence()
+##	print get_opti_temp()
 
 
 

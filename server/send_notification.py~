@@ -2,6 +2,16 @@ from gcm import GCM
 from db_controller import *
 
 
+def sn():
+    hw_id="yaugsbsvw"
+    farm_info=return_farm_info_for_hw(hw_id)
+    user_info=return_user_info(farm_info['AddFarmUID'])
+    token=user_info['registrationtoken']
+    sendnotification(farm_info['AddFarmUID'],farm_info['AddFarmName'],token,"Soil Moisture Too High")
+    
+#    sendnotification(user,farmname,token,message    
+
+
 
 def sendnotification(user,farmname,token,message):
     """
