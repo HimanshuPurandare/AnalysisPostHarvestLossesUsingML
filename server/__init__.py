@@ -137,9 +137,9 @@ def getfarms():
         farm['FarmName'] = i['AddFarmName']
         farm['HWID'] = i['AddFarmHWID']
         farm['URL'] = i['AddFarmURL']
-#        weatherdata = return_daily_data_farmer(farm['HWID'])
+        weatherdata = return_daily_data_farmer(farm['HWID'])
         
-        if(True):
+        if(weatherdata==None):
             farm['MaxTemperature'] = "-"
             farm['MaxHumidity'] = "-"
             farm['MaxSM'] = "-"
@@ -158,6 +158,7 @@ def getfarms():
 
         farmlist.append(farm)
         print "yes"
+        
     response_to_android['farmlist'] = farmlist
     print response_to_android
     
@@ -190,8 +191,14 @@ def predictions():
 	if weatherdata==None:
 	    datalist["Result"]="Invalid"
 	else:
-	    print "Valid marderrchod himu \n\n\n"
-	    datalist["HTP"] = str(predict_harvesting_time())
+		if returnval['AddFarmCrop']=="Wheat":
+			datalist["HTP"] = str(wheat_harvesting_time())
+		elif returnval['AddFarmCrop']=="Rice":
+			datalist["HTP"]=str(rice_harvesting_time())
+		else:
+			datalist["HTP"]="-"
+		print datalist["HTP"]
+	    		   
 #   get pi address from hwid???
 #	    wd = requests.get('http://192.168.0.101:5000').content
         
