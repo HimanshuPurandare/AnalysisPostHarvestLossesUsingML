@@ -79,10 +79,10 @@ def return_daily_data_farmer(harwareID):
     daily_data_farmers=db['daily_data_farmers']
     weatherdata = {}
     weatherdata=daily_data_farmers.find({"HWID":harwareID})
-    w=sorted(weatherdata,key=lambda x:x['date']
-    print w
-    print w[-1]
-    print weatherdata
+    w=sorted(weatherdata,key=lambda x:x['date'])
+#    print "w",w
+#    print "last w",w[-1]
+#    print weatherdata
     return w[-1]
 
 def add_daily_farm_data(indata):
@@ -92,38 +92,38 @@ def add_daily_farm_data(indata):
 def return_user_info(email):
     user_info = db['user_info']
     userinfo=user_info.find_one({"SignUpUid":email})
-    print userinfo
+#    print userinfo
     return userinfo   
     
 def return_farm_info_for_hw(hw_id):
     farm_data=db['farm_data']
     farm=farm_data.find_one({"AddFarmHWID":hw_id})
-    print "got the farm",farm
+#    print "got the farm",farm
     return farm  
 
     
 def return_farms(received_data):
     farm_data = db['farm_data']
-    print received_data['Email']
+#    print received_data['Email']
     list_of_farms = farm_data.find({"AddFarmUID":received_data['Email']})
-    print "hty"
-    print "list",list_of_farms
+#    print "hty"
+#    print "list",list_of_farms
     return list_of_farms
     
 
 def return_farm_info(received_data):
 	farm_data=db['farm_data']
-	print "collection created"
+#	print "collection created"
 	farm_info=farm_data.find_one({"AddFarmUID":received_data['UserID'],"AddFarmName":received_data['FarmName']})
-	print farm_info
+#	print farm_info
 	return farm_info    
     
 def return_warehouses(received_data):
     warehouse_data = db['warehouse_data']
-    print received_data['Email']
+#    print received_data['Email']
     list_of_warehouses = warehouse_data.find({"AddWarehouseUID":received_data['Email']})
-    print "hty"
-    print "list",list_of_warehouses
+#    print "hty"
+#    print "list",list_of_warehouses
     return list_of_warehouses
     
     
@@ -131,7 +131,7 @@ def IsValidUser(email,password):
     handle = db['user_info']
     
     list_of_users = handle.find_one({"SignUpUid":email})
-    print "list of users : " ,list_of_users
+#    print "list of users : " ,list_of_users
     info = []
     if(list_of_users) == None:
         return info 
@@ -148,12 +148,12 @@ def AddNotification(userID,farmname,token,message):
     
 def get_notifications(received_data):
     notifications=db['notifications']
-    print "collection created"
-    print received_data['UserID']
-    print received_data['Farmname']
+#    print "collection created"
+#    print received_data['UserID']
+#    print received_data['Farmname']
 
     notification_data=notifications.find({"UserID":received_data['UserID'],"Farmname":received_data['Farmname']})
-    print "niranjan"
+#    print "niranjan"
     a=[]
     notification_data1=sorted(notification_data,key=lambda x:x['date'])
     for i in notification_data1:

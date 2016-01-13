@@ -43,7 +43,19 @@ public class MyFarm extends AppCompatActivity {
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
         expandableListDetail = ExpandableListDataPump.getData();
-        expandableListTitle = new ArrayList(expandableListDetail.keySet());
+//        expandableListTitle = new ArrayList(expandableListDetail.keySet());
+
+        expandableListTitle=new ArrayList();
+
+        expandableListTitle.add("Farm Data");
+        expandableListTitle.add("Current Farm Status");
+        expandableListTitle.add("PREDICTIONS");
+        expandableListTitle.add("NOTIFICATIONS");
+        expandableListTitle.add("Temperature Forecast");
+        expandableListTitle.add("Humidity Forecast");
+
+        Log.d("Testing ", (String) expandableListTitle.get(4));
+
         expandableListAdapter = new ExpandableListAdapter(this, expandableListTitle, expandableListDetail);
         expandableListView.setAdapter(expandableListAdapter);
         expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {

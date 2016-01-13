@@ -136,11 +136,10 @@ public class AddFarm extends AppCompatActivity {
         list.add("Onion");
 
         wheatlist = new ArrayList<String>();
-        wheatlist.add("Wheat1");
-        wheatlist.add("Wheat2");
-        wheatlist.add("Wheat3");
-        wheatlist.add("Wheat4");
-        ;
+        wheatlist.add("Ajanta");
+        wheatlist.add("Arjun");
+        wheatlist.add("Parabhani-51");
+        wheatlist.add("Malvika");
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
                 (this, android.R.layout.simple_dropdown_item_1line,list);

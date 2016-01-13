@@ -11,12 +11,18 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,6 +32,12 @@ public class ExpandableListDataPump
     static List<String> weatherdata;
     static List<String> predictions;
     static List<String> notifications;
+    static List<String>graphs;
+
+    public static float[] Min,Max,Hum;
+    public static String[] date;
+    public static String lattitude="19.1336",longitude="72.9154";
+
 
     static String cropname = "",farmarea="",sowingdatestart="",sowingdateend="",seedtype="",hwkitid="";
     public static HashMap<String, List<String>> getData()
@@ -36,19 +48,61 @@ public class ExpandableListDataPump
         weatherdata = new ArrayList<String>();
         predictions = new ArrayList<String>();
         notifications = new ArrayList<String>();
-
+        graphs=new ArrayList<String>();
+        graphs.add("Temp");
+;
 
         FetchfarmData();
         FetchNotificationData();
         FetchPredictionsData();
         FetchWeatherData();
+        FetchForecastData();
 
 
-        expandableListDetail.put("FARM DATA", farmdata);
-        expandableListDetail.put("WEATHER DATA", weatherdata);
+        expandableListDetail.put("Farm Data", farmdata);
+        expandableListDetail.put("Current Farm Status", weatherdata);
         expandableListDetail.put("PREDICTIONS", predictions);
         expandableListDetail.put("NOTIFICATIONS", notifications);
+        expandableListDetail.put("Temperature Forecast",graphs);
+        expandableListDetail.put("Humidity Forecast",graphs);
+
         return expandableListDetail;
+    }
+
+    private static void FetchForecastData()
+    {
+
+        Min=new float[5];
+        Max=new float[5];
+        Hum=new float[5];
+        date=new String[5];
+
+        for(int date_cnt=0;date_cnt<5;date_cnt++)
+        {
+
+            Calendar c = Calendar.getInstance();
+            Log.d("Time.....", c.getTimeZone().toString());
+            Date dateobj = new Date();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat dateFormat1 = new SimpleDateFormat("dd/MM");
+
+            c.setTime(dateobj);
+            c.add(Calendar.DATE, date_cnt - 2);
+            Log.d("date is......", dateFormat.format(c.getTime()));
+            Log.d("day is.......", dateFormat1.format(c.getTime()));
+
+            String temp_date = dateFormat.format(c.getTime());
+            String temp_day = (dateFormat1.format(c.getTime()));
+
+
+            SetData(temp_date,temp_day,date_cnt);
+
+
+
+        }
+
+
+
     }
 
     private static void FetchWeatherData()
@@ -217,9 +271,9 @@ public class ExpandableListDataPump
                                     farmdata.add("Farm area : " + farmarea);
 
                                     sowingdateend.replace("/", "-");
-                                    sowingdatestart.replace("/","-");
+                                    sowingdatestart.replace("/", "-");
 
-                                    farmdata.add("Period of Sowing : " + sowingdatestart +" to "+sowingdateend);
+                                    farmdata.add("Period of Sowing : " + sowingdatestart + " to " + sowingdateend);
                                     farmdata.add("Hardware ID : " + hwkitid);
 
                                     MyFarm.expandableListAdapter.notifyDataSetChanged();
@@ -313,6 +367,55 @@ public class ExpandableListDataPump
 
 
     }
+
+    private  static void SetData(String temp_date,String temp_day1,int date_cnt1)
+    {
+
+        final int date_cnt=date_cnt1;
+        final String temp_day=temp_day1;
+
+        String url = "https://api.forecast.io/forecast/effdaeb7474c03015ad3f83872d83696/"+lattitude+","+longitude+","+temp_date+"T11:59:59";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            jsonObject = jsonObject.getJSONObject("daily");
+                            JSONArray jsonArray = jsonObject.getJSONArray("data");
+                            jsonObject = new JSONObject(jsonArray.get(0).toString());
+
+
+
+                            Min[date_cnt]= (Float.parseFloat(jsonObject.getString("temperatureMin"))-32)*5/9;
+                            Max[date_cnt]= (Float.parseFloat(jsonObject.getString("temperatureMax"))-32)*5/9;
+                            Hum[date_cnt]=Float.parseFloat(jsonObject.getString("humidity"));
+                            date[date_cnt]=temp_day;
+
+
+
+
+
+                            Log.d("Min.......",jsonObject.getString("temperatureMin"));
+                            Log.d("Min......",Min[date_cnt]+"");
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+
+        });
+        MainActivity.getInstance().addToRequestQueue(stringRequest);
+
+    }
+
 
 
 
