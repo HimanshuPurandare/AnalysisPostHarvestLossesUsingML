@@ -23,11 +23,13 @@ def CreateOptiTempData(collection):
 def CreateHarvestData(collection):
 	with open("temperature.csv", "rt") as f:  # open a file
 		for line in f:
-			    currentline = line.split("\t")
-			    if '\n' in currentline[1]:
-			    	currentline[1] = currentline[1].replace("\n", "");
-			    text_file_doc = {"max_temp":int(currentline[0]),"min_temp":int(currentline[1])}
-			    collection.insert(text_file_doc)
+			currentline = line.split("\t")
+			#print currentline
+			if '\n' in currentline[2]:
+				currentline[2] = currentline[2].replace("\n", "")
+			text_file_doc = {"max_temp":int(currentline[0]),"min_temp":int(currentline[1]), "Datatype":str(currentline[2])}
+			#print text_file_doc
+			collection.insert(text_file_doc)
 
 
 def CreateFifoData(collection):
