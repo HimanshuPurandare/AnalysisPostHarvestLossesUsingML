@@ -43,14 +43,15 @@ def CreateFifoData(collection):
 
 
 def CreateDiseaseData(collection):
-	with open("diseasedatabase.csv", "rt") as f:  # open a file
+	with open("DiseaseDatabase_final.csv", "rt") as f:  # open a file
 		for line in f:
-			    currentline = line.split("\t")
-			    if '\n' in currentline[1]:
-			    	currentline[1] = currentline[1].replace("\n", "");
-			    text_file_doc = {"Temperature":int(currentline[0]),"Humidity":int(currentline[1]),'Diseaseno':int(currentline[2])}
-			    collection.insert(text_file_doc)
-        	
+			currentline = line.split("\t")
+			#print currentline
+			if '\n' in currentline[3]:
+				currentline[3] = currentline[3].replace("\n", "");
+			text_file_doc = {"Temperature":int(currentline[0]),"Humidity":int(currentline[1]), "Datatype":str(currentline[3]), "Diseaseno":int(currentline[2])}
+			#print text_file_doc
+			collection.insert(text_file_doc)
 
 
 

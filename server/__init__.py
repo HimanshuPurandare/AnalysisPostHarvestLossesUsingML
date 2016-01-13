@@ -138,7 +138,7 @@ def getfarms():
         farm['HWID'] = i['AddFarmHWID']
         farm['URL'] = i['AddFarmURL']
         weatherdata = return_daily_data_farmer(farm['HWID'])
-        
+#        if True:
         if(weatherdata==None):
             farm['MaxTemperature'] = "-"
             farm['MaxHumidity'] = "-"
@@ -191,6 +191,7 @@ def predictions():
 	if weatherdata==None:
 	    datalist["Result"]="Invalid"
 	else:
+		print "Inside else"
 		if returnval['AddFarmCrop']=="Wheat":
 			datalist["HTP"] = str(wheat_harvesting_time())
 		elif returnval['AddFarmCrop']=="Rice":
@@ -202,14 +203,18 @@ def predictions():
 #   get pi address from hwid???
 #	    wd = requests.get('http://192.168.0.101:5000').content
         
-        
+        print "after htp" 
         wds=get_current_weather_data()
+        print "got wds",wds
 
 #        datalist["Disease"] = str(predict_disease(23,80))
-        
-        datalist["Disease"] = str(predict_disease(int(float(wds['Temperature'])),(int(float(wds['Humidity'])))))
-        
-	
+        if returnval['AddFarmCrop']=="Wheat":
+        	print "inside if"
+        	datalist["Disease"] = str(wheat_disease(int(float(wds['Temperature'])),(int(float(wds['Humidity'])))))
+        elif returnval['AddFarmCrop']=="Onion":
+        	print "inside inner elif"
+        	datalist["Disease"] = str(onion_disease(int(float(wds['Temperature'])),(int(float(wds['Humidity'])))))
+		print "Final Datalist done"	
 	return jsonify(Android = datalist)   
 
 @app.route('/getweatherdata/',methods=['POST', 'GET'])
