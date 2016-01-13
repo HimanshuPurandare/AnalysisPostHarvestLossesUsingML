@@ -46,41 +46,54 @@ public class CustomOnItemSelectedListener implements OnItemSelectedListener {
             AddFarm.wheatlist.add("Bheema-Super");
             AddFarm.dataAdapter1.notifyDataSetChanged();
         }
-        else if(temp.equals("Wheat1"))
+        else if(temp.equals("Ajanta"))
         {
-            AddFarm.type_of_crop = "Wheat1";
+            AddFarm.type_of_crop = "Ajanta";
         }
-        else if(temp.equals("Wheat2"))
+        else if(temp.equals("Arjun"))
         {
-            AddFarm.type_of_crop = "Wheat2";
+            AddFarm.type_of_crop = "Arjun";
         }
-        else if(temp.equals("Wheat3"))
+        else if(temp.equals("Parabhani-51"))
         {
-            AddFarm.type_of_crop = "Wheat3";
+            AddFarm.type_of_crop = "Parabhani-51";
         }
-        else if(temp.equals("Wheat4"))
+        else if(temp.equals("Malvika"))
         {
-            AddFarm.type_of_crop = "Wheat4";
+            AddFarm.type_of_crop = "Malvika";
         }
-        else if(temp.equals("Rice1"))
+        else if(temp.equals("Ambemohar"))
         {
-            AddFarm.type_of_crop = "Rice1";
+            AddFarm.type_of_crop = "Ambemohar";
         }
-        else if(temp.equals("Rice2"))
+        else if(temp.equals("tambdajog"))
         {
-            AddFarm.type_of_crop = "Rice2";
+            AddFarm.type_of_crop = "tambdajog";
         }
-        else if(temp.equals("Onion1"))
+        else if(temp.equals("tambdajog"))
         {
-            AddFarm.type_of_crop = "Onion1";
+            AddFarm.type_of_crop = "tambdajog";
         }
-        else if(temp.equals("Onion2"))
+        else if(temp.equals("krishnasal"))
         {
-            AddFarm.type_of_crop = "Onion2";
+            AddFarm.type_of_crop = "krishnasal";
         }
-        else if(temp.equals("Onion3"))
+        else if(temp.equals("champakali"))
         {
-            AddFarm.type_of_crop = "Onion3";
+            AddFarm.type_of_crop = "champakali";
+        }
+
+        else if(temp.equals("Bheema-Red"))
+        {
+            AddFarm.type_of_crop = "Bheema-Red";
+        }
+        else if(temp.equals("Bheema-Shweta"))
+        {
+            AddFarm.type_of_crop = "Bheema-Shweta";
+        }
+        else if(temp.equals("Bheema-Super"))
+        {
+            AddFarm.type_of_crop = "Bheema-Super";
         }
     }
 
