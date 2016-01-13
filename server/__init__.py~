@@ -315,7 +315,7 @@ if __name__ == '__main__':
 
 #	app.run(host="10.42.0.249")
     
-    app.run(host="192.168.1.131")
+    app.run(host="192.168.0.105")
 	
 #	get_notifications({"UserID":"aa@aa","Farmname":"farm1"})
 #	sendnotification('aa@aa','farm1','d6Sw4Ip5wkk:APA91bHwXk9vRWxgbaN5is8SLEzPBM8OSgATBOXATSggCW8w4envsEvaDHXitQo56PYFeOp6KNXrwhRoeqCqyefPr6RSHGr7fNaMVfAlk1H2igStZzoFPo7s-0wKWCrm6RKdIJ4gl6eE','Notification Sent*****!!!')
