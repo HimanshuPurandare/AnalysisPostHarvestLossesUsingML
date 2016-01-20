@@ -137,9 +137,9 @@ def getfarms():
         farm['FarmName'] = i['AddFarmName']
         farm['HWID'] = i['AddFarmHWID']
         farm['URL'] = i['AddFarmURL']
-        weatherdata = return_daily_data_farmer(farm['HWID'])
-#        if True:
-        if(weatherdata==None):
+#        weatherdata = return_daily_data_farmer(farm['HWID'])
+        if True:
+#        if(weatherdata==None):
             farm['MaxTemperature'] = "-"
             farm['MaxHumidity'] = "-"
             farm['MaxSM'] = "-"
@@ -306,7 +306,7 @@ if __name__ == '__main__':
     create_collections()
 #    print get_current_weather_data()
 #    app.run(host="192.168.0.3")
-    app.run(host="10.42.0.1")
+    app.run(host="192.168.0.118")
 
 
 

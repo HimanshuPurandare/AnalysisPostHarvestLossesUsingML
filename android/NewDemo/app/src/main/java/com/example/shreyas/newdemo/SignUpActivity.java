@@ -84,7 +84,7 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
     {
         toolbar = (Toolbar) findViewById(R.id.mytoolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("SignUp");
+        getSupportActionBar().setTitle(R.string.sign_up_option_home);
         //getSupportActionBar().setSubtitle("Pune");
         toolbar.setTitleTextColor(getResources().getColor(R.color.Text_Icon));
         toolbar.setSubtitleTextColor(getResources().getColor(R.color.LightPrimaryColor));

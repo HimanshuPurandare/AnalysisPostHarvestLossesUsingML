@@ -77,7 +77,6 @@ public class AddFarm extends AppCompatActivity {
         im1.setImageResource(R.drawable.location);
 
         te = (TextView) findViewById(R.id.click_here);
-        te.setText("Click here to choose location");
 
 
         im1.setOnClickListener(new View.OnClickListener() {
@@ -131,15 +130,15 @@ public class AddFarm extends AppCompatActivity {
 
 
         List<String> list = new ArrayList<String>();
-        list.add("Wheat");
-        list.add("Rice");
-        list.add("Onion");
+        list.add(getString(R.string.WheatString));
+        list.add(getString(R.string.RiceString));
+        list.add(getString(R.string.OnionString));
 
         wheatlist = new ArrayList<String>();
-        wheatlist.add("Ajanta");
-        wheatlist.add("Arjun");
-        wheatlist.add("Parabhani-51");
-        wheatlist.add("Malvika");
+        wheatlist.add(getString(R.string.AjantaString));
+        wheatlist.add(getString(R.string.ArjunString));
+        wheatlist.add(getString(R.string.ParabhaniString));
+        wheatlist.add(getString(R.string.MalvikaString));
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
                 (this, android.R.layout.simple_dropdown_item_1line,list);
@@ -212,7 +211,9 @@ public class AddFarm extends AppCompatActivity {
 
         {
             Intent i = new Intent(AddFarm.this,MyMapActivity.class);
+            i.putExtra("ActivityName","AddFarm");
             startActivity(i);
+            AddFarm.location_set=false;
             finish();
         }
     }
@@ -306,6 +307,7 @@ public class AddFarm extends AppCompatActivity {
 
 
                                     startActivity(i);
+                                    AddFarm.location_set=false;
                                     finish();
                                 }
                             } catch (JSONException e) {
@@ -358,6 +360,7 @@ public class AddFarm extends AppCompatActivity {
     public void onBackPressed() {
         Intent i = new Intent(AddFarm.this,MainActivity.class );
         startActivity(i);
+        AddFarm.location_set=false;
         finish();
     }
 }

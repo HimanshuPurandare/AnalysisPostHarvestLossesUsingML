@@ -15,9 +15,9 @@ public class CustomOnItemSelectedListener implements OnItemSelectedListener {
 
         String temp = parent.getItemAtPosition(pos).toString();
 
-        if(temp.equals("Wheat"))
+        if(temp.equals(R.string.WheatString))
         {
-            AddFarm.crop = "Wheat";
+            AddFarm.crop = MainActivity.getInstance().getString(R.string.WheatString);
             AddFarm.wheatlist.clear();
             AddFarm.wheatlist.add("Ajanta");
             AddFarm.wheatlist.add("Arjun");

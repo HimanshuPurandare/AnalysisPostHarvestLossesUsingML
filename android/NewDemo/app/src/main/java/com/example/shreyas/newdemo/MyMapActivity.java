@@ -1,5 +1,6 @@
 package com.example.shreyas.newdemo;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -26,16 +28,24 @@ import java.util.List;
 public class MyMapActivity extends AppCompatActivity {
 
     private GoogleMap map;
+
+    String prev_activity;
     static final LatLng MUMBAI = new LatLng(18.9750,  72.8258);
 
     List<LatLng> t;
     int FirstPointSet = 0;
+    public static Context mContext;
     private LatLng firstpoint,lastpoint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_map);
+
+        mContext=this.getApplicationContext();
+
+        prev_activity   = getIntent().getStringExtra("ActivityName");
+        Log.d("The activity before map",prev_activity);
 
         t = new ArrayList<LatLng>();
 
@@ -88,17 +98,55 @@ public class MyMapActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AddFarm.location_set=true;
-                Intent i = new Intent(MyMapActivity.this,AddFarm.class);
-                i.putExtra("list",t.toString());
-                startActivity(i);
-                finish();
+                if(t.size()>2) {
+                    if (prev_activity.equals("AddWarehouse")) {
+
+                        AddWarehouse.location_set = true;
+                        Intent i = new Intent(MyMapActivity.this, AddWarehouse.class);
+                        i.putExtra("list", t.toString());
+                        startActivity(i);
+                        finish();
+
+                    } else {
+
+                        AddFarm.location_set = true;
+                        Intent i = new Intent(MyMapActivity.this, AddFarm.class);
+                        i.putExtra("list", t.toString());
+                        startActivity(i);
+                        finish();
+                    }
+                }
+                else
+                {
+                    Toast.makeText(mContext, "Please select at least 3 points to get boundary" , Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
 
 
     }
+
+
+    @Override
+    public void onBackPressed() {
+        if (prev_activity.equals("AddWarehouse"))
+        {
+            Intent i = new Intent(MyMapActivity.this, AddWarehouse.class);
+            startActivity(i);
+            finish();
+        }
+        else
+        {
+            Intent i = new Intent(MyMapActivity.this, AddFarm.class);
+            startActivity(i);
+            finish();
+        }
+
+
+    }
+
+
 
 
 

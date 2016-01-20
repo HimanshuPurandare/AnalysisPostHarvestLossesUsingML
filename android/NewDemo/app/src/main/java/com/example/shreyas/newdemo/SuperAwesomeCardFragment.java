@@ -61,12 +61,13 @@ public class SuperAwesomeCardFragment extends Fragment {
 
         Log.d("Inside data i", "Inside Data Initi");
         gen_info = new ArrayList<>();
-        gen_info.add(new General_info("Maharashtra Agriculture", "Agriculture is the mainstay of the state of Maharashtra. It is the main occupation of the people. Both food crops and cash crops are grown in the state. ", R.drawable.d));
-        gen_info.add(new General_info("Main crops in Maharashtra", "The main food crops of Maharashtra are mangoes, grapes, bananas, oranges, wheat, rice, jowar, bajra, and pulses. Cash crops include groundnut, cotton, sugarcane, turmeric, and tobacco. ", R.drawable.e));
-        gen_info.add(new General_info("Agro Climatic Zones in Maharashtra", "India has been divided into 15 resource development zones of which 14 fall in the main land and remaining one in the islands of Bay of Bengal and the Arabian sea.", R.drawable.f));
-        gen_info.add(new General_info("Onion storage structure", "Modern onion storage structures have been so planned to aerate the onions from all sides.Site selected for onion storage structure should be well drained and should be easily accusable to good road", R.drawable.g));
-        gen_info.add(new General_info("Wheat Farming", "Wheat is the main cereal crop in India. The total area under the crop is about 29.8 million hectares in the country.", R.drawable.h));
-        gen_info.add(new General_info("Seasons of rice growing in the Maharashtra", "In Maharashtra state, rice crop is predominantly cultivated under rainfed conditions, i.e. Kharif. In Marathwada region area under rice comprises 90,000 ha which is completely drill and rainfed cultivation.", R.drawable.i));
+        gen_info.add(new General_info(getString(R.string.infotitlestring1),getString(R.string.infostring1), R.drawable.d));
+        gen_info.add(new General_info(getString(R.string.infotitlestring2),getString(R.string.infostring2), R.drawable.e));
+        gen_info.add(new General_info(getString(R.string.infotitlestring3),getString(R.string.infostring3), R.drawable.f));
+
+//        gen_info.add(new General_info("Onion storage structure", "Modern onion storage structures have been so planned to aerate the onions from all sides.Site selected for onion storage structure should be well drained and should be easily accusable to good road", R.drawable.g));
+//        gen_info.add(new General_info("Wheat Farming", "Wheat is the main cereal crop in India. The total area under the crop is about 29.8 million hectares in the country.", R.drawable.h));
+//        gen_info.add(new General_info("Seasons of rice growing in the Maharashtra", "In Maharashtra state, rice crop is predominantly cultivated under rainfed conditions, i.e. Kharif. In Marathwada region area under rice comprises 90,000 ha which is completely drill and rainfed cultivation.", R.drawable.i));
 
     }
 
@@ -74,9 +75,9 @@ public class SuperAwesomeCardFragment extends Fragment {
     {
         Log.d("Inside news intion", "News initial");
         news = new ArrayList<>();
-        news.add(new General_info("Weather-Proof Indian Agriculture: President Mukherjee", "Indian agriculture is increasingly becoming a victim of unpredictable weather. Be it the Monsoon fury or dreading the drought, Indian agriculture is still bearing the brunt of inclement weather by way of declining farm produce and shrinking exports. ", R.drawable.a));
-        news.add(new General_info("R Gopalakrishnan: Intelligent farming", "The urban excitement about start-ups, entrepreneurship and innovation is missing in farming. Try compiling a repertoire of bottom-of-the-pyramid innovation articles on farming. Agri-business correspondents write reasoned columns", R.drawable.b));
-        news.add(new General_info("Agriculture Minister Emphasizes the need to reduce Post-Harvest Losses in Horticulture", "Union Agriculture Minister, Shri Sharad Pawar today emphasized the need to reduce post-harvest losses in horticultural sector. He said that 18-25% of horticultural produce is lost, as estimated by the Central Institute of Post-Harvest Engineering and Technology study.", R.drawable.c));
+        news.add(new General_info(getString(R.string.newstitlestring1), getString(R.string.newsstring1), R.drawable.a));
+        news.add(new General_info(getString(R.string.newstitlestring2),getString(R.string.newsstring2), R.drawable.b));
+        news.add(new General_info(getString(R.string.newstitlestring3),getString(R.string.newsstring3), R.drawable.c));
     }
     public void setfarms()
     {
@@ -270,7 +271,7 @@ public class SuperAwesomeCardFragment extends Fragment {
                 View rootView = inflater.inflate(R.layout.d, container, false);
 
                 TextView tw = (TextView)rootView.findViewById(R.id.tw1);
-                tw.setText("Please SignIn to get this feature");
+                tw.setText(R.string.sign_in_msg_home);
 
                 Button b1 = (Button)rootView.findViewById(R.id.sign_in_button);
                 b1.setOnClickListener(new View.OnClickListener() {
@@ -336,7 +337,7 @@ public class SuperAwesomeCardFragment extends Fragment {
                         @Override
                         public void onClick(View view)
                         {
-                            Log.d("Add","Farm");
+                            Log.d("Add","warehouse");
                             Intent i = new Intent(getActivity(),AddWarehouse.class );
                             startActivity(i);
                             getActivity().finish();

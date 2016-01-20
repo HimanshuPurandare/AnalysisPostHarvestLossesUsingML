@@ -7,4 +7,11 @@
         android:alphabeticShortcut="r"
         android:orderInCategory="1"
         app:showAsAction="always" />
+
+    <item android:id="@+id/lang_change_menuitem"
+        android:title="@string/menuitem_refresh"
+        android:alphabeticShortcut="r"
+        android:orderInCategory="1"
+        app:showAsAction="always" />
+
 </menu>

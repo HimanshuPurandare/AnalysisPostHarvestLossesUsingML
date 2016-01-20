@@ -54,6 +54,15 @@ public class MyFarm extends AppCompatActivity {
         expandableListTitle.add("Temperature Forecast");
         expandableListTitle.add("Humidity Forecast");
 
+//        expandableListTitle.add(getString(R.string.FarmDataString));
+//        expandableListTitle.add(getString(R.string.CurrentFarmStatusString));
+//        expandableListTitle.add(getString(R.string.PredictionsString));
+//        expandableListTitle.add(getString(R.string.NotificationsString));
+//        expandableListTitle.add(getString(R.string.TemperatureForecastString));
+//        expandableListTitle.add(getString(R.string.CurrentFarmStatusString));
+
+
+
         Log.d("Testing ", (String) expandableListTitle.get(4));
 
         expandableListAdapter = new ExpandableListAdapter(this, expandableListTitle, expandableListDetail);

@@ -29,6 +29,8 @@ import com.astuetz.PagerSlidingTabStrip;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity
 {
 
@@ -39,6 +41,9 @@ public class MainActivity extends AppCompatActivity
     private BroadcastReceiver mRegistrationBroadcastReceiver;
 
 
+    private Locale myLocale;
+
+
 
     private Toolbar toolbar;
     private Navigation_Drawer drawerfragment;
@@ -46,15 +51,17 @@ public class MainActivity extends AppCompatActivity
     static MainActivity sInstance;
 
 //Global Variables related to User
-    public static String Global_User_Name,Global_Email_Id,Global_Regi_Token,GlobalUser_Role;
+    public static String Global_User_Name,Global_Email_Id,Global_Regi_Token,GlobalUser_Role,Global_Lang_Choice;
     public static String Saved_Global_Temp,Saved_Global_Hum,Saved_Global_SM;
 
 //    public static String ServerIP="http://192.168.0.3:5000";
 //    public static String ServerIP="http://10.42.0.249:5000";
 //    public static String ServerIP="http://192.168.0.105:5000";
-    public static String ServerIP="http://10.42.0.1:5000";
+//    public static String ServerIP="http://10.42.0.1:5000";
 //      public static String ServerIP = "http://192.168.1.131:5000";
-//      public static String ServerIP = "http://192.168.43.126:5000";
+//    public static String ServerIP = "http://reviewpager.com";
+    public static String ServerIP = "http://192.168.0.118:5000";
+
 
     public static int signedin=0;
     public static boolean ConnectedToNetwork = true;
@@ -128,6 +135,8 @@ public class MainActivity extends AppCompatActivity
 
         sharedPreferencesClass=new SharedPreferencesClass();
         sharedPreferencesClass.PullSharedPreferences(getApplicationContext());
+        setLanguage();
+
         setupToolbar();
 
         setupNavigationDrawer();
@@ -136,6 +145,35 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    private void setLanguage()
+    {
+        SharedPreferences sharedpreflang=getSharedPreferences("Language", Context.MODE_PRIVATE);
+        Global_Lang_Choice=sharedpreflang.getString("lang", "eng");
+
+
+        if(Global_Lang_Choice.equals("eng"))
+        {
+            myLocale = new Locale("eng");
+
+            Locale.setDefault(myLocale);
+            android.content.res.Configuration config = new android.content.res.Configuration();
+            config.locale = myLocale;
+            getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+
+        }
+        else{
+            myLocale = new Locale("mar");
+
+            Locale.setDefault(myLocale);
+            android.content.res.Configuration config = new android.content.res.Configuration();
+            config.locale = myLocale;
+            getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+
+        }
+
+
+
+    }
 
 
     @Override
@@ -188,8 +226,34 @@ public class MainActivity extends AppCompatActivity
 
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.refreshbutton, menu);
+
+        MenuItem item=menu.getItem(1);
+        if(Global_Lang_Choice.equals("eng"))
+        {
+            item.setIcon(R.drawable.ma_lang_icon);
+//            myLocale = new Locale("eng");
+//
+//            Locale.setDefault(myLocale);
+//            android.content.res.Configuration config = new android.content.res.Configuration();
+//            config.locale = myLocale;
+//            getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+
+        }
+        else{
+            item.setIcon(R.drawable.en_lang_icon);
+//            myLocale = new Locale("mar");
+//
+//            Locale.setDefault(myLocale);
+//            android.content.res.Configuration config = new android.content.res.Configuration();
+//            config.locale = myLocale;
+//            getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+
+        }
+
         return super.onCreateOptionsMenu(menu);
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
@@ -205,7 +269,67 @@ public class MainActivity extends AppCompatActivity
                 setRefreshActionButtonState(false);
                 // Complete with your code
                 return true;
-        }        Log.d("buutton","pressed");
+
+            case R.id.lang_change_menuitem: {
+                Log.d("inside item", "inside langitem");
+
+
+
+                if (Global_Lang_Choice.equals("eng")) {
+                    Log.d("inside item","inside langitem eng");
+
+                    item.setIcon(R.drawable.ma_lang_icon);
+
+
+                    SharedPreferences sharedpreflang = getSharedPreferences("Language", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedpreflang.edit();
+                    editor.putString("lang", "mar");
+                    editor.commit();
+
+                    myLocale = new Locale("mar");
+
+                    Locale.setDefault(myLocale);
+                    android.content.res.Configuration config = new android.content.res.Configuration();
+                    config.locale = myLocale;
+                    getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+
+                    Global_Lang_Choice="mar";
+
+
+                    Intent i=new Intent(MainActivity.this,MainActivity.class);
+                 startActivity(i);
+                    finish();
+                }
+
+                else {
+
+                    item.setIcon(R.drawable.en_lang_icon);
+
+                    SharedPreferences sharedpreflang = getSharedPreferences("Language", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedpreflang.edit();
+                    editor.putString("lang", "eng");
+                    editor.commit();
+
+                    myLocale = new Locale("eng");
+
+                    Locale.setDefault(myLocale);
+                    android.content.res.Configuration config = new android.content.res.Configuration();
+                    config.locale = myLocale;
+                    getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+
+                    Global_Lang_Choice="eng";
+
+
+                    Intent i=new Intent(MainActivity.this,MainActivity.class);
+                    startActivity(i);
+                    finish();
+
+
+                }
+            }
+        }
+
+        Log.d("buutton","pressed");
         return super.onOptionsItemSelected(item);
     }
 
@@ -229,7 +353,7 @@ public class MainActivity extends AppCompatActivity
 
     public class MyPagerAdapter extends FragmentPagerAdapter {
 
-        private final String[] TITLES = {"      Home       ", "      Info       ",  "       News       "};
+        private final String[] TITLES = {getString(R.string.vp_home_option),getString(R.string.vp_info_option),getString(R.string.vp_news_option)};
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -273,6 +397,16 @@ public class MainActivity extends AppCompatActivity
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void onConfigurationChanged(android.content.res.Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (myLocale != null){
+            newConfig.locale = myLocale;
+            Locale.setDefault(myLocale);
+            getBaseContext().getResources().updateConfiguration(newConfig, getBaseContext().getResources().getDisplayMetrics());
+        }
     }
 
 

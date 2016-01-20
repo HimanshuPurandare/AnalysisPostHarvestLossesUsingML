@@ -110,7 +110,7 @@ public class SignIn extends AppCompatActivity implements LoaderManager.LoaderCal
     {
         toolbar = (Toolbar) findViewById(R.id.mytoolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("SignIn");
+        getSupportActionBar().setTitle(R.string.title_activity_sign_in);
         //getSupportActionBar().setSubtitle("Pune");
         toolbar.setTitleTextColor(getResources().getColor(R.color.Text_Icon));
         toolbar.setSubtitleTextColor(getResources().getColor(R.color.LightPrimaryColor));

@@ -5,6 +5,11 @@
     <string name="drawer_close">Close</string>
     <string name="NavMenuItemSettings">Settings</string>
 
+    <string name="sharestring">Share</string>
+    <string name="helpstring">Help</string>
+    <string name="contactusstring">Contact Us</string>
+
+
     <string name="menuitem_refresh">Refresh</string>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -18,6 +23,29 @@
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
 
+    <string name="email_id_hint">Email ID</string>
+    <string name="password_hint">Password</string>
+
+    <string name="sign_in_option_home">Sign In</string>
+    <string name="sign_up_option_home">Sign Up</string>
+
+    <string name="sign_in_msg_home">Please SignIn to get this feature</string>
+
+    <string name="vp_home_option">"      Home       "</string>
+    <string name="vp_info_option">"      Info       "</string>
+    <string name="vp_news_option">"      News       "</string>
+
+    <string name="role_farmer">"Farmer"</string>
+    <string name="role_godownmanager">"Go-Down Manager"</string>
+    <string name="role_both">"Both"</string>
+
+
+    <string name="MyProfileString">"My Profile"</string>
+    <string name="Notificationstring">"Notifications"</string>
+    <string name="consequencestring">"Consequences"</string>
+    <string name="signoutstring">"Sign-Out"</string>
+    <string name="weatherinfostring">Weather Info(Min/Max)</string>
+
 
     <string name="signup_email">Email ID</string>
     <string name="signup_password">Password</string>
@@ -27,5 +55,75 @@
     <string name="error_password_mismatch">Password not matching</string>
     <string name="title_activity_my_farm">MyFarm</string>
     <string name="title_activity_my_ware_house">MyWareHouse</string>
+
+    <string name="TemperatureString">Temperature</string>
+    <string name="HumidityString">Humidity</string>
+    <string name="SoilMoistureString">Soil Moisture</string>
+
+
+    <string name="CropNameString">Crop Name</string>
+    <string name="SeedTypeString">Seed Type</string>
+    <string name="FarmAreaString">Farm Area</string>
+
+    <string name="PeriodofSowingString">Period of Sowing</string>
+    <string name="HardwareIDString">Hardware ID</string>
+
+
+    <string name="FarmDataString">Farm Data</string>
+    <string name="CurrentFarmStatusString">Current Farm Status</string>
+    <string name="PredictionsString">Predictions</string>
+    <string name="NotificationsString">Notifications</string>
+    <string name="TemperatureForecastString">Temperature Forecast</string>
+    <string name="HumidityForecastString">Humidity Forecast</string>
+
+    <string name="WheatString">Wheat</string>
+    <string name="OnionString">Onion</string>
+    <string name="RiceString">Rice</string>
+
+    <string name="AjantaString">Ajanata</string>
+    <string name="ArjunString">Arjun</string>
+    <string name="ParabhaniString">Parabhani-51</string>
+    <string name="MalvikaString">Malvika</string>
+
+
+    <string name="AmbemoharString">Ambemohar</string>
+    <string name="TambdajogString">Tambdajog</string>
+    <string name="KrishnasalString">Krishnasal</string>
+    <string name="ChampakaliString">Champakali</string>
+
+    <string name="BheemaredString">Bheema-Red</string>
+    <string name="BheemashwetaString">Bheema-Shweta</string>
+    <string name="BheemasuperString">Bheema-Super</string>
+
+    <string name="AddLocationString">Click Here to Choose the Location</string>
+
+    <string name="title_activity_new_farm">New Field</string>
+    <string name="selectcroptype">Select Type of Crop</string>
+    <string name="selectcrop">Select Crop</string>
+    <string name="nameoffarmstring">Name of Farm</string>
+
+    <string name="addfarmstring">Add Farm</string>
+
+    <string name="infotitlestring1">Maharashtra Agriculture</string>
+    <string name="infotitlestring2">Main crops in Maharashtra</string>
+    <string name="infotitlestring3">Agro Climatic Zones in Maharashtra</string>
+
+
+    <string name="infostring1">Agriculture is the mainstay of the state of Maharashtra. It is the main occupation of the people. Both food crops and cash crops are grown in the state. </string>
+    <string name="infostring2">The main food crops of Maharashtra are mangoes, grapes, bananas, oranges, wheat, rice, jowar, bajra, and pulses. Cash crops include groundnut, cotton, sugarcane, turmeric, and tobacco. </string>
+    <string name="infostring3">India has been divided into 15 resource development zones of which 14 fall in the main land and remaining one in the islands of Bay of Bengal and the Arabian sea.</string>
+
+    <string name="addwarehousehint">Enter the Go-down Name</string>
+
+    <string name="newstitlestring1">Weather-Proof Indian Agriculture: President Mukherjee</string>
+    <string name="newstitlestring2">R Gopalakrishnan: Intelligent farming</string>
+    <string name="newstitlestring3">Agriculture Minister Emphasizes the need to reduce Post-Harvest Losses in Horticulture</string>
+
+    <string name="clickherestring">Click here to choose location</string>
+
+    <string name="newsstring1">Indian agriculture is increasingly becoming a victim of unpredictable weather. Be it the Monsoon fury or dreading the drought, Indian agriculture is still bearing the brunt of inclement weather by way of declining farm produce and shrinking exports. </string>
+    <string name="newsstring2">"The urban excitement about start-ups, entrepreneurship and innovation is missing in farming. Try compiling a repertoire of bottom-of-the-pyramid innovation articles on farming. Agri-business correspondents write reasoned columns</string>
+    <string name="newsstring3">Union Agriculture Minister, Shri Sharad Pawar today emphasized the need to reduce post-harvest losses in horticultural sector. He said that 18-25% of horticultural produce is lost, as estimated by the Central Institute of Post-Harvest Engineering and Technology study.</string>
+
 
 </resources>

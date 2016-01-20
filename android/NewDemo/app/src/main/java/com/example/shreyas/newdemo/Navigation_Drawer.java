@@ -67,7 +67,7 @@ public class Navigation_Drawer extends Fragment implements NavigationView.OnCrea
 
         if(MainActivity.signedin==1)
         {
-            signin_item.setTitle("sign-Out");
+            signin_item.setTitle(R.string.signoutstring);
 
             TextView tv_nav_name=(TextView)headerLayout.findViewById(R.id.nav_name);
             TextView tv_nav_mail=(TextView)headerLayout.findViewById(R.id.nav_mailid);
