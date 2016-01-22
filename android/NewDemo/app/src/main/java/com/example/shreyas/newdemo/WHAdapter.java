@@ -8,8 +8,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +87,7 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder>
         StockViewHolder(View itemView) {
             super(itemView);
             cv = (CardView)itemView.findViewById(R.id.stocklistcv);
-            stockname = (TextView)itemView.findViewById(R.id.warehouse_name);
+            stockname = (TextView)itemView.findViewById(R.id.stock_list_name);
             cropname = (TextView)itemView.findViewById(R.id.crop_name);
             amount = (TextView)itemView.findViewById(R.id.amount);
 
@@ -83,10 +95,7 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder>
                 @Override
                 public void onClick(View v)
                 {
-                    StockInfoDialog stockInfoDialog=new StockInfoDialog((Activity)v.getContext());
-                    stockInfoDialog.show();
-
-
+                    show_stock_info(v,stockname.getText().toString());
                 }
             });
             
@@ -101,6 +110,96 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder>
 
 
         }
+
+        private void show_stock_info(View v,final String stockname)
+        {
+
+            final View v1=v;
+
+
+            Log.d("Connected to network", MainActivity.ConnectedToNetwork + "");
+            if(MainActivity.ConnectedToNetwork==true)
+            {
+
+                JSONObject j;
+                j = new JSONObject();
+                try {
+                    j.put("Email",MainActivity.Global_Email_Id);
+                    j.put("WareHouseName",MyWareHouse.warehousename);
+                    j.put("StockName",stockname);
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                String url = MainActivity.ServerIP + "/getstockinfo/";
+
+
+                JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, url, j, new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // the response is already constructed as a JSONObject!
+                        Log.d("Onresponse", "yes");
+                        try {
+                            response = response.getJSONObject("Android");
+                            Log.d("Stockinfo received as", response.toString());
+
+                            StockInfo stockInfo=new StockInfo(
+                                    stockname,
+                                    MyWareHouse.warehousename,
+                                    response.getString("StockCropName"),
+                                    response.getString("StockCropType"),
+                                    response.getString("StockSowStart"),
+                                    response.getString("StockSowEnd"),
+                                    response.getString("StockHarvestStart"),
+                                    response.getString("StockHarvestEnd"),
+                                    response.getString("StockAmount"),
+                                    response.getString("StockInTime"),
+                                    response.getString("StockFarmerName")
+                                    );
+
+                            StockInfoDialog stockInfoDialog=new StockInfoDialog((Activity)v1.getContext(),stockInfo);
+                            stockInfoDialog.show();
+                            Window window = stockInfoDialog.getWindow();
+                            window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+
+
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                });
+
+
+                MainActivity.getInstance().addToRequestQueue(jsonRequest);
+            }
+            else
+            {
+                Toast.makeText(MyWareHouse.mywarehousecontext, "No Internet Connection", Toast.LENGTH_LONG).show();
+            }
+
+
+
+
+
+
+
+
+
+        }
+
+
 
     }
 }

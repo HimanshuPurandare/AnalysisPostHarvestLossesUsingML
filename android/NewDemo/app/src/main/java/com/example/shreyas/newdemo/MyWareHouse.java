@@ -1,5 +1,6 @@
 package com.example.shreyas.newdemo;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -25,23 +26,27 @@ import java.util.List;
 
 public class MyWareHouse extends AppCompatActivity
 {
+    public static String warehousename;
+    public static Context mywarehousecontext;
+
     private static List<StockList> stocks;
     FloatingActionButton fab_warehouse;
 
 
     private Toolbar toolbar;
-    private String warehousename;
     RecyclerView whRecyclerView;
     LinearLayoutManager whLayoutManager;
     WHAdapter whAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_ware_house);
         warehousename = getIntent().getStringExtra("WarehouseName");
         setupToolbar(warehousename);
 
+        mywarehousecontext=getApplicationContext();
         fab_warehouse = (FloatingActionButton)findViewById(R.id.fab_warehouse);
         fab_warehouse.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,7 +64,6 @@ public class MyWareHouse extends AppCompatActivity
         whLayoutManager = new LinearLayoutManager(this);
         whRecyclerView.setLayoutManager(whLayoutManager);
 
-        // specify an adapter (see also next example)
 
 
         stocks= new ArrayList<StockList>();
@@ -148,6 +152,5 @@ public class MyWareHouse extends AppCompatActivity
         }
 
     }
-
 
 }

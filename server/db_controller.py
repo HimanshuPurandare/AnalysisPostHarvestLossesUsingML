@@ -66,6 +66,7 @@ def add_user_to_db(uname):
     
     
 def add_farm(farmdata):
+#	unique name of farm???
     farm_data=db['farm_data']
     farm_data.insert_one(farmdata)
 
@@ -143,6 +144,7 @@ def IsValidUser(email,password):
 
 def add_stock(data):
 #	print data
+#	Check of Uniqueness
 	stock_info=db['stock_info']
 	stock_info.insert_one(data)	
 	return True        
@@ -151,7 +153,20 @@ def return_stocks(data):
 	stock_info = db['stock_info']
 	list_of_stocks = stock_info.find({"StockUID":data['Email'],"StockWareHouseName":data['WareHouseName']})
 	return list_of_stocks
+
+def return_stock_info(data):
+	stock_info=db['stock_info']
+	info=stock_info.find({"StockUID":data['Email'],"StockWareHouseName":data['WareHouseName'],"StockName":data['StockName']})
+	print "printing info",info[0]
+	print type(info)
 	
+	if info.count()!=1:
+		print "Error in fetching stock info",info
+		return False
+	else:
+		print "inside else"
+		print "printing info[0]",info[0]
+		return info[0]
 
 
 

@@ -142,4 +142,17 @@
     <string name="ToasString">" To "</string>
 
 
+    <string name="dialog_stock_name">Stock Name:</string>
+    <string name="dialog_stock_crop_name">Crop:</string>
+    <string name="dialog_stock_crop_type">Crop: Type</string>
+    <string name="dialog_stock_sow_start">Sowing started on:</string>
+    <string name="dialog_stock_sow_end">Sowing findished on:</string>
+    <string name="dialog_stock_harvest_start">Harvesting Started on:</string>
+    <string name="dialog_stock_harvest_end">Harvesting finished on:</string>
+    <string name="dialog_stock_in_time">Stock arrived in Warehouse on:</string>
+    <string name="dialog_stock_farmer_name">Name of Farm(Source of Stock):</string>
+    <string name="dialog_stock_amount">Quantity of Stock:</string>
+
+
+
 </resources>

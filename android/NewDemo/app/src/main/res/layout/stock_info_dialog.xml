@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:paddingBottom="20dp"
     android:id="@+id/stock_info_dialog_linearlayout"
+
     >
 
     <TextView
@@ -31,7 +32,6 @@
         android:paddingTop="2dp"
         android:paddingBottom="2dp"
         android:textSize="18sp"
-        android:text="Temp"
         />
 
 
@@ -42,7 +42,6 @@
         android:paddingTop="2dp"
         android:paddingBottom="2dp"
         android:textSize="18sp"
-        android:text="Temp"
 
         />
     <TextView
@@ -53,6 +52,62 @@
         android:paddingBottom="2dp"
         android:textSize="18sp"
         />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/dialog_stock_amount"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:textSize="18sp"
+
+        />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/dialog_stock_in_time"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:textSize="18sp"
+
+        />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/dialog_stock_farmer_name"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:textSize="18sp"
+
+        />
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/dialog_stock_harvest_start"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:textSize="18sp"
+
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/dialog_stock_harvest_end"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:textSize="18sp"
+
+        />
+
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -60,7 +115,6 @@
         android:paddingTop="2dp"
         android:paddingBottom="2dp"
         android:textSize="18sp"
-        android:text="Temp"
 
         />
 
@@ -71,9 +125,12 @@
         android:paddingTop="2dp"
         android:paddingBottom="2dp"
         android:textSize="18sp"
-        android:text="Temp"
 
         />
+
+
+
+
 
 
 </LinearLayout>

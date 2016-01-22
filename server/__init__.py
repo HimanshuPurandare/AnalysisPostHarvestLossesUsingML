@@ -278,6 +278,20 @@ def addstock():
 		return jsonify(Android={"Result:Invalid"})
 
 
+@app.route('/getstockinfo/',methods=['POST', 'GET'])
+def getstockinfo():
+	received_data = receive_from_android(request)
+#    print received_data
+	stock_info=return_stock_info(received_data)
+	print "printint stock info",stock_info
+	if len(stock_info)>0:
+		print "inside if"
+		response_to_android={"StockCropName":stock_info['StockCropName'],"StockCropType":stock_info['StockCropType'],"StockSowStart":stock_info['StockSowStart'],"StockSowEnd":stock_info['StockSowEnd'],"StockHarvestStart":stock_info['StockHarvestStart'],"StockHarvestEnd":stock_info['StockHarvestEnd'],"StockAmount":stock_info['StockAmount'],"StockInTime":stock_info['StockInTime'],"StockFarmerName":stock_info['StockFarmerName']}
+		return jsonify(Android = response_to_android)   
+	else:
+		return jsonify(Android = {})
+
+
 
 @app.route('/getgodownpredictions/',methods=['POST', 'GET'])
 def getgodownpredictions():
@@ -323,8 +337,8 @@ if __name__ == '__main__':
     create_collections()
 #    print get_current_weather_data()
 #    app.run(host="192.168.0.3")
-    app.run(host="192.168.0.115")
-#    app.run(host="10.42.0.1")
+#    app.run(host="192.168.0.117")
+    app.run(host="10.42.0.1")
 
 
 
