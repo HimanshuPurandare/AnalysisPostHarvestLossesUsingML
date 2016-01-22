@@ -54,11 +54,7 @@ public class AddFarm extends AppCompatActivity {
     private TextView te;
 
     public static String farm_name;
-    public static String crop="Wheat";
-    public static String type_of_crop;
-    public static List<String> wheatlist;
-    public static ArrayAdapter<String> dataAdapter1;
-    public static int dateflag=0;
+    private int dateflag=0;
     public static String farm_area;
     public static String start_date,end_date;
     public static String hwid;
@@ -134,11 +130,11 @@ public class AddFarm extends AppCompatActivity {
         list.add(getString(R.string.RiceString));
         list.add(getString(R.string.OnionString));
 
-        wheatlist = new ArrayList<String>();
-        wheatlist.add(getString(R.string.AjantaString));
-        wheatlist.add(getString(R.string.ArjunString));
-        wheatlist.add(getString(R.string.ParabhaniString));
-        wheatlist.add(getString(R.string.MalvikaString));
+        CustomOnItemSelectedListener.wheatlist = new ArrayList<String>();
+        CustomOnItemSelectedListener.wheatlist.add(getString(R.string.AjantaString));
+        CustomOnItemSelectedListener.wheatlist.add(getString(R.string.ArjunString));
+        CustomOnItemSelectedListener.wheatlist.add(getString(R.string.ParabhaniString));
+        CustomOnItemSelectedListener.wheatlist.add(getString(R.string.MalvikaString));
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
                 (this, android.R.layout.simple_dropdown_item_1line,list);
@@ -149,13 +145,13 @@ public class AddFarm extends AppCompatActivity {
         spinner1.setAdapter(dataAdapter);
 
 
-        dataAdapter1 = new ArrayAdapter<String>
-                (this, android.R.layout.simple_expandable_list_item_1,wheatlist);
+        CustomOnItemSelectedListener.dataAdapter1 = new ArrayAdapter<String>
+                (this, android.R.layout.simple_expandable_list_item_1,CustomOnItemSelectedListener.wheatlist);
 
-        dataAdapter1.setDropDownViewResource
+        CustomOnItemSelectedListener.dataAdapter1.setDropDownViewResource
                 (android.R.layout.simple_expandable_list_item_1);
 
-        spinner2.setAdapter(dataAdapter1);
+        spinner2.setAdapter(CustomOnItemSelectedListener.dataAdapter1);
 
         addListenerOnSpinnerItemSelection();
 
@@ -267,8 +263,8 @@ public class AddFarm extends AppCompatActivity {
         Log.d("Inside adfarm","inside");
         farm_name = f_name.getText().toString();
         farm_area = f_area.getText().toString();
-        crop=spinner1.getSelectedItem().toString();
-        type_of_crop=spinner2.getSelectedItem().toString();
+        CustomOnItemSelectedListener.crop=spinner1.getSelectedItem().toString();
+        CustomOnItemSelectedListener.type_of_crop=spinner2.getSelectedItem().toString();
         start_date=et.getText().toString();
         end_date=et1.getText().toString();
         hwid=hd_id.getText().toString();
@@ -281,8 +277,8 @@ public class AddFarm extends AppCompatActivity {
                 j.put("AddFarmUID",MainActivity.Global_Email_Id);
                 j.put("AddFarmName", farm_name);
                 j.put("AddFarmArea", farm_area);
-                j.put("AddFarmCrop", crop);
-                j.put("AddFarmCropType", type_of_crop);
+                j.put("AddFarmCrop", CustomOnItemSelectedListener.crop);
+                j.put("AddFarmCropType", CustomOnItemSelectedListener.type_of_crop);
                 j.put("AddFarmStartDate", start_date);
                 j.put("AddFarmEndDate", end_date);
                 j.put("AddFarmHWID", hwid);

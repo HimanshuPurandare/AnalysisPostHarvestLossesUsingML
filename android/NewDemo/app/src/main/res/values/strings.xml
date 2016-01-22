@@ -65,6 +65,7 @@
     <string name="SeedTypeString">Seed Type</string>
     <string name="FarmAreaString">Farm Area</string>
 
+    <string name="PeriodofHarvestingString">Period of Harvesting</string>
     <string name="PeriodofSowingString">Period of Sowing</string>
     <string name="HardwareIDString">Hardware ID</string>
 
@@ -124,6 +125,21 @@
     <string name="newsstring1">Indian agriculture is increasingly becoming a victim of unpredictable weather. Be it the Monsoon fury or dreading the drought, Indian agriculture is still bearing the brunt of inclement weather by way of declining farm produce and shrinking exports. </string>
     <string name="newsstring2">"The urban excitement about start-ups, entrepreneurship and innovation is missing in farming. Try compiling a repertoire of bottom-of-the-pyramid innovation articles on farming. Agri-business correspondents write reasoned columns</string>
     <string name="newsstring3">Union Agriculture Minister, Shri Sharad Pawar today emphasized the need to reduce post-harvest losses in horticultural sector. He said that 18-25% of horticultural produce is lost, as estimated by the Central Institute of Post-Harvest Engineering and Technology study.</string>
+    <string name="activity_addstock_title">Add Stock</string>
+    <string name="btn_add_warehouse">Add WareHouse</string>
+    <string name="btn_add_stock">Add Stock</string>
+
+    <string name="hint_stock_name">Name of Stock</string>
+    <string name="hint_crop_name">Name of Crop</string>
+    <string name="hint_crop_type">Type of Crop</string>
+    <string name="hint_farmer_name">Name of farmer(Source of Stock)</string>
+    <string name="hint_in_time">(Date of Adding stock to Warehouse)</string>
+    <string name="hint_amount">Amount of stock(in kgs)</string>
+    <string name="hint_harvesting_period">harvesting period of the crop</string>
+    <string name="hint_sowing_period">sowing period of the crop</string>
+
+    <string name="title_stock_info_dialog">Stock Info</string>
+    <string name="ToasString">" To "</string>
 
 
 </resources>

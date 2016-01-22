@@ -26,7 +26,6 @@ def create_collections():
 	if 'weather_data' not in collections_list:
 		weather=db['weather_data']	
 	
-	
 
 	if 'corpusharvest' not in collections_list:
 		corp=db['corpusharvest']
@@ -141,6 +140,21 @@ def IsValidUser(email,password):
             info.append(list_of_users['SignUpName'])
         return info
         
+
+def add_stock(data):
+#	print data
+	stock_info=db['stock_info']
+	stock_info.insert_one(data)	
+	return True        
+
+def return_stocks(data):
+	stock_info = db['stock_info']
+	list_of_stocks = stock_info.find({"StockUID":data['Email'],"StockWareHouseName":data['WareHouseName']})
+	return list_of_stocks
+	
+
+
+
         
 def AddNotification(userID,farmname,token,message):
     notifications=db['notifications']

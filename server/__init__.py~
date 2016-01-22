@@ -240,25 +240,42 @@ def getweatherdata():
 @app.route('/getwarehouses/',methods=['POST', 'GET'])
 def getwarehouses():
     received_data = receive_from_android(request)
-    print "warehouse"
-    print received_data
     warehouselist = []
     response_to_android = {"AddWareHouseName":warehouselist}
     returnval = return_warehouses(received_data) 
-    print "hello"
-    print returnval[0]
     a = returnval[0]
-    print a['AddWarehouseName']
-    print "hi"
     
     for i in returnval:
-        print "No"
         warehouselist.append(i['AddWarehouseName'])
-        print "yes"
     response_to_android['AddWareHouseName'] = warehouselist
-    print response_to_android
     return jsonify(Android = response_to_android)   
 
+
+
+@app.route('/getstockslist/',methods=['POST', 'GET'])
+def getstockslist():
+	received_data = receive_from_android(request)
+	print received_data
+	stocklist = []
+	print "stocklist created"
+	response_to_android = {"Stocklist":stocklist}
+	returnval = return_stocks(received_data) 
+	for i in returnval:
+		stocklist.append({"StockName":i['StockName'],"StockCropName":i['StockCropName'],"StockAmount":i['StockAmount']})		
+	print response_to_android
+	return jsonify(Android = response_to_android)   
+
+
+@app.route('/addstock/',methods=['POST', 'GET'])
+def addstock():
+	received_data = receive_from_android(request)
+#    print received_data
+	temp=add_stock(received_data)
+	if temp:
+		response_to_android = {"Result":"Valid"}
+		return jsonify(Android = response_to_android)   
+	else:
+		return jsonify(Android={"Result:Invalid"})
 
 
 
@@ -306,8 +323,8 @@ if __name__ == '__main__':
     create_collections()
 #    print get_current_weather_data()
 #    app.run(host="192.168.0.3")
-    app.run(host="192.168.0.118")
-
+    app.run(host="192.168.0.115")
+#    app.run(host="10.42.0.1")
 
 
 

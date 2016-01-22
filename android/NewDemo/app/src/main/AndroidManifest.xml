@@ -100,8 +100,9 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".MyMapActivity"></activity>
-        <activity android:name=".MyWareHouse"></activity>
+        <activity android:name=".MyMapActivity" />
+        <activity android:name=".MyWareHouse" />
+        <activity android:name=".AddStock"></activity>
     </application>
 
 </manifest>

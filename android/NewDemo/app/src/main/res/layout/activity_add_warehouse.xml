@@ -68,7 +68,7 @@
             <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Add WareHouse"
+                    android:text="@string/btn_add_warehouse"
                     android:id="@+id/addwarehouse"
                     android:textStyle="bold"
                     android:layout_marginTop="16dp"
