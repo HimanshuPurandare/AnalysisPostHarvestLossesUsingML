@@ -152,6 +152,7 @@ def add_stock(data):
 def return_stocks(data):
 	stock_info = db['stock_info']
 	list_of_stocks = stock_info.find({"StockUID":data['Email'],"StockWareHouseName":data['WareHouseName']})
+	print "prepared list",list_of_stocks
 	return list_of_stocks
 
 def return_stock_info(data):

@@ -138,21 +138,31 @@
     <string name="hint_harvesting_period">harvesting period of the crop</string>
     <string name="hint_sowing_period">sowing period of the crop</string>
 
-    <string name="title_stock_info_dialog">Stock Info</string>
     <string name="ToasString">" To "</string>
+
+    <string name="title_stock_info_dialog">Stock Info</string>
+    <string name="title_get_dispatch_amount_dialog">How Much to Dispatch?</string>
 
 
     <string name="dialog_stock_name">Stock Name:</string>
     <string name="dialog_stock_crop_name">Crop:</string>
-    <string name="dialog_stock_crop_type">Crop: Type</string>
+    <string name="dialog_stock_crop_type">Crop-Type:</string>
     <string name="dialog_stock_sow_start">Sowing started on:</string>
-    <string name="dialog_stock_sow_end">Sowing findished on:</string>
+    <string name="dialog_stock_sow_end">Sowing finished on:</string>
     <string name="dialog_stock_harvest_start">Harvesting Started on:</string>
     <string name="dialog_stock_harvest_end">Harvesting finished on:</string>
     <string name="dialog_stock_in_time">Stock arrived in Warehouse on:</string>
-    <string name="dialog_stock_farmer_name">Name of Farm(Source of Stock):</string>
+    <string name="dialog_stock_farmer_name">Name of Farmer(Source of Stock):</string>
     <string name="dialog_stock_amount">Quantity of Stock:</string>
 
 
+    <string name="dialog_accept_dispatch_amount">Amount of crop you want to Dispatch(In Kg)</string>
+
+    <string name="proceed_as_string">Proceed</string>
+    <string name="cancel_as_string">Cancel</string>
+    <string name="dispatch_as_string">Dispatch</string>
+    <string name="final_selected_dispatch_amount">Total Selected Amount: </string>
+
+    <string name="hint_dispatch_stock_amount">e.g.200</string>
 
 </resources>

@@ -1,5 +1,6 @@
 package com.example.shreyas.newdemo;
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
@@ -10,6 +11,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -29,26 +33,74 @@ public class MyWareHouse extends AppCompatActivity
     public static String warehousename;
     public static Context mywarehousecontext;
 
-    private static List<StockList> stocks;
-    FloatingActionButton fab_warehouse;
-
+    private List<StockList> stocks;
+    FloatingActionButton fab_add_stock,fab_dispatch_stock;
+    LinearLayout ll_dispatch_finalizer;
 
     private Toolbar toolbar;
     RecyclerView whRecyclerView;
     LinearLayoutManager whLayoutManager;
-    WHAdapter whAdapter;
+    public static WHAdapter whAdapter;
+
+
+    public static int totalDispatchingAmount,totalSelectedAmount;
+    public static String DispatchingCropName;
+    public static int isSelectedCount;
+    public static boolean isDispatchedProcessStarted;
+
+
+    public TextView tv_total_selected_amount,tv_to_dispatch;
+    public static Button btn_final_dispatch,btn_cancel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_ware_house);
         warehousename = getIntent().getStringExtra("WarehouseName");
         setupToolbar(warehousename);
 
+        DispatchingCropName="";
+        totalDispatchingAmount=0;
+        isSelectedCount=0;
+        isDispatchedProcessStarted=false;
         mywarehousecontext=getApplicationContext();
-        fab_warehouse = (FloatingActionButton)findViewById(R.id.fab_warehouse);
-        fab_warehouse.setOnClickListener(new View.OnClickListener() {
+
+
+        ll_dispatch_finalizer=(LinearLayout)findViewById(R.id.ll_dispatch_finalizer);
+        tv_to_dispatch=(TextView)findViewById(R.id.tv_finalizer_to_dispatch_amount);
+        tv_total_selected_amount=(TextView)findViewById(R.id.tv_total_selected_amount);
+
+        btn_cancel=(Button)findViewById(R.id.btn_dispatch_finalizer_cancel);
+        btn_final_dispatch=(Button)findViewById(R.id.btn_final_dispatch);
+
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                MyWareHouse.isDispatchedProcessStarted=false;
+                MyWareHouse.DispatchingCropName="";
+                MyWareHouse.totalDispatchingAmount=0;
+                MyWareHouse.isSelectedCount=0;
+
+            }
+        });
+
+
+        btn_final_dispatch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+
+                whAdapter.FinalizeDispatch();
+
+            }
+        });
+
+        fab_add_stock = (FloatingActionButton)findViewById(R.id.fab_add_stock);
+        fab_add_stock .setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -58,6 +110,20 @@ public class MyWareHouse extends AppCompatActivity
             }
         });
 
+        fab_dispatch_stock = (FloatingActionButton)findViewById(R.id.fab_dispatch_stock);
+        fab_dispatch_stock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                Log.d("Before showing ", "dispatch dialog----");
+                GetDispatchAmountDialog getDispatchAmountDialog=new GetDispatchAmountDialog(v.getContext());
+                getDispatchAmountDialog.show();
+
+                Log.d("After showing ", "dispatch dialog----");
+
+
+            }
+        });
 
         whRecyclerView = (RecyclerView) findViewById(R.id.warehouse_recycler_view);
         whRecyclerView.setHasFixedSize(true);
@@ -69,7 +135,7 @@ public class MyWareHouse extends AppCompatActivity
         stocks= new ArrayList<StockList>();
 //        stocks.add(new StockList("z","z",14));
         initializeData();
-        whAdapter = new WHAdapter(stocks);
+        whAdapter = new WHAdapter(stocks,tv_total_selected_amount,tv_to_dispatch,fab_add_stock,fab_dispatch_stock,ll_dispatch_finalizer);
         whAdapter.notifyDataSetChanged();
         whRecyclerView.setAdapter(whAdapter);
 
@@ -90,6 +156,7 @@ public class MyWareHouse extends AppCompatActivity
     private void initializeData()
     {
 
+        stocks.clear();
         Log.d("Connected to network", MainActivity.ConnectedToNetwork + "");
         if(MainActivity.ConnectedToNetwork==true)
         {

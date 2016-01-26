@@ -72,7 +72,7 @@ public class StockInfoDialog extends Dialog implements View.OnClickListener
     @Override
     public void onClick(View v)
     {
-
+        //Used after adding edit button!!!
 
     }
 }

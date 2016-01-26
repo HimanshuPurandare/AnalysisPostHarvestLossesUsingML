@@ -1,14 +1,23 @@
 package com.example.shreyas.newdemo;
 
+import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.graphics.Color;
+import android.os.Build;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.AutoText;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -29,14 +38,23 @@ import java.util.List;
 /**
  * Created by niranjan on 20/1/16.
  */
-public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder>
+public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> implements GetDispatchAmountDialog.onDispatchStarted
 {
+    static List<StockList> stocks;
+    TextView tv_total_selected_amount,tv_to_dispatch;
+    FloatingActionButton fab_add_stock,fab_dispatch_stock;
+    LinearLayout ll_dispatch_finalizer;
 
-    List<StockList> stocks;
-    WHAdapter(List<StockList> stocks)
+    WHAdapter(List<StockList> stocks,TextView tv_total_selected_amount,TextView tv_to_dispatch,FloatingActionButton fab_add_stock,FloatingActionButton fab_dispatch_stock,LinearLayout ll_dispatch_finalizer)
     {
 //        this.stocks=new ArrayList<StockList>();
         this.stocks = stocks;
+        this.tv_to_dispatch=tv_to_dispatch;
+        this.tv_total_selected_amount=tv_total_selected_amount;
+        this.ll_dispatch_finalizer=ll_dispatch_finalizer;
+        this.fab_add_stock=fab_add_stock;
+        this.fab_dispatch_stock=fab_dispatch_stock;
+
 //        this.stocks.add(new StockList("abc","abc",14));
 //        this.stocks.add(new StockList("abc","abc",14));
 //        this.stocks.add(new StockList("abc","abc",14));
@@ -50,7 +68,7 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder>
 
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.warehouse_card, parent, false);
         StockViewHolder svh = new StockViewHolder(v);
-        Log.d("oncreateviewholder","called");
+        Log.d("oncreateviewholder", "called");
         return svh;
     }
 
@@ -62,20 +80,220 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder>
     }
 
     @Override
-    public void onBindViewHolder(StockViewHolder holder, int pos)
+    public void onBindViewHolder(final StockViewHolder holder, final int pos)
     {
-        holder.stockname.setText(stocks.get(pos).Stockname);
-        holder.cropname.setText(stocks.get(pos).Cropname);
-        holder.amount.setText(stocks.get(pos).amount+"");
-        Log.d("Onbindvwhldr compl",stocks.get(pos).Cropname);
+        holder.stockname.setText(stocks.get(pos).getStockname());
+        holder.cropname.setText(stocks.get(pos).getCropname());
+        holder.amount.setText(stocks.get(pos).getAmount() + "");
+
+        holder.position=pos;
+        final int temp_pos=pos;
+        final StockViewHolder temp_holder=holder;
+
+
+
+        if(MyWareHouse.isDispatchedProcessStarted)
+        {
+            holder.et_dispatch_amount_selector.setVisibility(View.VISIBLE);
+
+            if(stocks.get(pos).getIsSelected())
+            {
+                holder.cv.setBackgroundColor(Color.LTGRAY);
+                holder.linearLayout.setBackgroundColor(Color.LTGRAY);
+                holder.et_dispatch_amount_selector.setText(stocks.get(pos).getSelected_amount() + "");
+
+
+
+
+
+                holder.et_dispatch_amount_selector.addTextChangedListener(new TextWatcher() {
+
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s)
+                    {
+                        try {
+
+                            int current_num = Integer.parseInt(holder.et_dispatch_amount_selector.getText().toString());
+                            int old_num = stocks.get(pos).getSelected_amount();
+                            if (current_num != old_num) {
+                                if (current_num <= stocks.get(pos).getAmount()) {
+                                    stocks.get(pos).setSelected_amount(current_num);
+                                } else {
+                                    stocks.get(pos).setSelected_amount(stocks.get(pos).getAmount());
+                                    holder.et_dispatch_amount_selector.setText(stocks.get(pos).getAmount() + "");
+                                    current_num = stocks.get(pos).getAmount();
+                                }
+                                MyWareHouse.totalSelectedAmount -= old_num;
+                                MyWareHouse.totalSelectedAmount += current_num;
+                                tv_total_selected_amount.setText(MyWareHouse.totalSelectedAmount + "");
+                            }
+
+
+                            }catch (NumberFormatException e)
+                            {
+                                holder.et_dispatch_amount_selector.setText("0");
+                            }
+                    }
+                });
+
+
+
+            }
+            else
+            {
+                holder.cv.setBackgroundColor(Color.WHITE);
+                holder.linearLayout.setBackgroundColor(Color.WHITE);
+
+
+                holder.et_dispatch_amount_selector.setClickable(false);
+                holder.et_dispatch_amount_selector.setFocusable(false);
+                holder.et_dispatch_amount_selector.setText("0");
+            }
+
+        }
+        else
+        {
+            holder.cv.setBackgroundColor(Color.WHITE);
+            holder.linearLayout.setBackgroundColor(Color.WHITE);
+
+            holder.et_dispatch_amount_selector.setText("0");
+            holder.et_dispatch_amount_selector.setVisibility(View.GONE);
+            stocks.get(pos).setIsSelected(false);
+            stocks.get(pos).setSelected_amount(0);
+        }
+
+
+
+        holder.cv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (MyWareHouse.isDispatchedProcessStarted) {
+                    if (stocks.get(temp_pos).getIsSelected()) {
+                        temp_holder.cv.setBackgroundColor(Color.WHITE);
+                        temp_holder.linearLayout.setBackgroundColor(Color.WHITE);
+                        stocks.get(temp_pos).setSelected_amount(0);
+                        stocks.get(temp_pos).setIsSelected(false);
+                        MyWareHouse.isSelectedCount -= 1;
+
+                        if (MyWareHouse.isSelectedCount == 0) {
+                            MyWareHouse.isDispatchedProcessStarted = false;
+                            MyWareHouse.totalDispatchingAmount = 0;
+                            MyWareHouse.totalSelectedAmount = 0;
+                            MyWareHouse.DispatchingCropName = "";
+                            notifyDataSetChanged();
+
+                        }
+                    } else {
+                        temp_holder.cv.setBackgroundColor(Color.LTGRAY);
+                        temp_holder.linearLayout.setBackgroundColor(Color.LTGRAY);
+
+                        stocks.get(temp_pos).setSelected_amount(0);
+                        stocks.get(temp_pos).setIsSelected(true);
+                        holder.et_dispatch_amount_selector.setClickable(true);
+                        holder.et_dispatch_amount_selector.setFocusable(true);
+                        MyWareHouse.isSelectedCount += 1;
+                    }
+                }
+            }
+        });
+
+
+
+        Log.d("Onbindvwhldr compl", stocks.get(pos).getCropname());
 
     }
 
     @Override
     public int getItemCount()
     {
-        Log.d("getitemcount called",stocks.size()+"");
+        Log.d("getitemcount called", stocks.size() + "");
         return stocks.size();
+    }
+
+    public void FinalizeDispatch()
+    {
+
+        if(MyWareHouse.totalSelectedAmount==MyWareHouse.totalDispatchingAmount)
+        {
+            JSONArray final_dispatch_array=new JSONArray();
+            for(int i=0;i<stocks.size();++i) {
+
+                StockList temp_stocklist_item = stocks.get(i);
+
+                JSONObject temp_j = new JSONObject();
+                try {
+                    temp_j.put("StockName", temp_stocklist_item.getStockname());
+                    temp_j.put("DispatchedAmount", temp_stocklist_item.getSelected_amount() + "");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            for (int i = 0; i < stocks.size(); ++i)
+            {
+                StockList temp_stocklist_item = stocks.get(i);
+                if (temp_stocklist_item.getIsSelected())
+                {
+                    temp_stocklist_item.setAmount(temp_stocklist_item.getAmount() - temp_stocklist_item.getSelected_amount());
+                    if (temp_stocklist_item.getAmount() == 0)
+                    {
+                        stocks.remove(i);
+                    }
+                    else
+                    {
+                        temp_stocklist_item.setIsSelected(false);
+                        temp_stocklist_item.setSelected_amount(0);
+                    }
+                }
+            }
+            notifyDataSetChanged();
+            MyWareHouse.DispatchingCropName="";
+            MyWareHouse.totalDispatchingAmount=0;
+            MyWareHouse.isSelectedCount=0;
+            MyWareHouse.totalSelectedAmount=0;
+            MyWareHouse.isDispatchedProcessStarted=false;
+
+            fab_add_stock.setVisibility(View.VISIBLE);
+            fab_dispatch_stock.setVisibility(View.VISIBLE);
+            ll_dispatch_finalizer.setVisibility(View.GONE);
+            tv_total_selected_amount.setText("0");
+            tv_to_dispatch.setText("0");
+
+
+        }
+        else
+        {
+            Toast.makeText(MyWareHouse.mywarehousecontext, "Total selected amount not matching with To-Dispatch amount!!!", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void startDispatch()
+    {
+        fab_add_stock.setVisibility(View.GONE);
+        fab_dispatch_stock.setVisibility(View.GONE);
+        ll_dispatch_finalizer.setVisibility(View.VISIBLE);
+
+        tv_to_dispatch.setText(MyWareHouse.totalDispatchingAmount + "");
+        tv_total_selected_amount.setText(MyWareHouse.totalSelectedAmount+"");
+
+        Log.d("selected amount", MyWareHouse.totalSelectedAmount + "");
+        Log.d("dispatching amount",MyWareHouse.totalDispatchingAmount+"");
+        Log.d("count",MyWareHouse.isSelectedCount+"");
+
     }
 
 
@@ -83,6 +301,9 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder>
     {
         CardView cv;
         TextView stockname,cropname,amount;
+        LinearLayout linearLayout;
+        EditText et_dispatch_amount_selector;
+        int position=-1;
 
         StockViewHolder(View itemView) {
             super(itemView);
@@ -90,26 +311,22 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder>
             stockname = (TextView)itemView.findViewById(R.id.stock_list_name);
             cropname = (TextView)itemView.findViewById(R.id.crop_name);
             amount = (TextView)itemView.findViewById(R.id.amount);
+            et_dispatch_amount_selector=(EditText)itemView.findViewById(R.id.et_dispatch_amount_selector);
+            linearLayout = (LinearLayout)cv.getParent();
 
-            cv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v)
-                {
-                    show_stock_info(v,stockname.getText().toString());
-                }
-            });
-            
             cv.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    RelativeLayout relativeLayout = (RelativeLayout) v.getParent();
-                    relativeLayout.setBackgroundColor(Color.LTGRAY);
+                    show_stock_info(v, stockname.getText().toString());
+                    Log.d("The pos is",position+"");
                     return false;
                 }
             });
 
-
         }
+
+
+
 
         private void show_stock_info(View v,final String stockname)
         {
@@ -198,8 +415,6 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder>
 
 
         }
-
-
 
     }
 }

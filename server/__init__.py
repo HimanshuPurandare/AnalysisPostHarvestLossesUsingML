@@ -293,22 +293,21 @@ def getstockinfo():
 
 
 
-@app.route('/getgodownpredictions/',methods=['POST', 'GET'])
-def getgodownpredictions():
+@app.route('/getdispatchsequence/',methods=['POST', 'GET'])
+def getdispatchsequence():
 	received_data = receive_from_android(request)
-#	print received_data
-
-	datalist={"Result":"Valid"}
-	dispatch_list=predict_dispatch_sequence()
-	dispatch={}
-	for i in range(len(dispatch_list)):
-		dispatch[i]=dispatch_list[i]
-	datalist['Dispatch_List']=dispatch_list
+	print received_data
+	stock_list=return_stocks({"Email":received_data['DispatcherUID'],"WareHouseName":received_data['WareHouseName']})	
+#	dispatch_list=predict_dispatch_sequence()
+	print "Got the stock list",stock_list
+	dispatch_list=[{"StockName":stock_list[0]['StockName'],"DispatchAmount":int(stock_list[0]['StockAmount'])},{"StockName":stock_list[2]['StockName'],"DispatchAmount":int(stock_list[2]['StockAmount'])/2}]
 	
-	opti_temp,opti_hum=get_opti_temp()
+		
+		
+#	opti_temp,opti_hum=get_opti_temp()
 	
-	
-	return jsonify(Android = datalist)   
+	print stock_list[0],stock_list[1]
+	return jsonify(Android = dispatch_list)   
 
 
 """
@@ -336,9 +335,9 @@ def hello_world():
 if __name__ == '__main__':
     create_collections()
 #    print get_current_weather_data()
-#    app.run(host="192.168.0.3")
+    app.run(host="192.168.1.147")
 #    app.run(host="192.168.0.117")
-    app.run(host="10.42.0.1")
+#    app.run(host="10.42.0.1")
 
 
 
