@@ -295,17 +295,11 @@ def hello_world():
     return 'Hello World!'
     
     
-
-
 if __name__ == '__main__':
     create_collections()
 #    print get_current_weather_data()
 #    app.run(host="192.168.0.3")
-    app.run(host="10.42.0.1")
-
-
-
-
+    app.run(host="0.0.0.0",port=12000)
 
 
 #	get_notifications({"UserID":"aa@aa","Farmname":"farm1"})
@@ -323,13 +317,6 @@ if __name__ == '__main__':
 
 
 
-#	app.run(host="10.42.0.249")
-    
-<<<<<<< HEAD
-    app.run(host="192.168.43.126")
-=======
-#    app.run(host="192.168.1.131")
->>>>>>> 6ab7f63ecf2aab9c86c8cb1e65f32e2df44a579b
 	
 #	get_notifications({"UserID":"aa@aa","Farmname":"farm1"})
 #	sendnotification('aa@aa','farm1','d6Sw4Ip5wkk:APA91bHwXk9vRWxgbaN5is8SLEzPBM8OSgATBOXATSggCW8w4envsEvaDHXitQo56PYFeOp6KNXrwhRoeqCqyefPr6RSHGr7fNaMVfAlk1H2igStZzoFPo7s-0wKWCrm6RKdIJ4gl6eE','Notification Sent*****!!!')

@@ -295,17 +295,11 @@ def hello_world():
     return 'Hello World!'
     
     
-
-
 if __name__ == '__main__':
     create_collections()
 #    print get_current_weather_data()
 #    app.run(host="192.168.0.3")
-    app.run(host="10.42.0.249")
-
-
-
-
+    app.run(host="0.0.0.0",port=12000)
 
 
 #	get_notifications({"UserID":"aa@aa","Farmname":"farm1"})
