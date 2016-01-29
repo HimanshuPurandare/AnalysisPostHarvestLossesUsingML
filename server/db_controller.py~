@@ -168,9 +168,44 @@ def return_stock_info(data):
 		print "inside else"
 		print "printing info[0]",info[0]
 		return info[0]
-
-
-
+def finalize_dispatch(data):
+	final_dispatch_array=data['Final_Dispatch_Array']
+	stock_info=db['stock_info']
+	print "start of disptach",final_dispatch_array
+	return_val=""
+	for i in final_dispatch_array:
+		current_stock=stock_info.find({"StockUID":data['Email'],"StockWareHouseName":data['WareHouseName'],"StockName":i['StockName']})
+		print "printing current stock",current_stock[0]
+		if(current_stock.count()!=1):
+			print "Error in stock fetching"
+			return_val="Error in stock fetching"
+		else:		
+			print current_stock[0]
+			current_stock=current_stock[0]
+			if int(i['DispatchedAmount'])>int(current_stock['StockAmount']):
+				print "Invalid Dispatch"
+				return_val="Invalid Dispatch"
+			elif int(i['DispatchedAmount'])==(current_stock['StockAmount']):
+				print "Valid"
+				return_val="Valid"
+			else:
+				print "Valid"
+				return_val="Valid"
+	if return_val=="Valid":
+		for i in final_dispatch_array:
+			print "processing for",i['StockName']
+			current_stock=stock_info.find({"StockUID":data['Email'],"StockWareHouseName":data['WareHouseName'],"StockName":i['StockName']})[0]
+			print "current_stock",current_stock
+			if int(current_stock['StockAmount'])>int(i['DispatchedAmount']):
+				print "using function",stock_info.update_one
+				stock_info.update_one({"StockUID":data['Email'],"StockWareHouseName":data['WareHouseName'],"StockName":i['StockName']},{'$set':{"StockAmount":(str(int(current_stock['StockAmount'])-int(i['DispatchedAmount'])))}})
+				print "updated",current_stock['StockName']
+			else:
+				print "Inside delete"
+				stock_info.delete_one({"StockUID":data['Email'],"StockWareHouseName":data['WareHouseName'],"StockName":i['StockName']})
+				print "deleted ",current_stock['StockName']
+	print "returning"	
+	return return_val
         
 def AddNotification(userID,farmname,token,message):
     notifications=db['notifications']

@@ -309,6 +309,14 @@ def getdispatchsequence():
 	print stock_list[0],stock_list[1]
 	return jsonify(Android = dispatch_list)   
 
+@app.route('/finalizedispatch/',methods=['POST','GET'])
+def finalizedispatch():
+	received_data=receive_from_android(request)
+	print received_data
+	response_of_dispatch=finalize_dispatch(received_data)
+	print "the response for android is",response_of_dispatch	
+	return jsonify(Android=response_of_dispatch)
+
 
 """
 @app.route('/sendnotificationtophone/',methods=['POST', 'GET'])
@@ -335,9 +343,9 @@ def hello_world():
 if __name__ == '__main__':
     create_collections()
 #    print get_current_weather_data()
-    app.run(host="192.168.1.147")
+#    app.run(host="192.168.1.147")
 #    app.run(host="192.168.0.117")
-#    app.run(host="10.42.0.1")
+    app.run(host="10.42.0.1")
 
 
 

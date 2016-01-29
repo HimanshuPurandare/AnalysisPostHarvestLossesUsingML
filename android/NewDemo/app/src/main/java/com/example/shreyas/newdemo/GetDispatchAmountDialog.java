@@ -99,63 +99,59 @@ public class GetDispatchAmountDialog extends Dialog implements View.OnClickListe
     @Override
     public void onClick(View v)
     {
-        final int to_dispatch_amount=Integer.parseInt(et_get_dispatch_amount_dialog.getText().toString());
 
 
-        Log.d("Inside","onclick");
-        if(v.getId()==R.id.btn_ok_dialog_dispatch)
+
+        Log.d("Inside", "onclick");
+        if (v.getId() == R.id.btn_ok_dialog_dispatch)
         {
-            Log.d("Inside ok button", "clicked");
-            if(MainActivity.ConnectedToNetwork)
-            {
+            try {
+                final int to_dispatch_amount = Integer.parseInt(et_get_dispatch_amount_dialog.getText().toString());
 
-                JSONObject j = new JSONObject();
-                try {
-                    j.put("DispatcherUID",MainActivity.Global_Email_Id);
-                    j.put("WareHouseName",MyWareHouse.warehousename);
-                    j.put("DispatchCropName",dialog_crop_spinner.getSelectedItem().toString());
-                    j.put("DispatchAmount",et_get_dispatch_amount_dialog+"");
+                Log.d("Inside ok button", "clicked");
+                if (MainActivity.ConnectedToNetwork) {
 
-                } catch (JSONException e)
-                {
-                    e.printStackTrace();
-                }
+                    JSONObject j = new JSONObject();
+                    try {
+                        j.put("DispatcherUID", MainActivity.Global_Email_Id);
+                        j.put("WareHouseName", MyWareHouse.warehousename);
+                        j.put("DispatchCropName", dialog_crop_spinner.getSelectedItem().toString());
+                        j.put("DispatchAmount", et_get_dispatch_amount_dialog + "");
 
-                String url = MainActivity.ServerIP + "/getdispatchsequence/";
-                JsonObjectRequest jsonRequest = new JsonObjectRequest
-                        (Request.Method.POST, url, j, new Response.Listener<JSONObject>()
-                        {
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
-                            @Override
-                            public void onResponse(JSONObject response)
-                            {
+                    String url = MainActivity.ServerIP + "/getdispatchsequence/";
+                    JsonObjectRequest jsonRequest = new JsonObjectRequest
+                            (Request.Method.POST, url, j, new Response.Listener<JSONObject>() {
 
-                                // the response is already constructed as a JSONObject!
-                                try {
+                                @Override
+                                public void onResponse(JSONObject response) {
+
+                                    // the response is already constructed as a JSONObject!
+                                    try {
                                         JSONArray dispatch_sequence = response.getJSONArray("Android");
-                                        Log.d("Received",dispatch_sequence.toString());
+                                        Log.d("Received", dispatch_sequence.toString());
 
-                                        int total_selected_amount=0;
+                                        int total_selected_amount = 0;
 
-                                        for(int i=0;i<dispatch_sequence.length();++i)
-                                        {
-                                            JSONObject temp=dispatch_sequence.getJSONObject(i);
-                                            String temp_stockname=temp.getString("StockName");
+                                        for (int i = 0; i < dispatch_sequence.length(); ++i) {
+                                            JSONObject temp = dispatch_sequence.getJSONObject(i);
+                                            String temp_stockname = temp.getString("StockName");
 
-                                            int temp_dispatch_amount=Integer.parseInt(temp.getString("DispatchAmount"));
+                                            int temp_dispatch_amount = Integer.parseInt(temp.getString("DispatchAmount"));
 
-                                            for(int j=0;j<MyWareHouse.whAdapter.stocks.size();++j)
-                                            {
-                                                StockList temp_stocklist_item=MyWareHouse.whAdapter.stocks.get(j);
-                                                Log.d("going to check "+temp_stockname
-                                                        ,temp_stocklist_item.getStockname());
-                                                if(temp_stocklist_item.getStockname().equals(temp_stockname)==true)
-                                                {
-                                                    Log.d("Entered in","If");
+                                            for (int j = 0; j < MyWareHouse.whAdapter.stocks.size(); ++j) {
+                                                StockList temp_stocklist_item = MyWareHouse.whAdapter.stocks.get(j);
+                                                Log.d("going to check " + temp_stockname
+                                                        , temp_stocklist_item.getStockname());
+                                                if (temp_stocklist_item.getStockname().equals(temp_stockname) == true) {
+                                                    Log.d("Entered in", "If");
 
                                                     temp_stocklist_item.setIsSelected(true);
                                                     temp_stocklist_item.setSelected_amount(temp_dispatch_amount);
-                                                    total_selected_amount+=temp_dispatch_amount;
+                                                    total_selected_amount += temp_dispatch_amount;
 
                                                     Log.d("Processed", temp_stocklist_item.getStockname());
                                                     break;
@@ -165,41 +161,43 @@ public class GetDispatchAmountDialog extends Dialog implements View.OnClickListe
                                         }
 
 
-                                    MyWareHouse.isDispatchedProcessStarted=true;
-                                    MyWareHouse.DispatchingCropName=dialog_crop_spinner.getSelectedItem().toString();
-                                    MyWareHouse.totalDispatchingAmount = to_dispatch_amount;
-                                    MyWareHouse.totalSelectedAmount=total_selected_amount;
-                                    MyWareHouse.isSelectedCount=dispatch_sequence.length();
+                                        MyWareHouse.isDispatchedProcessStarted = true;
+                                        MyWareHouse.DispatchingCropName = dialog_crop_spinner.getSelectedItem().toString();
+                                        MyWareHouse.totalDispatchingAmount = to_dispatch_amount;
+                                        MyWareHouse.totalSelectedAmount = total_selected_amount;
+                                        MyWareHouse.isSelectedCount = dispatch_sequence.length();
 
-                                    ondispatchstarted.startDispatch();
-                                    MyWareHouse.whAdapter.notifyDataSetChanged();
+                                        ondispatchstarted.startDispatch();
+                                        MyWareHouse.whAdapter.notifyDataSetChanged();
 
-                                    d1.dismiss();
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
+                                        d1.dismiss();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
-                            }
-                        }, new Response.ErrorListener() {
+                            }, new Response.ErrorListener() {
 
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                error.printStackTrace();
-                            }
-                        });
-                MainActivity.getInstance().addToRequestQueue(jsonRequest);
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    error.printStackTrace();
+                                }
+                            });
+                    MainActivity.getInstance().addToRequestQueue(jsonRequest);
+
+                } else {
+                    Toast.makeText(this.getContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
+                }
 
             }
-            else
+            catch (NumberFormatException e)
             {
-                Toast.makeText(this.getContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
+                et_get_dispatch_amount_dialog.setText("0");
             }
-
-        }
-        else if(v.getId()==R.id.btn_cancel_dialog_dispatch)
-        {
+        } else if (v.getId() == R.id.btn_cancel_dialog_dispatch) {
             Log.d("Inside cancel button", "clicked");
             this.dismiss();
         }
 
     }
+
 }

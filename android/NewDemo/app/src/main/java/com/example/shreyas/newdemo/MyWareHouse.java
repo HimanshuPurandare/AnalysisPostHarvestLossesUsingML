@@ -84,6 +84,10 @@ public class MyWareHouse extends AppCompatActivity
                 MyWareHouse.DispatchingCropName="";
                 MyWareHouse.totalDispatchingAmount=0;
                 MyWareHouse.isSelectedCount=0;
+                ll_dispatch_finalizer.setVisibility(View.GONE);
+                fab_add_stock.setVisibility(View.VISIBLE);
+                fab_dispatch_stock.setVisibility(View.VISIBLE);
+                whAdapter.notifyDataSetChanged();
 
             }
         });

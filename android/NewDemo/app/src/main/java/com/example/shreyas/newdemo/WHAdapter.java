@@ -228,49 +228,109 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> i
         if(MyWareHouse.totalSelectedAmount==MyWareHouse.totalDispatchingAmount)
         {
             JSONArray final_dispatch_array=new JSONArray();
-            for(int i=0;i<stocks.size();++i) {
-
+            for(int i=0;i<stocks.size();++i)
+            {
                 StockList temp_stocklist_item = stocks.get(i);
-
                 JSONObject temp_j = new JSONObject();
                 try {
                     temp_j.put("StockName", temp_stocklist_item.getStockname());
                     temp_j.put("DispatchedAmount", temp_stocklist_item.getSelected_amount() + "");
+                } catch (JSONException e)
+                {
+                    e.printStackTrace();
+                }
+                final_dispatch_array.put(temp_j);
+            }
+
+
+
+            if(MainActivity.ConnectedToNetwork==true)
+            {
+                JSONObject j;
+                j = new JSONObject();
+                try {
+                    j.put("Email",MainActivity.Global_Email_Id);
+                    j.put("WareHouseName",MyWareHouse.warehousename);
+                    j.put("Final_Dispatch_Array",final_dispatch_array);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-            }
+                String url = MainActivity.ServerIP + "/finalizedispatch/";
 
-            for (int i = 0; i < stocks.size(); ++i)
-            {
-                StockList temp_stocklist_item = stocks.get(i);
-                if (temp_stocklist_item.getIsSelected())
+                JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, url, j, new Response.Listener<JSONObject>()
                 {
-                    temp_stocklist_item.setAmount(temp_stocklist_item.getAmount() - temp_stocklist_item.getSelected_amount());
-                    if (temp_stocklist_item.getAmount() == 0)
+                    @Override
+                    public void onResponse(JSONObject response)
                     {
-                        stocks.remove(i);
-                    }
-                    else
-                    {
-                        temp_stocklist_item.setIsSelected(false);
-                        temp_stocklist_item.setSelected_amount(0);
-                    }
-                }
-            }
-            notifyDataSetChanged();
-            MyWareHouse.DispatchingCropName="";
-            MyWareHouse.totalDispatchingAmount=0;
-            MyWareHouse.isSelectedCount=0;
-            MyWareHouse.totalSelectedAmount=0;
-            MyWareHouse.isDispatchedProcessStarted=false;
+                        // the response is already constructed as a JSONObject!
+                        Log.d("Onresponse", "yes");
+                        try
+                        {
+                            Log.d("response of dispatch",response.toString());
+                            String response_of_dispatch = response.getString("Android");
+                            if(response_of_dispatch.equals("Valid"))
+                            {
 
-            fab_add_stock.setVisibility(View.VISIBLE);
-            fab_dispatch_stock.setVisibility(View.VISIBLE);
-            ll_dispatch_finalizer.setVisibility(View.GONE);
-            tv_total_selected_amount.setText("0");
-            tv_to_dispatch.setText("0");
+                                for (int i = 0; i < stocks.size(); ++i)
+                                {
+                                    StockList temp_stocklist_item = stocks.get(i);
+                                    if (temp_stocklist_item.getIsSelected())
+                                    {
+                                        temp_stocklist_item.setAmount(temp_stocklist_item.getAmount() - temp_stocklist_item.getSelected_amount());
+                                        if (temp_stocklist_item.getAmount() == 0)
+                                        {
+                                            stocks.remove(i);
+                                        }
+                                        else
+                                        {
+                                            temp_stocklist_item.setIsSelected(false);
+                                            temp_stocklist_item.setSelected_amount(0);
+                                        }
+                                    }
+                                }
+                                notifyDataSetChanged();
+                                MyWareHouse.DispatchingCropName="";
+                                MyWareHouse.totalDispatchingAmount=0;
+                                MyWareHouse.isSelectedCount=0;
+                                MyWareHouse.totalSelectedAmount=0;
+                                MyWareHouse.isDispatchedProcessStarted=false;
+
+                                fab_add_stock.setVisibility(View.VISIBLE);
+                                fab_dispatch_stock.setVisibility(View.VISIBLE);
+                                ll_dispatch_finalizer.setVisibility(View.GONE);
+                                tv_total_selected_amount.setText("0");
+                                tv_to_dispatch.setText("0");
+
+
+
+                            }
+                            else
+                            {
+                                Toast.makeText(MyWareHouse.mywarehousecontext, "The selected stock(s) cannot be dispatched", Toast.LENGTH_LONG).show();
+                            }
+
+                        } catch (JSONException e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        error.printStackTrace();
+                    }
+                });
+
+
+                MainActivity.getInstance().addToRequestQueue(jsonRequest);
+            }
+            else
+            {
+                Toast.makeText(MyWareHouse.mywarehousecontext, "No Internet Connection", Toast.LENGTH_LONG).show();
+            }
 
 
         }
