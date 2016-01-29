@@ -5,9 +5,45 @@ from FilesToDatabasenew import *
 database name --> server_db
 various
 """
-client=MongoClient('localhost',27017)
+#client=MongoClient('mongodb://shreyas:shreyas@ds047365.mongolab.com:47365/server_db')
 
-db=client.server_db
+#db=client.server_db
+
+SEED_DATA = [
+    {
+        'decade': '1970s',
+        'artist': 'Debby Boone',
+        'song': 'You Light Up My Life',
+        'weeksAtOne': 10
+    },
+    {
+        'decade': '1980s',
+        'artist': 'Olivia Newton-John',
+        'song': 'Physical',
+        'weeksAtOne': 10
+    },
+    {
+        'decade': '1990s',
+        'artist': 'Mariah Carey',
+        'song': 'One Sweet Day',
+        'weeksAtOne': 16
+    }
+]
+
+
+try:
+#    client=MongoClient('mongodb://shreyas:shreyas@ds047365.mongolab.com:47365/server_db')
+    client=MongoClient('localhost',27017)
+    db=client.server_db
+    
+    songs = db['songs']
+
+# Note that the insert method can take either an array or a single dict.
+
+    songs.insert(SEED_DATA)
+except:
+    print "not done"
+
 
 def create_collections():
     collections_list = db.collection_names()
@@ -226,3 +262,4 @@ def get_notifications(received_data):
     return a
     
 	
+

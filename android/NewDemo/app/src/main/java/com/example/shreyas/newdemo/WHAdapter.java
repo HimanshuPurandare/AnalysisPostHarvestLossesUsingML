@@ -101,7 +101,8 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> i
                 holder.cv.setBackgroundColor(Color.LTGRAY);
                 holder.linearLayout.setBackgroundColor(Color.LTGRAY);
                 holder.et_dispatch_amount_selector.setText(stocks.get(pos).getSelected_amount() + "");
-
+                holder.et_dispatch_amount_selector.setFocusableInTouchMode(true);
+                holder.et_dispatch_amount_selector.setFocusable(true);
 
 
 
@@ -124,9 +125,15 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> i
                     public void afterTextChanged(Editable s)
                     {
                         try {
-
-                            int current_num = Integer.parseInt(holder.et_dispatch_amount_selector.getText().toString());
+                            String et_current_string=holder.et_dispatch_amount_selector.getText().toString();
+                            int current_num = Integer.parseInt(et_current_string);
                             int old_num = stocks.get(pos).getSelected_amount();
+//                            while(et_current_string.length()>1&&(et_current_string).charAt(0)=='0')
+//                            {
+//                                holder.et_dispatch_amount_selector.setText(et_current_string.substring(1));
+//                            }
+
+
                             if (current_num != old_num) {
                                 if (current_num <= stocks.get(pos).getAmount()) {
                                     stocks.get(pos).setSelected_amount(current_num);
@@ -157,8 +164,8 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> i
                 holder.linearLayout.setBackgroundColor(Color.WHITE);
 
 
-                holder.et_dispatch_amount_selector.setClickable(false);
                 holder.et_dispatch_amount_selector.setFocusable(false);
+                holder.et_dispatch_amount_selector.setFocusableInTouchMode(false);
                 holder.et_dispatch_amount_selector.setText("0");
             }
 
@@ -176,39 +183,59 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> i
 
 
 
+
+
         holder.cv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Log.d("Ids are" + v.getId(), holder.et_dispatch_amount_selector.getId() + "");
+                Log.d("Clicked", "cv");
                 if (MyWareHouse.isDispatchedProcessStarted) {
+
                     if (stocks.get(temp_pos).getIsSelected()) {
+                        Log.d("selected", "inside if");
                         temp_holder.cv.setBackgroundColor(Color.WHITE);
                         temp_holder.linearLayout.setBackgroundColor(Color.WHITE);
+                        MyWareHouse.totalSelectedAmount -= stocks.get(temp_pos).getSelected_amount();
+                        tv_total_selected_amount.setText(MyWareHouse.totalSelectedAmount + "");
                         stocks.get(temp_pos).setSelected_amount(0);
                         stocks.get(temp_pos).setIsSelected(false);
                         MyWareHouse.isSelectedCount -= 1;
 
-                        if (MyWareHouse.isSelectedCount == 0) {
-                            MyWareHouse.isDispatchedProcessStarted = false;
-                            MyWareHouse.totalDispatchingAmount = 0;
-                            MyWareHouse.totalSelectedAmount = 0;
-                            MyWareHouse.DispatchingCropName = "";
-                            notifyDataSetChanged();
+                        holder.et_dispatch_amount_selector.setFocusable(false);
+                        holder.et_dispatch_amount_selector.setFocusableInTouchMode(false);
+                        holder.et_dispatch_amount_selector.setText("0");
 
-                        }
+
+//                        if (MyWareHouse.isSelectedCount == 0) {
+//                            MyWareHouse.isDispatchedProcessStarted = false;
+//                            MyWareHouse.totalDispatchingAmount = 0;
+//                            MyWareHouse.totalSelectedAmount = 0;
+//                            MyWareHouse.DispatchingCropName = "";
+//                            notifyDataSetChanged();
+//
+//                        }
                     } else {
+                        Log.d("unselected", "inside else");
                         temp_holder.cv.setBackgroundColor(Color.LTGRAY);
                         temp_holder.linearLayout.setBackgroundColor(Color.LTGRAY);
-
                         stocks.get(temp_pos).setSelected_amount(0);
                         stocks.get(temp_pos).setIsSelected(true);
-                        holder.et_dispatch_amount_selector.setClickable(true);
-                        holder.et_dispatch_amount_selector.setFocusable(true);
                         MyWareHouse.isSelectedCount += 1;
+
+                        holder.et_dispatch_amount_selector.setFocusable(true);
+                        holder.et_dispatch_amount_selector.setFocusableInTouchMode(true);
+                        holder.et_dispatch_amount_selector.setText("0");
+//                        holder.et_dispatch_amount_selector.setTextIsSelectable(true);
+                        Log.d("status", holder.et_dispatch_amount_selector.isTextSelectable() + "");
+                        Log.d("status", holder.et_dispatch_amount_selector.isClickable() + "");
+                        Log.d("status", holder.et_dispatch_amount_selector.isFocusable() + "");
+
                     }
                 }
             }
         });
-
 
 
         Log.d("Onbindvwhldr compl", stocks.get(pos).getCropname());
@@ -216,8 +243,7 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> i
     }
 
     @Override
-    public int getItemCount()
-    {
+    public int getItemCount() {
         Log.d("getitemcount called", stocks.size() + "");
         return stocks.size();
     }

@@ -23,10 +23,14 @@ def sendnotification(user,farmname,token,message):
     data =   { "message":message}
     response = gcm.json_request(registration_ids=[token], data=data) 
 #    print type(response['success'])
+    logging.error("GCM RESPONSE :- "+str(response))
+    AddNotification(user,farmname,token,message)
+    return True
     a = response['success'].keys()[0]
-#    print a    
+#    print a
+        
     if (token in a):
-        AddNotification(user,farmname,token,message)        
+        #AddNotification(user,farmname,token,message)        
         return True
     else:
         return False

@@ -1,21 +1,25 @@
 from flask import Flask, jsonify
+import os
 from send_receive import *
 from flask import request
 import requests
+import logging
+import ast
 from db_controller import *
 from send_notification import *
 from harvest import *
+import json
+from datetime import datetime
+from ProcessArduinoData import *
+
+"""
 from final_disease import *
 from final_fifo import *
 from final_opti import *
-import json
-from datetime import datetime
-
-
-from ProcessArduinoData import *
+"""
 
 app = Flask(__name__)
-
+weather_data_ardu = {'Temperature' : 0,'Humidity':0,'Soil Moisture':0}
 @app.route('/signin/',methods=['POST', 'GET'])
 def authenticate_user():
     #receive email and password
@@ -193,9 +197,11 @@ def predictions():
 	else:
 		print "Inside else"
 		if returnval['AddFarmCrop']=="Wheat":
-			datalist["HTP"] = str(wheat_harvesting_time())
+			#datalist["HTP"] = str(wheat_harvesting_time())
+			datalist["Disease"] = "hahaha"
 		elif returnval['AddFarmCrop']=="Rice":
-			datalist["HTP"]=str(rice_harvesting_time())
+			#datalist["HTP"]=str(rice_harvesting_time())
+			datalist["Disease"] = "hahahaha"
 		else:
 			datalist["HTP"]="-"
 		print datalist["HTP"]
@@ -203,17 +209,19 @@ def predictions():
 #   get pi address from hwid???
 #	    wd = requests.get('http://192.168.0.101:5000').content
         
-        print "after htp" 
-        wds=get_current_weather_data()
-        print "got wds",wds
+#        print "after htp" 
+#        wds=get_current_weather_data()
+#        print "got wds",wds
 
 #        datalist["Disease"] = str(predict_disease(23,80))
         if returnval['AddFarmCrop']=="Wheat":
         	print "inside if"
-        	datalist["Disease"] = str(wheat_disease(int(float(wds['Temperature'])),(int(float(wds['Humidity'])))))
+        	#datalist["Disease"] = str(wheat_disease(int(float(wds['Temperature'])),(int(float(wds['Humidity'])))))
+        	datalist["Disease"] = "ahahah"
         elif returnval['AddFarmCrop']=="Onion":
         	print "inside inner elif"
-        	datalist["Disease"] = str(onion_disease(int(float(wds['Temperature'])),(int(float(wds['Humidity'])))))
+        	#datalist["Disease"] = str(onion_disease(int(float(wds['Temperature'])),(int(float(wds['Humidity'])))))
+        	datalist["Disease"] = "ahahahah"
 		print "Final Datalist done"	
 	return jsonify(Android = datalist)   
 
@@ -229,9 +237,10 @@ def getweatherdata():
 	    print "weather data Valid"
 	    
 	    #wd = requests.get('http://192.168.0.101:5000').content
-        wd = get_current_weather_data()
-        print wd
-        wds = {"current_weather":wd}
+        #wd = get_current_weather_data()
+        #print wd
+        #wds = {"current_weather":wd}
+        wds = {"current_weather":weather_data_ardu}
         #wd=json.loads(wd)
         	
 	return jsonify(Android = wds)   
@@ -318,36 +327,36 @@ def finalizedispatch():
 	return jsonify(Android=response_of_dispatch)
 
 
-"""
-@app.route('/sendnotificationtophone/',methods=['POST', 'GET'])
-def sn():
-    hw_id="yaugsbsvw"
-    farm_info=return_farm_info_for_hw(hw_id)
-    user_info=return_user_info(farm_info['AddFarmUID'])
-    token=user_info['registrationtoken']
-    sendnotification(farm_info['AddFarmUID'],farm_info['AddFarmName'],token,"Soil Moisture Too High")
-    
-#    sendnotification(user,farmname,token,message    
-    
-            
-    return 'Hello World!'
-"""    
 
 @app.route('/',methods=['POST', 'GET'])
 def hello_world():
     return 'Hello World!'
     
+
+
+@app.route('/sendnotification/',methods=['POST','GET'])
+def sendnotification():
+    sn() 
+    return "notification sent"
     
 
+@app.route('/sensordata/',methods=['POST', 'GET'])
+def getsensordata():
+	ProcessDailyFarmData(request.form)
+	print "Executed add daily farm data"
+	return "Data added"
 
+    
 if __name__ == '__main__':
-    create_collections()
+	create_collections()
 #    print get_current_weather_data()
+#    app.run(host="192.168.0.3")
+#    app.run(host="0.0.0.0",port=12000)
 #    app.run(host="192.168.1.147")
-#    app.run(host="192.168.0.117")
-    app.run(host="10.42.0.1")
-
-
+#	app.run(host="192.168.0.120")
+	app.run(host="10.42.0.1")
+#    port = int(os.environ.get("PORT", 5000))
+#    app.run(host='0.0.0.0', port=port)
 
 
 
@@ -366,9 +375,6 @@ if __name__ == '__main__':
 
 
 
-#	app.run(host="10.42.0.249")
-    
-#    app.run(host="192.168.1.131")
 	
 #	get_notifications({"UserID":"aa@aa","Farmname":"farm1"})
 #	sendnotification('aa@aa','farm1','d6Sw4Ip5wkk:APA91bHwXk9vRWxgbaN5is8SLEzPBM8OSgATBOXATSggCW8w4envsEvaDHXitQo56PYFeOp6KNXrwhRoeqCqyefPr6RSHGr7fNaMVfAlk1H2igStZzoFPo7s-0wKWCrm6RKdIJ4gl6eE','Notification Sent*****!!!')
