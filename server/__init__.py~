@@ -1,21 +1,25 @@
 from flask import Flask, jsonify
+import os
 from send_receive import *
 from flask import request
 import requests
+import logging
+import ast
 from db_controller import *
 from send_notification import *
 from harvest import *
+import json
+from datetime import datetime
+from ProcessArduinoData import *
+
+"""
 from final_disease import *
 from final_fifo import *
 from final_opti import *
-import json
-from datetime import datetime
-
-
-from ProcessArduinoData import *
+"""
 
 app = Flask(__name__)
-
+weather_data_ardu = {'Temperature' : 0,'Humidity':0,'Soil Moisture':0}
 @app.route('/signin/',methods=['POST', 'GET'])
 def authenticate_user():
     #receive email and password
@@ -137,9 +141,9 @@ def getfarms():
         farm['FarmName'] = i['AddFarmName']
         farm['HWID'] = i['AddFarmHWID']
         farm['URL'] = i['AddFarmURL']
-        weatherdata = return_daily_data_farmer(farm['HWID'])
-        
-        if(weatherdata==None):
+#        weatherdata = return_daily_data_farmer(farm['HWID'])
+        if True:
+#        if(weatherdata==None):
             farm['MaxTemperature'] = "-"
             farm['MaxHumidity'] = "-"
             farm['MaxSM'] = "-"
@@ -191,10 +195,13 @@ def predictions():
 	if weatherdata==None:
 	    datalist["Result"]="Invalid"
 	else:
+		print "Inside else"
 		if returnval['AddFarmCrop']=="Wheat":
-			datalist["HTP"] = str(wheat_harvesting_time())
+			#datalist["HTP"] = str(wheat_harvesting_time())
+			datalist["Disease"] = "hahaha"
 		elif returnval['AddFarmCrop']=="Rice":
-			datalist["HTP"]=str(rice_harvesting_time())
+			#datalist["HTP"]=str(rice_harvesting_time())
+			datalist["Disease"] = "hahahaha"
 		else:
 			datalist["HTP"]="-"
 		print datalist["HTP"]
@@ -202,14 +209,20 @@ def predictions():
 #   get pi address from hwid???
 #	    wd = requests.get('http://192.168.0.101:5000').content
         
-        
-        wds=get_current_weather_data()
+#        print "after htp" 
+#        wds=get_current_weather_data()
+#        print "got wds",wds
 
 #        datalist["Disease"] = str(predict_disease(23,80))
-        
-        datalist["Disease"] = str(predict_disease(int(float(wds['Temperature'])),(int(float(wds['Humidity'])))))
-        
-	
+        if returnval['AddFarmCrop']=="Wheat":
+        	print "inside if"
+        	#datalist["Disease"] = str(wheat_disease(int(float(wds['Temperature'])),(int(float(wds['Humidity'])))))
+        	datalist["Disease"] = "ahahah"
+        elif returnval['AddFarmCrop']=="Onion":
+        	print "inside inner elif"
+        	#datalist["Disease"] = str(onion_disease(int(float(wds['Temperature'])),(int(float(wds['Humidity'])))))
+        	datalist["Disease"] = "ahahahah"
+		print "Final Datalist done"	
 	return jsonify(Android = datalist)   
 
 @app.route('/getweatherdata/',methods=['POST', 'GET'])
@@ -224,9 +237,10 @@ def getweatherdata():
 	    print "weather data Valid"
 	    
 	    #wd = requests.get('http://192.168.0.101:5000').content
-        wd = get_current_weather_data()
-        print wd
-        wds = {"current_weather":wd}
+        #wd = get_current_weather_data()
+        #print wd
+        #wds = {"current_weather":wd}
+        wds = {"current_weather":weather_data_ardu}
         #wd=json.loads(wd)
         	
 	return jsonify(Android = wds)   
@@ -235,44 +249,82 @@ def getweatherdata():
 @app.route('/getwarehouses/',methods=['POST', 'GET'])
 def getwarehouses():
     received_data = receive_from_android(request)
-    print "warehouse"
-    print received_data
     warehouselist = []
     response_to_android = {"AddWareHouseName":warehouselist}
     returnval = return_warehouses(received_data) 
-    print "hello"
-    print returnval[0]
     a = returnval[0]
-    print a['AddWarehouseName']
-    print "hi"
     
     for i in returnval:
-        print "No"
         warehouselist.append(i['AddWarehouseName'])
-        print "yes"
     response_to_android['AddWareHouseName'] = warehouselist
-    print response_to_android
     return jsonify(Android = response_to_android)   
 
 
 
-
-@app.route('/getgodownpredictions/',methods=['POST', 'GET'])
-def getgodownpredictions():
+@app.route('/getstockslist/',methods=['POST', 'GET'])
+def getstockslist():
 	received_data = receive_from_android(request)
-#	print received_data
+	print received_data
+	stocklist = []
+	print "stocklist created"
+	response_to_android = {"Stocklist":stocklist}
+	returnval = return_stocks(received_data) 
+	for i in returnval:
+		stocklist.append({"StockName":i['StockName'],"StockCropName":i['StockCropName'],"StockAmount":i['StockAmount']})		
+	print response_to_android
+	return jsonify(Android = response_to_android)   
 
-	datalist={"Result":"Valid"}
-	dispatch_list=predict_dispatch_sequence()
-	dispatch={}
-	for i in range(len(dispatch_list)):
-		dispatch[i]=dispatch_list[i]
-	datalist['Dispatch_List']=dispatch_list
+
+@app.route('/addstock/',methods=['POST', 'GET'])
+def addstock():
+	received_data = receive_from_android(request)
+#    print received_data
+	temp=add_stock(received_data)
+	if temp:
+		response_to_android = {"Result":"Valid"}
+		return jsonify(Android = response_to_android)   
+	else:
+		return jsonify(Android={"Result:Invalid"})
+
+
+@app.route('/getstockinfo/',methods=['POST', 'GET'])
+def getstockinfo():
+	received_data = receive_from_android(request)
+#    print received_data
+	stock_info=return_stock_info(received_data)
+	print "printint stock info",stock_info
+	if len(stock_info)>0:
+		print "inside if"
+		response_to_android={"StockCropName":stock_info['StockCropName'],"StockCropType":stock_info['StockCropType'],"StockSowStart":stock_info['StockSowStart'],"StockSowEnd":stock_info['StockSowEnd'],"StockHarvestStart":stock_info['StockHarvestStart'],"StockHarvestEnd":stock_info['StockHarvestEnd'],"StockAmount":stock_info['StockAmount'],"StockInTime":stock_info['StockInTime'],"StockFarmerName":stock_info['StockFarmerName']}
+		return jsonify(Android = response_to_android)   
+	else:
+		return jsonify(Android = {})
+
+
+
+@app.route('/getdispatchsequence/',methods=['POST', 'GET'])
+def getdispatchsequence():
+	received_data = receive_from_android(request)
+	print received_data
+	stock_list=return_stocks({"Email":received_data['DispatcherUID'],"WareHouseName":received_data['WareHouseName']})	
+#	dispatch_list=predict_dispatch_sequence()
+	print "Got the stock list",stock_list
+	dispatch_list=[{"StockName":stock_list[0]['StockName'],"DispatchAmount":int(stock_list[0]['StockAmount'])},{"StockName":stock_list[2]['StockName'],"DispatchAmount":int(stock_list[2]['StockAmount'])/2}]
 	
-	opti_temp,opti_hum=get_opti_temp()
+		
+		
+#	opti_temp,opti_hum=get_opti_temp()
 	
-	
-	return jsonify(Android = datalist)   
+	print stock_list[0],stock_list[1]
+	return jsonify(Android = dispatch_list)   
+
+@app.route('/finalizedispatch/',methods=['POST','GET'])
+def finalizedispatch():
+	received_data=receive_from_android(request)
+	print received_data
+	response_of_dispatch=finalize_dispatch(received_data)
+	print "the response for android is",response_of_dispatch	
+	return jsonify(Android=response_of_dispatch)
 
 
 """
@@ -294,12 +346,32 @@ def sn():
 def hello_world():
     return 'Hello World!'
     
+
+
+@app.route('/sendnotification/',methods=['POST','GET'])
+def sendnotification():
+    sn() 
+    return "notification sent"
+    
+
+@app.route('/sensordata/',methods=['POST', 'GET'])
+def getsensordata():
+	ProcessDailyFarmData(request.form)
+	print "Executed add daily farm data"
+	return "Data added"
+
     
 if __name__ == '__main__':
     create_collections()
 #    print get_current_weather_data()
 #    app.run(host="192.168.0.3")
-    app.run(host="0.0.0.0",port=12000)
+#    app.run(host="0.0.0.0",port=12000)
+#    app.run(host="192.168.1.147")
+#    app.run(host="192.168.0.117")
+ #   app.run(host="10.42.0.1")
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
+
 
 
 #	get_notifications({"UserID":"aa@aa","Farmname":"farm1"})

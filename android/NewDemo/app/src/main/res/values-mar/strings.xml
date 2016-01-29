@@ -1,0 +1,138 @@
+<resources>
+    <string name="app_name">SmartFS</string>
+
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+    <string name="NavMenuItemSettings">सेटींग्स</string>
+
+    <string name="menuitem_refresh">Refresh</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_sign_in">आत जा</string>
+        <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="error_invalid_email">ईमेल चुकीचा आहे </string>
+    <string name="error_invalid_password">पासवर्ड खूप छोटा आहे</string>
+    <string name="error_incorrect_password">पासवर्ड चुकीचा आहे</string>
+    <string name="error_field_required">हि माहिती आवश्यक आहे</string>
+
+    <string name="signoutstring">"बाहेर जा"</string>
+
+    <string name="weatherinfostring">हवामान माहिती(किमान/कमाल)</string>
+
+
+    <string name="sign_in_option_home">आत जा</string>
+    <string name="sign_up_option_home">नवीन नोंदणी </string>
+    <string name="sign_in_msg_home">कृपया नोंदणी करा</string>
+
+    <string name="vp_home_option">"        होम         "</string>
+    <string name="vp_info_option">"       माहिती        "</string>
+    <string name="vp_news_option">"       बातम्या       "</string>
+
+    <string name="email_id_hint">ईमेल</string>
+    <string name="password_hint">पासवर्ड</string>
+
+    <string name="role_farmer">"शेतकरी"</string>
+    <string name="role_godownmanager">"गोदाम व्यवस्थापक"</string>
+    <string name="role_both">"दोन्ही"</string>
+
+
+    <string name="sharestring">शेयर</string>
+    <string name="helpstring">मदत</string>
+    <string name="contactusstring">संपर्क</string>
+
+
+    <string name="MyProfileString">"माझी माहिती"</string>
+
+    <string name="Notificationstring">"सूचना"</string>
+    <string name="consequencestring">"परिणाम"</string>
+
+
+
+    <string name="signup_email">ईमेल</string>
+    <string name="signup_password">पासवर्ड</string>
+    <string name="signup_confirm_password">पासवर्ड परत टाइप करा</string>
+    <string name="action_register">नोंदणी </string>
+    <string name="signup_name">पूर्ण नाव</string>
+    <string name="error_password_mismatch">पासवर्ड जुळत नाहीत</string>
+    <string name="title_activity_my_farm">माझे शेत</string>
+    <string name="title_activity_my_ware_house">माझे गोदाम</string>
+
+
+    <string name="TemperatureString">तापमान</string>
+    <string name="HumidityString">आर्द्रता</string>
+    <string name="SoilMoistureString">जमिनीतील ओलावा</string>
+
+
+    <string name="CropNameString">पिकाचे नाव</string>
+    <string name="SeedTypeString">बियाणे</string>
+    <string name="FarmAreaString"> क्षेत्रफळ</string>
+
+    <string name="PeriodofSowingString">पेरणीचा काळ</string>
+    <string name="HardwareIDString">हार्डवेअर id</string>
+
+    <string name="FarmDataString">शेतिविषयक गोष्टी</string>
+    <string name="CurrentFarmStatusString">शेतीची वर्तमान स्थिती</string>
+    <string name="PredictionsString">अंदाज</string>
+    <string name="NotificationsString">सूचना</string>
+    <string name="TemperatureForecastString">तापमानाचा अंदाज</string>
+    <string name="HumidityForecastString">आर्द्रतेचा अंदाज</string>
+
+
+
+    <string name="AjantaString">अजंटा</string>
+    <string name="ArjunString">अर्जून</string>
+    <string name="ParabhaniString">परभणी-51</string>
+    <string name="MalvikaString">मालविका</string>
+
+    <string name="AmbemoharString">आम्बेमोहर</string>
+    <string name="TambdajogString">ताम्बडा जोग</string>
+    <string name="KrishnasalString">कृष्णसल</string>
+    <string name="ChampakaliString">चम्पाकली</string>
+
+    <string name="BheemaredString">भीमा रेड</string>
+    <string name="BheemashwetaString">भीमा श्वेता</string>
+    <string name="BheemasuperString">भीमा सुपर</string>
+
+    <string name="AddLocationString">क्लिक करुन शेताचे ठिकाण निवडा</string>
+
+    <string name="title_activity_new_farm">नवीन शेत</string>
+
+
+    <string name="WheatString">गहू</string>
+    <string name="OnionString">तांदूळ</string>
+    <string name="RiceString">कांदा</string>
+
+    <string name="nameoffarmstring">शेताचे  नाव</string>
+    <string name="addfarmstring">नवीन शेत</string>
+
+
+    <string name="infotitlestring1">महाराष्ट्रातील शेती</string>
+    <string name="infotitlestring2">महाराष्ट्रातील मुख्य पीके.</string>
+    <string name="infotitlestring3">महाराष्ट्रातील कृषी-हवामान प्रदेश</string>
+
+
+    <string name="infostring1">महाराष्ट्राच्या आर्थिक द्रुष्टीने शेती ही खुप महत्त्वाची आहे. शेती हा महत्त्वाचा उद्योग आहे.</string>
+    <string name="infostring2">आंबा, द्राक्षे, केळी, गहू, तांदूळ, ज्वारीच्या, बाजरी ही महाराष्ट्रातील मुख्य पीके आहेत.</string>
+    <string name="infostring3">महाराष्ट्र ८ कृषी-हवामान प्रदेशात विभागलेले आहे.</string>
+
+
+    <string name="newstitlestring1">हवामानरोधक भारतीय कृषी: राष्ट्रपती मुखर्जी</string>
+    <string name="newstitlestring2">र गोपाळकृष्णन : आधुनिक शेती</string>
+    <string name="newstitlestring3">कृषीमंत्री मा. श्री. शरद पवार ह्यांनी भाषणात दिला कापणी नंतरच्या नुकसानावर जोर</string>
+
+    <string name="newsstring1">भारतीय कृषी हवामानातील बदलांन्ना बळी पडत आहे. त्यामुळे उत्पादन आणि निर्यात कमी झाले आहे.</string>
+    <string name="newsstring2">शेतीचा उद्योग-धंदा करण्याची जागृकता अजून झालेली नाही.</string>
+    <string name="newsstring3">कृषीमंत्री मा. श्री. शरद पवार ह्यांनी आपल्या भाषणात कापणी नंतरचे नुकसान कमी करण्यावर जोर दिला.</string>
+
+
+
+
+
+
+
+
+
+</resources>

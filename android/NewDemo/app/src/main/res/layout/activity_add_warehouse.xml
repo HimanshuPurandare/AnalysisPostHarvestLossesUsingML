@@ -31,10 +31,44 @@
                     android:hint="Enter the Go-down Name"
                     android:id="@+id/warehousename"
                     />
-                <Button
+
+
+
+            <FrameLayout android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingBottom="25dp"
+                >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:id="@+id/warehouse_location_display"
+                    android:scaleType="fitEnd"
+                    android:layout_marginRight="16dp"
+
+                    />
+
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Add WareHouse"
+                    android:singleLine="true"
+                    android:ellipsize="marquee"
+                    android:textSize="18sp"
+                    android:id="@+id/click_here_warehouse"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/clickherestring"
+                    />
+            </FrameLayout>
+
+
+
+
+            <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/btn_add_warehouse"
                     android:id="@+id/addwarehouse"
                     android:textStyle="bold"
                     android:layout_marginTop="16dp"

@@ -1,11 +1,14 @@
 package com.example.shreyas.newdemo;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -15,6 +18,7 @@ import java.util.List;
  */
 public class MyWareHouseAdapter extends RecyclerView.Adapter<MyWareHouseAdapter.PersonViewHolder>{
 
+    
     @Override
     public PersonViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.mywarehouse_card, parent, false);
@@ -47,28 +51,19 @@ public class MyWareHouseAdapter extends RecyclerView.Adapter<MyWareHouseAdapter.
 
         static int set = 0;
 
-        PersonViewHolder(View itemView) {
+        PersonViewHolder(final View itemView) {
             super(itemView);
             cv = (CardView)itemView.findViewById(R.id.mywarehousecv);
             WareHousename = (TextView)itemView.findViewById(R.id.name_of_warehouse);
 
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    //write here the code for wathever you want to do with a card
-//                    //...
-//                    Log.d("clicked", "yes");
-//                    if (set == 0) {
-//                        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, 300, 1f);
-//                        Farmname.setLayoutParams(lp);
-//                        set = 1;
-//                    } else {
-//                        set = 0;
-//                        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, 200, 1f);
-//                        Farmname.setLayoutParams(lp);
-//                    }
-//                }
-//            });
+            cv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view)
+                {
+                    Intent i = new Intent(view.getContext(), MyWareHouse.class).putExtra("WarehouseName", WareHousename.getText());
+                    view.getContext().startActivity(i);
+                }
+            });
         }
     }
     List<WareHouse_Info> warehouses;

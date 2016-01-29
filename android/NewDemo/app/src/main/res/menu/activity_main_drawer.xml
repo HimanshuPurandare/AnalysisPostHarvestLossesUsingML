@@ -7,11 +7,11 @@
 
         >
         <item android:id="@+id/nav_signin" android:icon="@android:drawable/ic_menu_directions"
-            android:title="SignIn"
+            android:title="@string/sign_in_option_home"
             />
 
         <item android:id="@+id/nav_myprofile" android:icon="@android:drawable/ic_menu_myplaces"
-            android:title="My profile" />
+            android:title="@string/MyProfileString" />
 
     </group>
     <group
@@ -19,9 +19,9 @@
         android:id="@+id/Assitance"
         >
         <item android:id="@+id/nav_notification" android:icon="@android:drawable/btn_star_big_on"
-            android:title="Notification" />
+            android:title="@string/Notificationstring" />
         <item android:id="@+id/nav_conse" android:icon="@android:drawable/ic_menu_info_details"
-            android:title="Consequences" />
+            android:title="@string/consequencestring" />
 
     </group>
 
@@ -31,7 +31,7 @@
         android:id="@+id/Settings"
         >
         <item android:id="@+id/nav_settings" android:icon="@android:drawable/ic_menu_set_as"
-            android:title="Settings" />
+            android:title="@string/NavMenuItemSettings" />
 
     </group>
 
@@ -40,11 +40,11 @@
             android:id="@+id/MoreGroup"
             >
             <item android:id="@+id/nav_share" android:icon="@android:drawable/ic_menu_share"
-                android:title="Share" />
+                android:title="@string/sharestring" />
             <item android:id="@+id/nav_help" android:icon="@android:drawable/ic_menu_help"
-                android:title="Help" />
+                android:title="@string/helpstring" />
             <item android:id="@+id/nav_contactus" android:icon="@android:drawable/ic_dialog_info"
-                android:title="Contact us" />
+                android:title="@string/contactusstring" />
 
         </group>
 

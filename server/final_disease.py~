@@ -1,51 +1,81 @@
 from sklearn import tree
 from pymongo import MongoClient
 
+clf=tree.DecisionTreeClassifier()
 
-def predict_disease(current_temp,current_hum):
+client=MongoClient()
+db=client.server_db
 
-	clf=tree.DecisionTreeClassifier()
-
-	client=MongoClient()
-	db=client.server_db
-	cursor=db.corpusdisease.find()
+def onion_disease(current_temp, current_hum):
+	cursor=db.corpusdisease.find({"Datatype":"onion"})
 
 	x=[]
 	y=[]
 	for docs in cursor:
-		 item=[]
-		 item.append(docs["Temperature"])
-		 item.append(docs["Humidity"])
-		 x.append(item)
-		 y.append(docs["Diseaseno"])
+	     item=[]
+	     item.append(docs["Temperature"])
+	     item.append(docs["Humidity"])
+	     x.append(item)
+	     y.append(docs["Diseaseno"])
 	 
 	clf.fit(x,y)
 
 	z = []
 	w = []
-
-
 	#z.append(int(raw_input("Enter temp: ")))
 	#z.append(int(raw_input("Enter Humidity: ")))
-	z=[int(current_temp),int(current_hum)]
+	z=[int(current_temp), int(current_hum)]
+	w.append(z)
+	
+	a = clf.predict(w)
+#	print "The value of a is",a
+	if a[0] == 1:
+		return "(Onion)Predicted Disease is " + "Onion Smut"
+	if a[0] == 2:
+		return "(Onion)Predicted Disease is " + "Seedling Disorder"
+	if a[0] == 3:
+		return "(Onion)Predicted Disease is " + "Botrytis Leaf Blight"
+	if a[0] == 4:
+		return "(Onion)Predicted Disease is " + "Downy mildew"
+	if a[0] == 5:
+		return "(Onion)Predicted Disease is " + "Purple blotch"
+	if a[0] == 6:
+		return "(Onion)Predicted Disease is " + "Fusarium Basal Rot"
+	if a[0] == 0:
+		return "(Onion)No disease"
 
+def wheat_disease(current_temp, current_hum):
+	cursor=db.corpusdisease.find({"Datatype":"wheat"})
+
+	x=[]
+	y=[]
+	for docs in cursor:
+	     item=[]
+	     item.append(docs["Temperature"])
+	     item.append(docs["Humidity"])
+	     x.append(item)
+	     y.append(docs["Diseaseno"])
+	 
+	clf.fit(x,y)
+
+	z = []
+	w = []
+	#z.append(int(raw_input("Enter temp: ")))
+	#z.append(int(raw_input("Enter Humidity: ")))
+	z=[int(current_temp), int(current_hum)]
 	w.append(z)
 
 	a = clf.predict(w)
-	
-	print "End of Processing ..."
+#	print "The value of a is",a
 	if a[0] == 1:
-		return "Predicted disease is "+ "Onion Smut" 
+		return "(wheat)Predicted Disease is " + "Yellow Rust"
 	if a[0] == 2:
-		return "Predicted disease is "+ "Seedling Disorder"
+		return "(wheat)Predicted Disease is " + "Foliar Blightss"
 	if a[0] == 3:
-		return "Predicted disease is "+ "Botrytis Leaf Blight"
+		return "(wheat)Predicted Disease is " + "Powdery Mildew"
 	if a[0] == 4:
-		return "Predicted disease is "+ "Downy mildew"
+		return "(wheat)Predicted Disease is " + "Black Point"
 	if a[0] == 5:
-		return "Predicted disease is "+ "Purple blotch"
-	if a[0] == 6:
-		return "Predicted disease is "+ "Fusarium Basal Rot"
-	else:
-		return "No disease"
-
+		return "(wheat)Predicted Disease is " + "Loose Smut"
+	if a[0] == 0:
+		return "(wheat)No disease"

@@ -49,13 +49,15 @@
                 android:id="@+id/click_here"
                 android:layout_gravity="center"
                 android:gravity="center"
+                android:text="@string/clickherestring"
                 />
             </FrameLayout>
-            <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <EditText android:id="@+id/farm_name" android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:hint="Name of Farm"
+                    android:layout_height="wrap_content" android:hint="@string/nameoffarmstring"
                     android:maxLines="1" android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
@@ -68,7 +70,7 @@
                 android:ellipsize="marquee"
                 android:textSize="18sp"
                 android:textColor="#808080"
-                android:text="Select a Crop" />
+                android:text="@string/selectcrop" />
             <Spinner
                 android:id="@+id/spinner1"
                 android:layout_width="match_parent"
@@ -84,7 +86,7 @@
                 android:ellipsize="marquee"
                 android:textSize="18sp"
                 android:textColor="#808080"
-                android:text="Select Type of Crop" />
+                android:text="@string/selectcroptype" />
             <Spinner
                 android:id="@+id/spinner2"
                 android:layout_width="match_parent"
@@ -99,7 +101,7 @@
                 android:ellipsize="marquee"
                 android:textSize="18sp"
                 android:textColor="#808080"
-                android:text="Period of Sowing" />
+                android:text="@string/PeriodofSowingString" />
 
 
             <LinearLayout
@@ -167,12 +169,12 @@
 
 
             <EditText android:id="@+id/hd_id" android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:hint="Enter H/W ID of Kit"
+                android:layout_height="wrap_content" android:hint="@string/HardwareIDString"
                 android:maxLines="1" android:singleLine="true" />
 
 
             <EditText android:id="@+id/area_farm" android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:hint="Enter Area of Farm"
+                android:layout_height="wrap_content" android:hint="@string/FarmAreaString"
                 android:maxLines="1" android:singleLine="true" />
 
             <Button android:id="@+id/add_farm"
@@ -180,7 +182,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text=" Add Farm "
+                android:text="@string/addfarmstring"
                 android:textStyle="bold"
 
 

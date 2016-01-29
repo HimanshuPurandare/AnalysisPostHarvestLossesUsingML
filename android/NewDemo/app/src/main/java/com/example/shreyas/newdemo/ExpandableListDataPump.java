@@ -4,6 +4,7 @@ package com.example.shreyas.newdemo;
  * Created by shreyas on 12/20/15.
  */
 
+import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -58,12 +59,11 @@ public class ExpandableListDataPump
         FetchWeatherData();
         FetchForecastData();
 
-
         expandableListDetail.put("Farm Data", farmdata);
-        expandableListDetail.put("Current Farm Status", weatherdata);
+        expandableListDetail.put("Current Farm Status" , weatherdata);
         expandableListDetail.put("PREDICTIONS", predictions);
         expandableListDetail.put("NOTIFICATIONS", notifications);
-        expandableListDetail.put("Temperature Forecast",graphs);
+        expandableListDetail.put("Temperature Forecast", graphs);
         expandableListDetail.put("Humidity Forecast",graphs);
 
         return expandableListDetail;
@@ -135,9 +135,9 @@ public class ExpandableListDataPump
                                 String b = s.getString("Soil Moisture");
                                 String c = s.getString("Temperature");
 
-                                weatherdata.add("Temperature : "+c+"°C");
-                                weatherdata.add("Humidity : "+a+"%");
-                                weatherdata.add("Soil Moisture"+b+"%");
+                                weatherdata.add(MainActivity.getInstance().getString(R.string.TemperatureString)+" : "+c+"°C");
+                                weatherdata.add(MainActivity.getInstance().getString(R.string.HumidityString)+" : "+a+"%");
+                                weatherdata.add(MainActivity.getInstance().getString(R.string.SoilMoistureString)+" : "+b+"%");
 
                                 MyFarm.expandableListAdapter.notifyDataSetChanged();
 
@@ -266,15 +266,15 @@ public class ExpandableListDataPump
                                     seedtype= response.getString("AddFarmCropType");
                                     hwkitid= response.getString("AddFarmHWID");
 
-                                    farmdata.add("Crop name : " + cropname);
-                                    farmdata.add("Seed Type : " + seedtype);
-                                    farmdata.add("Farm area : " + farmarea);
+                                    farmdata.add(MainActivity.getInstance().getString(R.string.CropNameString) + " : " + cropname);
+                                    farmdata.add(MainActivity.getInstance().getString(R.string.SeedTypeString) + " : " + seedtype);
+                                    farmdata.add(MainActivity.getInstance().getString(R.string.FarmAreaString) + " : " + farmarea);
 
                                     sowingdateend.replace("/", "-");
                                     sowingdatestart.replace("/", "-");
 
-                                    farmdata.add("Period of Sowing : " + sowingdatestart + " to " + sowingdateend);
-                                    farmdata.add("Hardware ID : " + hwkitid);
+                                    farmdata.add(MainActivity.getInstance().getString(R.string.PeriodofSowingString)+" : " + sowingdatestart + " to " + sowingdateend);
+                                    farmdata.add(MainActivity.getInstance().getString(R.string.HardwareIDString)+" : " + hwkitid);
 
                                     MyFarm.expandableListAdapter.notifyDataSetChanged();
 

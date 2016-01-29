@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="5dp"
+    tools:context="com.example.shreyas.newdemo.AddStock"
+    >
+
+    <include
+        android:id="@+id/mytoolbar"
+        layout="@layout/mytoolbar"
+        />
+
+
+    <ScrollView
+        android:id="@+id/add_stock_form"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        >
+        <LinearLayout
+            android:id="@+id/email_signup_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+
+            >
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_stock_name"
+                android:id="@+id/stockname"
+                />
+
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                style="?android:attr/spinnerItemStyle"
+                android:singleLine="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="marquee"
+                android:textSize="18sp"
+                android:textColor="#808080"
+                android:background="@color/colorDivider"
+                android:text="@string/selectcrop" />
+            <Spinner
+                android:id="@+id/crop_spinner_warehouse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                />
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/selecttypeofcrop"
+                style="?android:attr/spinnerItemStyle"
+                android:singleLine="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="marquee"
+                android:textSize="18sp"
+                android:textColor="#808080"
+                android:background="@color/colorDivider"
+                android:text="@string/selectcroptype" />
+            <Spinner
+                android:id="@+id/crop_type_spinner_warehouse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/textperiodofsowing"
+                style="?android:attr/spinnerItemStyle"
+                android:singleLine="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="marquee"
+                android:textSize="18sp"
+                android:textColor="#808080"
+                android:background="@color/colorDivider"
+                android:paddingTop="5dp"
+                android:text="@string/hint_sowing_period" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/wh_sowing_start"
+                    android:layout_width="250dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_height="wrap_content"
+                    android:editable="false" >
+                </EditText>
+
+                <ImageButton
+                    android:id="@+id/imageButton1_wh"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="20dp"
+                    android:contentDescription="selectdate"
+                    android:cropToPadding="true"
+                    android:src="@drawable/calendar_icon"
+                    android:scaleType="fitXY" />
+            </LinearLayout>
+
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                style="?android:attr/spinnerItemStyle"
+                android:singleLine="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="marquee"
+                android:textSize="14sp"
+                android:textColor="#808080"
+                android:text="@string/ToasString"
+                android:textAlignment="center"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/wh_sowing_end"
+                    android:layout_width="250dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_height="wrap_content"
+                    android:editable="false" >
+                </EditText>
+
+                <ImageButton
+                    android:id="@+id/imageButton2_wh"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_toRightOf="@+id/enddate"
+                    android:layout_marginLeft="20dp"
+                    android:contentDescription="selectdate"
+                    android:cropToPadding="true"
+                    android:src="@drawable/calendar_icon"
+                    android:scaleType="fitXY" />
+            </LinearLayout>
+
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                style="?android:attr/spinnerItemStyle"
+                android:singleLine="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="marquee"
+                android:textSize="18sp"
+                android:textColor="#808080"
+                android:background="@color/colorDivider"
+                android:text="@string/hint_harvesting_period" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/wh_harvesting_start"
+                    android:layout_width="250dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_height="wrap_content"
+                    android:editable="false" >
+                </EditText>
+
+                <ImageButton
+                    android:id="@+id/imageButton3_wh"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_toRightOf="@+id/startdate"
+                    android:layout_marginLeft="20dp"
+                    android:contentDescription="selectdate"
+                    android:cropToPadding="true"
+                    android:src="@drawable/calendar_icon"
+                    android:scaleType="fitXY" />
+            </LinearLayout>
+
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                style="?android:attr/spinnerItemStyle"
+                android:singleLine="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="marquee"
+                android:textSize="14sp"
+                android:textColor="#808080"
+                android:text="@string/ToasString"
+                android:textAlignment="center"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/wh_harvesting_end"
+                    android:layout_width="250dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_height="wrap_content"
+                    android:editable="false" >
+                </EditText>
+
+                <ImageButton
+                    android:id="@+id/imageButton4_wh"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_toRightOf="@+id/enddate"
+                    android:layout_marginLeft="20dp"
+                    android:contentDescription="selectdate"
+                    android:cropToPadding="true"
+                    android:src="@drawable/calendar_icon"
+                    android:scaleType="fitXY" />
+            </LinearLayout>
+
+
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_farmer_name"
+                android:id="@+id/source_farmer_name"
+                />
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_amount"
+                android:id="@+id/stock_amount"
+                />
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/wh_intime"
+                    android:layout_width="250dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:text="@string/hint_in_time"
+                    android:layout_height="wrap_content"
+                    android:editable="false" >
+                </EditText>
+
+                <ImageButton
+                    android:id="@+id/imageButton5_wh"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_toRightOf="@+id/enddate"
+                    android:layout_marginLeft="20dp"
+                    android:contentDescription="selectdate"
+                    android:cropToPadding="true"
+                    android:src="@drawable/calendar_icon"
+                    android:scaleType="fitXY" />
+            </LinearLayout>
+
+
+
+
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_add_stock"
+                android:id="@+id/add_stock_btn"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                style="?android:textAppearanceSmall"
+
+
+                android:shadowColor="#A8A8A8"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"
+                android:background="@drawable/buttonshape"
+                android:textColor="#FFFFFF"
+
+                />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

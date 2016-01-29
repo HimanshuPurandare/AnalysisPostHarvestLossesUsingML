@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content">
 
                 <AutoCompleteTextView android:id="@+id/signup_email" android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:hint="@string/signup_email"
+                    android:layout_height="wrap_content" android:hint="@string/email_id_hint"
                     android:inputType="textEmailAddress" android:maxLines="1"
                     android:singleLine="true" />
 
@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content">
 
                 <EditText android:id="@+id/signup_password" android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:hint="@string/signup_password"
+                    android:layout_height="wrap_content" android:hint="@string/password_hint"
                     android:inputType="textPassword"
                     android:maxLines="1" android:singleLine="true" />
 
@@ -94,7 +94,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:text="Farmer"
+                    android:text="@string/role_farmer"
                     android:onClick="onRadioButtonClicked"
                     android:checked="true"/>
 
@@ -102,14 +102,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:text="Go-Down Manager"
+                    android:text="@string/role_godownmanager"
                     android:onClick="onRadioButtonClicked"/>
 
                 <RadioButton android:id="@+id/role_both"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:text="Both"
+                    android:text="@string/role_both"
                     android:onClick="onRadioButtonClicked"/>
 
             </RadioGroup>

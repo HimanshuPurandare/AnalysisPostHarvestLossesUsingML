@@ -5,9 +5,45 @@ from FilesToDatabasenew import *
 database name --> server_db
 various
 """
-client=MongoClient('mongodb://shreyas:shreyas@ds047365.mongolab.com:47365/server_db')
+#client=MongoClient('mongodb://shreyas:shreyas@ds047365.mongolab.com:47365/server_db')
 
-db=client.server_db
+#db=client.server_db
+
+SEED_DATA = [
+    {
+        'decade': '1970s',
+        'artist': 'Debby Boone',
+        'song': 'You Light Up My Life',
+        'weeksAtOne': 10
+    },
+    {
+        'decade': '1980s',
+        'artist': 'Olivia Newton-John',
+        'song': 'Physical',
+        'weeksAtOne': 10
+    },
+    {
+        'decade': '1990s',
+        'artist': 'Mariah Carey',
+        'song': 'One Sweet Day',
+        'weeksAtOne': 16
+    }
+]
+
+
+try:
+    client=MongoClient('mongodb://shreyas:shreyas@ds047365.mongolab.com:47365/server_db')
+
+    db=client.server_db
+    
+    songs = db['songs']
+
+# Note that the insert method can take either an array or a single dict.
+
+    songs.insert(SEED_DATA)
+except:
+    print "not done"
+
 
 def create_collections():
     collections_list = db.collection_names()
@@ -25,7 +61,6 @@ def create_collections():
         daily_data_farmers = db['daily_data_farmers']
 	if 'weather_data' not in collections_list:
 		weather=db['weather_data']	
-	
 	
 
 	if 'corpusharvest' not in collections_list:
@@ -67,6 +102,7 @@ def add_user_to_db(uname):
     
     
 def add_farm(farmdata):
+#	unique name of farm???
     farm_data=db['farm_data']
     farm_data.insert_one(farmdata)
 
@@ -141,6 +177,71 @@ def IsValidUser(email,password):
             info.append(list_of_users['SignUpName'])
         return info
         
+
+def add_stock(data):
+#	print data
+#	Check of Uniqueness
+	stock_info=db['stock_info']
+	stock_info.insert_one(data)	
+	return True        
+
+def return_stocks(data):
+	stock_info = db['stock_info']
+	list_of_stocks = stock_info.find({"StockUID":data['Email'],"StockWareHouseName":data['WareHouseName']})
+	print "prepared list",list_of_stocks
+	return list_of_stocks
+
+def return_stock_info(data):
+	stock_info=db['stock_info']
+	info=stock_info.find({"StockUID":data['Email'],"StockWareHouseName":data['WareHouseName'],"StockName":data['StockName']})
+	print "printing info",info[0]
+	print type(info)
+	
+	if info.count()!=1:
+		print "Error in fetching stock info",info
+		return False
+	else:
+		print "inside else"
+		print "printing info[0]",info[0]
+		return info[0]
+def finalize_dispatch(data):
+	final_dispatch_array=data['Final_Dispatch_Array']
+	stock_info=db['stock_info']
+	print "start of disptach",final_dispatch_array
+	return_val=""
+	for i in final_dispatch_array:
+		current_stock=stock_info.find({"StockUID":data['Email'],"StockWareHouseName":data['WareHouseName'],"StockName":i['StockName']})
+		print "printing current stock",current_stock[0]
+		if(current_stock.count()!=1):
+			print "Error in stock fetching"
+			return_val="Error in stock fetching"
+		else:		
+			print current_stock[0]
+			current_stock=current_stock[0]
+			if int(i['DispatchedAmount'])>int(current_stock['StockAmount']):
+				print "Invalid Dispatch"
+				return_val="Invalid Dispatch"
+			elif int(i['DispatchedAmount'])==(current_stock['StockAmount']):
+				print "Valid"
+				return_val="Valid"
+			else:
+				print "Valid"
+				return_val="Valid"
+	if return_val=="Valid":
+		for i in final_dispatch_array:
+			print "processing for",i['StockName']
+			current_stock=stock_info.find({"StockUID":data['Email'],"StockWareHouseName":data['WareHouseName'],"StockName":i['StockName']})[0]
+			print "current_stock",current_stock
+			if int(current_stock['StockAmount'])>int(i['DispatchedAmount']):
+				print "using function",stock_info.update_one
+				stock_info.update_one({"StockUID":data['Email'],"StockWareHouseName":data['WareHouseName'],"StockName":i['StockName']},{'$set':{"StockAmount":(str(int(current_stock['StockAmount'])-int(i['DispatchedAmount'])))}})
+				print "updated",current_stock['StockName']
+			else:
+				print "Inside delete"
+				stock_info.delete_one({"StockUID":data['Email'],"StockWareHouseName":data['WareHouseName'],"StockName":i['StockName']})
+				print "deleted ",current_stock['StockName']
+	print "returning"	
+	return return_val
         
 def AddNotification(userID,farmname,token,message):
     notifications=db['notifications']
