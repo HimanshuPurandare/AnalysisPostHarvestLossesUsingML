@@ -44,8 +44,9 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> i
     TextView tv_total_selected_amount,tv_to_dispatch;
     FloatingActionButton fab_add_stock,fab_dispatch_stock;
     LinearLayout ll_dispatch_finalizer;
+    RelativeLayout rl_fab;
 
-    WHAdapter(List<StockList> stocks,TextView tv_total_selected_amount,TextView tv_to_dispatch,FloatingActionButton fab_add_stock,FloatingActionButton fab_dispatch_stock,LinearLayout ll_dispatch_finalizer)
+    WHAdapter(List<StockList> stocks,TextView tv_total_selected_amount,TextView tv_to_dispatch,FloatingActionButton fab_add_stock,FloatingActionButton fab_dispatch_stock,LinearLayout ll_dispatch_finalizer,RelativeLayout rl_fab)
     {
 //        this.stocks=new ArrayList<StockList>();
         this.stocks = stocks;
@@ -54,6 +55,7 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> i
         this.ll_dispatch_finalizer=ll_dispatch_finalizer;
         this.fab_add_stock=fab_add_stock;
         this.fab_dispatch_stock=fab_dispatch_stock;
+        this.rl_fab=rl_fab;
 
 //        this.stocks.add(new StockList("abc","abc",14));
 //        this.stocks.add(new StockList("abc","abc",14));
@@ -107,56 +109,6 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> i
 
 
 
-                holder.et_dispatch_amount_selector.addTextChangedListener(new TextWatcher() {
-
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s)
-                    {
-                        try {
-                            String et_current_string=holder.et_dispatch_amount_selector.getText().toString();
-                            int current_num = Integer.parseInt(et_current_string);
-                            int old_num = stocks.get(pos).getSelected_amount();
-//                            while(et_current_string.length()>1&&(et_current_string).charAt(0)=='0')
-//                            {
-//                                holder.et_dispatch_amount_selector.setText(et_current_string.substring(1));
-//                            }
-
-
-                            if (current_num != old_num) {
-                                if (current_num <= stocks.get(pos).getAmount()) {
-                                    stocks.get(pos).setSelected_amount(current_num);
-                                } else {
-                                    stocks.get(pos).setSelected_amount(stocks.get(pos).getAmount());
-                                    holder.et_dispatch_amount_selector.setText(stocks.get(pos).getAmount() + "");
-                                    current_num = stocks.get(pos).getAmount();
-                                }
-                                MyWareHouse.totalSelectedAmount -= old_num;
-                                MyWareHouse.totalSelectedAmount += current_num;
-                                tv_total_selected_amount.setText(MyWareHouse.totalSelectedAmount + "");
-                            }
-
-
-                            }catch (NumberFormatException e)
-                            {
-                                holder.et_dispatch_amount_selector.setText("0");
-                            }
-                    }
-                });
-
-
-
             }
             else
             {
@@ -180,6 +132,61 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> i
             stocks.get(pos).setIsSelected(false);
             stocks.get(pos).setSelected_amount(0);
         }
+
+
+
+
+
+        holder.et_dispatch_amount_selector.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s)
+            {
+                try {
+                    String et_current_string=holder.et_dispatch_amount_selector.getText().toString();
+                    int current_num = Integer.parseInt(et_current_string);
+                    int old_num = stocks.get(pos).getSelected_amount();
+//                            while(et_current_string.length()>1&&(et_current_string).charAt(0)=='0')
+//                            {
+//                                holder.et_dispatch_amount_selector.setText(et_current_string.substring(1));
+//                            }
+
+
+                    if (current_num != old_num) {
+                        if (current_num <= stocks.get(pos).getAmount()) {
+                            stocks.get(pos).setSelected_amount(current_num);
+                        } else {
+                            stocks.get(pos).setSelected_amount(stocks.get(pos).getAmount());
+                            holder.et_dispatch_amount_selector.setText(stocks.get(pos).getAmount() + "");
+                            current_num = stocks.get(pos).getAmount();
+                        }
+                        MyWareHouse.totalSelectedAmount -= old_num;
+                        MyWareHouse.totalSelectedAmount += current_num;
+                        tv_total_selected_amount.setText(MyWareHouse.totalSelectedAmount + "");
+                    }
+
+
+                }catch (NumberFormatException e)
+                {
+                    holder.et_dispatch_amount_selector.setText("0");
+                }
+            }
+        });
+
+
+
 
 
 
@@ -322,8 +329,9 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> i
                                 MyWareHouse.totalSelectedAmount=0;
                                 MyWareHouse.isDispatchedProcessStarted=false;
 
-                                fab_add_stock.setVisibility(View.VISIBLE);
-                                fab_dispatch_stock.setVisibility(View.VISIBLE);
+//                                fab_add_stock.setVisibility(View.VISIBLE);
+//                                fab_dispatch_stock.setVisibility(View.VISIBLE);
+                                rl_fab.setVisibility(View.VISIBLE);
                                 ll_dispatch_finalizer.setVisibility(View.GONE);
                                 tv_total_selected_amount.setText("0");
                                 tv_to_dispatch.setText("0");
@@ -369,8 +377,9 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> i
     @Override
     public void startDispatch()
     {
-        fab_add_stock.setVisibility(View.GONE);
-        fab_dispatch_stock.setVisibility(View.GONE);
+//        fab_add_stock.setVisibility(View.GONE);
+//        fab_dispatch_stock.setVisibility(View.GONE);
+        rl_fab.setVisibility(View.VISIBLE);
         ll_dispatch_finalizer.setVisibility(View.VISIBLE);
 
         tv_to_dispatch.setText(MyWareHouse.totalDispatchingAmount + "");
