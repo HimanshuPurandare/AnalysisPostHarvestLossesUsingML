@@ -33,14 +33,16 @@ def CreateHarvestData(collection):
 
 
 def CreateFifoData(collection):
-	with open("FIFOdata.txt", "rt") as f:  # open a file
+#	print "Entered in function createfifoDATA"
+	with open("FIFO_FINAL.csv", "rt") as f:  # open a file
 		for line in f:
-			    currentline = line.split("\t")
-			    if '\n' in currentline[1]:
-			    	currentline[1] = currentline[1].replace("\n", "");
-			    text_file_doc = {"days":int(currentline[0]),"temperature":float(currentline[1]),"humidity":float(currentline[2]),"losses":float(currentline[3]),"deflection":int(currentline[4])}
-			    collection.insert(text_file_doc)
+			currentline = line.split("\t")
+			if '\n' in currentline[5]:
+				currentline[5] = currentline[5].replace("\n", "");
+			text_file_doc = {"days":int(currentline[0]),"temperature":float(currentline[1]), "humidity":float(currentline[2]), "losses":float(currentline[3]), "deflection":int(currentline[4]), "Datatype":str(currentline[5])}
+			collection.insert(text_file_doc)
 
+#	print "Endof createfifodata"
 
 def CreateDiseaseData(collection):
 	with open("DiseaseDatabase_final.csv", "rt") as f:  # open a file
@@ -52,6 +54,11 @@ def CreateDiseaseData(collection):
 			text_file_doc = {"Temperature":int(currentline[0]),"Humidity":int(currentline[1]), "Datatype":str(currentline[3]), "Diseaseno":int(currentline[2])}
 			#print text_file_doc
 			collection.insert(text_file_doc)
-
-
-
+			
+'''
+from pymongo import MongoClient
+client=MongoClient()
+db=client.server_db
+col=db['corpusfifo']
+CreateFifoData(col)
+'''

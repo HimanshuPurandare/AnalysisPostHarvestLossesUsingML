@@ -65,8 +65,8 @@ public class MainActivity extends AppCompatActivity
 //    public static String ServerIP="http://10.42.0.249:5000";
 //      public static String ServerIP = "http://192.168.1.131:5000";
 //    public static String ServerIP = "http://reviewpager.com";
-  public static String ServerIP = "https://himanshuyz.herokuapp.com";
-//    public static String ServerIP = "http://192.168.0.120:5000";
+//  public static String ServerIP = "https://himanshuyz.herokuapp.com";
+    public static String ServerIP = "http://192.168.0.120:5000";
 
 
     public static int signedin=0;

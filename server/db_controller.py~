@@ -46,48 +46,44 @@ except:
 
 
 def create_collections():
-    collections_list = db.collection_names()
-    if 'app_info' not in collections_list:
-        app_info = db['app_info']
-    if 'user_info' not in collections_list:
-        user_info = db['user_info']
-    if 'notifications' not in collections_list:
-        noti = db['notifications'] 
-    if 'farm_data' not in collections_list:
-        farm_data = db['farm_data']
-    if 'warehouse_data' not in collections_list:
-        farm_data = db['warehouse_data']
-    if 'daily_data_farmers' not in collections_list:
-        daily_data_farmers = db['daily_data_farmers']
+	collections_list = db.collection_names()
+	    
+	if 'app_info' not in collections_list:
+		app_info = db['app_info']
+	if 'user_info' not in collections_list:
+		user_info = db['user_info']
+	if 'notifications' not in collections_list:
+		noti = db['notifications'] 
+	if 'farm_data' not in collections_list:
+		farm_data = db['farm_data']
+	if 'warehouse_data' not in collections_list:
+		farm_data = db['warehouse_data']
+	if 'daily_data_farmers' not in collections_list:
+		daily_data_farmers = db['daily_data_farmers']
 	if 'weather_data' not in collections_list:
-		weather=db['weather_data']	
-	
-
+		weather=db['weather_data']
 	if 'corpusharvest' not in collections_list:
 		corp=db['corpusharvest']
 		CreateHarvestData(corp)
-
+	
 	if 'corpusoptitemp' not in collections_list:
 		corp=db['corpusoptitemp']
 		CreateOptiTempData(corp)
-
+	
 	if 'corpusfifo' not in collections_list:
 		corp=db['corpusfifo']
 		CreateFifoData(corp)
 	if 'corpusdisease' not in collections_list:
 		corp=db['corpusdisease']
 		CreateDiseaseData(corp)
-
-
-
-    if 'corpus_farm' not in collections_list:
-        corpus_farm = db['corpus_farm']
-    if 'daily_data_godown' not in collections_list:
-        daily_data_godown = db['daily_data_godown']        
-    if 'stock_info' not in collections_list:
-        stock_info = db['stock_info']
-    if 'corpus_godown' not in collections_list:
-        corpus_godown = db['corpus_godown']        
+	if 'corpus_farm' not in collections_list:
+		corpus_farm = db['corpus_farm']
+	if 'daily_data_godown' not in collections_list:
+		daily_data_godown = db['daily_data_godown']        
+	if 'stock_info' not in collections_list:
+		stock_info = db['stock_info']
+	if 'corpus_godown' not in collections_list:
+		corpus_godown = db['corpus_godown']        
 
 
 def register_app(tokeninfo):
@@ -161,6 +157,11 @@ def return_warehouses(received_data):
 #    print "hty"
 #    print "list",list_of_warehouses
     return list_of_warehouses
+
+def return_warehouse_info(received_data):
+	warehouse_data=db['warehouse_data']
+	warehouse_info=warehouse_data.find_one({"AddWarehouseName":received_data['WareHouseName'],"AddWarehouseUID":received_data['Email']})
+	return warehouse_info
     
     
 def IsValidUser(email,password):
@@ -189,6 +190,13 @@ def return_stocks(data):
 	stock_info = db['stock_info']
 	list_of_stocks = stock_info.find({"StockUID":data['Email'],"StockWareHouseName":data['WareHouseName']})
 	print "prepared list",list_of_stocks
+	return list_of_stocks
+
+
+def return_stocks_of_crop(data):
+	stock_info=db['stock_info']
+	list_of_stocks=stock_info.find(data)
+#	print "sending list",list_of_stocks
 	return list_of_stocks
 
 def return_stock_info(data):

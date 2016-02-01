@@ -42,7 +42,7 @@ public class MyWareHouse extends AppCompatActivity
     private Toolbar toolbar;
     RecyclerView whRecyclerView;
     LinearLayoutManager whLayoutManager;
-    public static WHAdapter whAdapter;
+    public WHAdapter whAdapter;
 
 
     public static int totalDispatchingAmount,totalSelectedAmount;
@@ -127,7 +127,7 @@ public class MyWareHouse extends AppCompatActivity
             public void onClick(View v)
             {
                 Log.d("Before showing ", "dispatch dialog----");
-                GetDispatchAmountDialog getDispatchAmountDialog=new GetDispatchAmountDialog(v.getContext());
+                GetDispatchAmountDialog getDispatchAmountDialog=new GetDispatchAmountDialog(v.getContext(),whAdapter);
                 getDispatchAmountDialog.show();
 
                 Log.d("After showing ", "dispatch dialog----");

@@ -40,7 +40,7 @@ import java.util.List;
  */
 public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> implements GetDispatchAmountDialog.onDispatchStarted
 {
-    static List<StockList> stocks;
+    static List<StockList> stocks,dispatchable_stocks;
     TextView tv_total_selected_amount,tv_to_dispatch;
     FloatingActionButton fab_add_stock,fab_dispatch_stock;
     LinearLayout ll_dispatch_finalizer;
@@ -375,10 +375,23 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> i
     }
 
     @Override
-    public void startDispatch()
+    public void startDispatch(String dispatching_crop_name,int to_dispatch_amount,int total_selected_amount,int selected_count)
     {
 //        fab_add_stock.setVisibility(View.GONE);
 //        fab_dispatch_stock.setVisibility(View.GONE);
+
+
+        MyWareHouse.isDispatchedProcessStarted = true;
+        MyWareHouse.DispatchingCropName = dispatching_crop_name;
+        MyWareHouse.totalDispatchingAmount = to_dispatch_amount;
+        MyWareHouse.totalSelectedAmount = total_selected_amount;
+        MyWareHouse.isSelectedCount = selected_count;
+
+        notifyDataSetChanged();
+
+
+
+
         rl_fab.setVisibility(View.VISIBLE);
         ll_dispatch_finalizer.setVisibility(View.VISIBLE);
 
