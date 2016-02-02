@@ -12,11 +12,11 @@ import json
 from datetime import datetime
 from ProcessArduinoData import *
 
-"""
+
 from final_disease import *
 from final_fifo import *
 from final_opti import *
-"""
+
 
 app = Flask(__name__)
 weather_data_ardu = {'Temperature' : 0,'Humidity':0,'Soil Moisture':0}
@@ -305,17 +305,17 @@ def getstockinfo():
 @app.route('/getdispatchsequence/',methods=['POST', 'GET'])
 def getdispatchsequence():
 	received_data = receive_from_android(request)
-	print received_data
-	stock_list=return_stocks({"Email":received_data['DispatcherUID'],"WareHouseName":received_data['WareHouseName']})	
-#	dispatch_list=predict_dispatch_sequence()
-	print "Got the stock list",stock_list
-	dispatch_list=[{"StockName":stock_list[0]['StockName'],"DispatchAmount":int(stock_list[0]['StockAmount'])},{"StockName":stock_list[2]['StockName'],"DispatchAmount":int(stock_list[2]['StockAmount'])/2}]
+#	print received_data
+	
+	stock_list=return_stocks_of_crop({"StockUID":received_data['DispatcherUID'],"StockWareHouseName":received_data['WareHouseName'],"StockCropName":received_data['DispatchCropName']})
+	warehouse_info=return_warehouse_info({"WareHouseName":received_data['WareHouseName'],"Email":received_data['DispatcherUID']})
+	dispatch_list=get_dispatch_sequence(stock_list,(warehouse_info),int(float(received_data['DispatchAmount'])))
+#	dispatch_list=[{"StockName":stock_list[0]['StockName'],"DispatchAmount":int(stock_list[0]['StockAmount'])},{"StockName":stock_list[2]['StockName'],"DispatchAmount":int(stock_list[2]['StockAmount'])/2}]
 	
 		
 		
 #	opti_temp,opti_hum=get_opti_temp()
-	
-	print stock_list[0],stock_list[1]
+	print "The final dispatch list is:",dispatch_list	
 	return jsonify(Android = dispatch_list)   
 
 @app.route('/finalizedispatch/',methods=['POST','GET'])
@@ -353,8 +353,8 @@ if __name__ == '__main__':
 #    app.run(host="192.168.0.3")
 #    app.run(host="0.0.0.0",port=12000)
 #    app.run(host="192.168.1.147")
-#	app.run(host="192.168.0.120")
-	app.run(host="10.42.0.1")
+	app.run(host="192.168.0.120")
+#	app.run(host="10.42.0.1")
 #    port = int(os.environ.get("PORT", 5000))
 #    app.run(host='0.0.0.0', port=port)
 

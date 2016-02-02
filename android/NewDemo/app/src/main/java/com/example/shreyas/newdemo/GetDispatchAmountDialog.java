@@ -32,12 +32,12 @@ import java.util.List;
  */
 public class GetDispatchAmountDialog extends Dialog implements View.OnClickListener
 {
-    private static Dialog d1;
+    private Dialog d1;
 
     private EditText et_get_dispatch_amount_dialog;
     private Spinner dialog_crop_spinner;
     private Button btn_proceed,btn_cancel;
-
+    private WHAdapter whAdapter;
     onDispatchStarted ondispatchstarted;
 
     protected void onCreate(Bundle savedInstanceState)
@@ -52,7 +52,7 @@ public class GetDispatchAmountDialog extends Dialog implements View.OnClickListe
         et_get_dispatch_amount_dialog=(EditText)findViewById(R.id.dialog_accept_dispatch_amount);
         dialog_crop_spinner=(Spinner)findViewById(R.id.dialog_dispatch_crop_spinner);
 
-        ondispatchstarted=(onDispatchStarted)MyWareHouse.whAdapter;
+        ondispatchstarted=(onDispatchStarted)whAdapter;
 
 
 
@@ -83,9 +83,11 @@ public class GetDispatchAmountDialog extends Dialog implements View.OnClickListe
 
     }
 
-    public GetDispatchAmountDialog(Context context)
+    public GetDispatchAmountDialog(Context context,WHAdapter whAdapter)
     {
         super(context);
+        this.whAdapter=whAdapter;
+
 
 
 
@@ -93,7 +95,7 @@ public class GetDispatchAmountDialog extends Dialog implements View.OnClickListe
 
     public interface onDispatchStarted
     {
-        public void startDispatch();
+        public void startDispatch(String cropname,int dispatchamount,int selectedamount,int selectedcount);
     }
 
     @Override
@@ -116,7 +118,7 @@ public class GetDispatchAmountDialog extends Dialog implements View.OnClickListe
                         j.put("DispatcherUID", MainActivity.Global_Email_Id);
                         j.put("WareHouseName", MyWareHouse.warehousename);
                         j.put("DispatchCropName", dialog_crop_spinner.getSelectedItem().toString());
-                        j.put("DispatchAmount", et_get_dispatch_amount_dialog + "");
+                        j.put("DispatchAmount", et_get_dispatch_amount_dialog.getText().toString() + "");
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -142,8 +144,8 @@ public class GetDispatchAmountDialog extends Dialog implements View.OnClickListe
 
                                             int temp_dispatch_amount = Integer.parseInt(temp.getString("DispatchAmount"));
 
-                                            for (int j = 0; j < MyWareHouse.whAdapter.stocks.size(); ++j) {
-                                                StockList temp_stocklist_item = MyWareHouse.whAdapter.stocks.get(j);
+                                            for (int j = 0; j < whAdapter.stocks.size(); ++j) {
+                                                StockList temp_stocklist_item = whAdapter.stocks.get(j);
                                                 Log.d("going to check " + temp_stockname
                                                         , temp_stocklist_item.getStockname());
                                                 if (temp_stocklist_item.getStockname().equals(temp_stockname) == true) {
@@ -160,15 +162,7 @@ public class GetDispatchAmountDialog extends Dialog implements View.OnClickListe
 
                                         }
 
-
-                                        MyWareHouse.isDispatchedProcessStarted = true;
-                                        MyWareHouse.DispatchingCropName = dialog_crop_spinner.getSelectedItem().toString();
-                                        MyWareHouse.totalDispatchingAmount = to_dispatch_amount;
-                                        MyWareHouse.totalSelectedAmount = total_selected_amount;
-                                        MyWareHouse.isSelectedCount = dispatch_sequence.length();
-
-                                        ondispatchstarted.startDispatch();
-                                        MyWareHouse.whAdapter.notifyDataSetChanged();
+                                        ondispatchstarted.startDispatch(dialog_crop_spinner.getSelectedItem().toString(),to_dispatch_amount,total_selected_amount,dispatch_sequence.length());
 
                                         d1.dismiss();
                                     } catch (JSONException e) {
