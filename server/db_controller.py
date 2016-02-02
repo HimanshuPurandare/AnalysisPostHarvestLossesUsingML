@@ -32,8 +32,8 @@ SEED_DATA = [
 
 
 try:
-    client=MongoClient('mongodb://shreyas:shreyas@ds047365.mongolab.com:47365/server_db')
-
+#    client=MongoClient('mongodb://shreyas:shreyas@ds047365.mongolab.com:47365/server_db')
+    client=MongoClient('localhost',27017)
     db=client.server_db
     
     songs = db['songs']

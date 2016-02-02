@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,8 +35,9 @@ public class MyWareHouse extends AppCompatActivity
     public static Context mywarehousecontext;
 
     private List<StockList> stocks;
-    FloatingActionButton fab_add_stock,fab_dispatch_stock;
-    LinearLayout ll_dispatch_finalizer;
+    private FloatingActionButton fab_add_stock,fab_dispatch_stock;
+    private LinearLayout ll_dispatch_finalizer;
+    private RelativeLayout rl_fab;
 
     private Toolbar toolbar;
     RecyclerView whRecyclerView;
@@ -49,7 +51,7 @@ public class MyWareHouse extends AppCompatActivity
     public static boolean isDispatchedProcessStarted;
 
 
-    public TextView tv_total_selected_amount,tv_to_dispatch;
+    private TextView tv_total_selected_amount,tv_to_dispatch;
     public static Button btn_final_dispatch,btn_cancel;
 
 
@@ -85,8 +87,9 @@ public class MyWareHouse extends AppCompatActivity
                 MyWareHouse.totalDispatchingAmount=0;
                 MyWareHouse.isSelectedCount=0;
                 ll_dispatch_finalizer.setVisibility(View.GONE);
-                fab_add_stock.setVisibility(View.VISIBLE);
-                fab_dispatch_stock.setVisibility(View.VISIBLE);
+                rl_fab.setVisibility(View.VISIBLE);
+//                fab_add_stock.setVisibility(View.VISIBLE);
+//                fab_dispatch_stock.setVisibility(View.VISIBLE);
                 whAdapter.notifyDataSetChanged();
 
             }
@@ -102,6 +105,10 @@ public class MyWareHouse extends AppCompatActivity
 
             }
         });
+
+
+        rl_fab=(RelativeLayout)findViewById(R.id.rl_fab);
+
 
         fab_add_stock = (FloatingActionButton)findViewById(R.id.fab_add_stock);
         fab_add_stock .setOnClickListener(new View.OnClickListener() {
@@ -139,7 +146,7 @@ public class MyWareHouse extends AppCompatActivity
         stocks= new ArrayList<StockList>();
 //        stocks.add(new StockList("z","z",14));
         initializeData();
-        whAdapter = new WHAdapter(stocks,tv_total_selected_amount,tv_to_dispatch,fab_add_stock,fab_dispatch_stock,ll_dispatch_finalizer);
+        whAdapter = new WHAdapter(stocks,tv_total_selected_amount,tv_to_dispatch,fab_add_stock,fab_dispatch_stock,ll_dispatch_finalizer,rl_fab);
         whAdapter.notifyDataSetChanged();
         whRecyclerView.setAdapter(whAdapter);
 

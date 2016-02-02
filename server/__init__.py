@@ -348,15 +348,15 @@ def getsensordata():
 
     
 if __name__ == '__main__':
-    create_collections()
+	create_collections()
 #    print get_current_weather_data()
 #    app.run(host="192.168.0.3")
 #    app.run(host="0.0.0.0",port=12000)
 #    app.run(host="192.168.1.147")
-#    app.run(host="192.168.0.117")
- #   app.run(host="10.42.0.1")
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port)
+#	app.run(host="192.168.0.120")
+	app.run(host="10.42.0.1")
+#    port = int(os.environ.get("PORT", 5000))
+#    app.run(host='0.0.0.0', port=port)
 
 
 
