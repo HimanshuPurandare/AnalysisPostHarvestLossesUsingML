@@ -164,5 +164,7 @@
     <string name="final_selected_dispatch_amount">Total Selected Amount: </string>
 
     <string name="hint_dispatch_stock_amount">e.g.200</string>
+    <string name="toast_fill_all_info">Please Fill All the Information</string>
+
 
 </resources>
