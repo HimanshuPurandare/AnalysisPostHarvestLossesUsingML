@@ -11,6 +11,12 @@ import json
 #listoflist = [[120, 26, 76, 3], [90, 27, 71, 6], [30, 18, 84, 0]]
 #name = ["stock1", "stock2", "stock3"]
 
+clf_wheat=linear_model.LinearRegression()
+clf_rice=linear_model.LinearRegression()
+clf_onion=linear_model.LinearRegression()
+
+clf=[clf_wheat,clf_rice,clf_onion]
+name_seq={"Wheat":0,"Rice":1,"Onion":2}
 
 
 def get_dispatch_sequence(stock_list,warehouse_info,amount):
@@ -101,17 +107,13 @@ def get_dispatch_sequence(stock_list,warehouse_info,amount):
 	return dispatch_list
 	
 	
-		
-	
 
-def predict_dispatch_sequence(listoflist, name, datatype):
-	clf=linear_model.LinearRegression()
-	client=MongoClient()
-	db=client.server_db
-	cursor=db.corpusfifo.find({"Datatype": datatype})
-	x=[]
-	y=[]
-
+def fit_fifo_data(cursor):
+	global clf
+	global name_seq
+	print "inside fit fifo data"
+	x=[[],[],[]]
+	y=[[],[],[]]
 
 	for docs in cursor:
 	     item=[]
@@ -119,17 +121,27 @@ def predict_dispatch_sequence(listoflist, name, datatype):
 	     item.append(docs["temperature"])
 	     item.append(docs["humidity"])
 	     item.append(docs["deflection"])
-	     x.append(item)
-	     y.append(docs["losses"])
+	     x[name_seq[docs["Datatype"]]].append(item)
+	     y[name_seq[docs["Datatype"]]].append(docs["losses"])
+	for i in range(len(name_seq.keys())):
+		clf[i].fit(x[i],y[i])
 	
-	clf.fit(x,y)
+	print [x.coef_ for x in clf]
+		
+	
 
+def predict_dispatch_sequence(listoflist, name, datatype):	
+	
+	global name_seq
+	global clf
+	
+	print "inside predict dispatch sequence"
 	unordered_queue=[]
 
 	#there will be a for loop here.
 
 	for l in range(0, len(name)):
-		unordered_queue.append((clf.predict([listoflist[l]]), name[l]))
+		unordered_queue.append((clf[name_seq[datatype]].predict([listoflist[l]]), name[l]))
 
 	unordered_queue.sort(key=lambda x: x[0], reverse=True)
 	oqueue = []
