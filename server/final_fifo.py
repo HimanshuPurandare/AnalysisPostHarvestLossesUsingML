@@ -1,7 +1,6 @@
 #Input will be a list of list, where inner lists will contain parameters in sequence of Storage_Days, temperature, humidity, deflection_from_harvesting time and a list of stock names arranged according to the sequence in listoflist.
 
-from sklearn import linear_model
-from pymongo import MongoClient
+from sklearn.linear_model import ElasticNet
 import numpy as np
 import datetime
 import requests
@@ -11,9 +10,9 @@ import json
 #listoflist = [[120, 26, 76, 3], [90, 27, 71, 6], [30, 18, 84, 0]]
 #name = ["stock1", "stock2", "stock3"]
 
-clf_wheat=linear_model.LinearRegression()
-clf_rice=linear_model.LinearRegression()
-clf_onion=linear_model.LinearRegression()
+clf_wheat=ElasticNet()
+clf_rice=ElasticNet()
+clf_onion=ElasticNet()
 
 clf=[clf_wheat,clf_rice,clf_onion]
 name_seq={"Wheat":0,"Rice":1,"Onion":2}

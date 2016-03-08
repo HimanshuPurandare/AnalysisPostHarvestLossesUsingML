@@ -2,12 +2,16 @@ package com.example.shreyas.newdemo;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,6 +43,7 @@ public class GetDispatchAmountDialog extends Dialog implements View.OnClickListe
     private Button btn_proceed,btn_cancel;
     private WHAdapter whAdapter;
     onDispatchStarted ondispatchstarted;
+    private Activity owneractivity;
 
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -78,16 +83,20 @@ public class GetDispatchAmountDialog extends Dialog implements View.OnClickListe
 
 
 
+
+
         d1=this;
+        Log.d("the owneractivity is", owneractivity.toString());
         Log.d("End of on create", "----");
 
     }
 
-    public GetDispatchAmountDialog(Context context,WHAdapter whAdapter)
+
+    public GetDispatchAmountDialog(Activity owneractivity,Context context,WHAdapter whAdapter)
     {
         super(context);
         this.whAdapter=whAdapter;
-
+        this.owneractivity=owneractivity;
 
 
 
@@ -107,11 +116,36 @@ public class GetDispatchAmountDialog extends Dialog implements View.OnClickListe
         Log.d("Inside", "onclick");
         if (v.getId() == R.id.btn_ok_dialog_dispatch)
         {
+
+            final ProgressDialog progressDialog = new ProgressDialog(getContext());
+            final long load_time_start=System.currentTimeMillis();
+            progressDialog.isIndeterminate();
+            progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            progressDialog.setCancelable(false);
+            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            progressDialog.setMessage(getContext().getString(R.string.processing_stock_dispatch));
+
+
+
+
+
+            if(((InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE)).isActive())
+            {
+                InputMethodManager imm = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+            }
+
+
+
+
+
+
             try {
                 final int to_dispatch_amount = Integer.parseInt(et_get_dispatch_amount_dialog.getText().toString());
 
                 Log.d("Inside ok button", "clicked");
-                if (MainActivity.ConnectedToNetwork) {
+                if (MainActivity.ConnectedToNetwork)
+                {
 
                     JSONObject j = new JSONObject();
                     try {
@@ -162,8 +196,9 @@ public class GetDispatchAmountDialog extends Dialog implements View.OnClickListe
 
                                         }
 
-                                        ondispatchstarted.startDispatch(dialog_crop_spinner.getSelectedItem().toString(),to_dispatch_amount,total_selected_amount,dispatch_sequence.length());
+                                        ondispatchstarted.startDispatch(dialog_crop_spinner.getSelectedItem().toString(), to_dispatch_amount, total_selected_amount, dispatch_sequence.length());
 
+                                        progressDialog.dismiss();
                                         d1.dismiss();
                                     } catch (JSONException e) {
                                         e.printStackTrace();
@@ -187,11 +222,69 @@ public class GetDispatchAmountDialog extends Dialog implements View.OnClickListe
             {
                 et_get_dispatch_amount_dialog.setText("0");
             }
-        } else if (v.getId() == R.id.btn_cancel_dialog_dispatch) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            Thread temp_timer_thread=new Thread(new Runnable() {
+                @Override
+                public void run()
+                {
+                    while(progressDialog.isShowing() && System.currentTimeMillis()-load_time_start<5000)
+                    {
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (progressDialog.isShowing() && System.currentTimeMillis()-load_time_start>5000)
+                    {
+                        progressDialog.dismiss();
+                        Log.d("the owneractivity is", owneractivity.toString());
+                        showToast(getContext().getString(R.string.problem_in_loading_message), owneractivity);
+                        d1.dismiss();
+
+                    }
+                }
+            });
+            hide();
+            progressDialog.show();
+            temp_timer_thread.start();
+
+        }
+        else if (v.getId() == R.id.btn_cancel_dialog_dispatch)
+        {
             Log.d("Inside cancel button", "clicked");
             this.dismiss();
         }
 
+    }
+
+    public void showToast(final String toast,Activity owneractivityreference1)
+    {
+        final Activity owneractivityreference=owneractivityreference1;
+        Log.d("the owneractivity is",owneractivityreference.toString());
+        owneractivityreference.runOnUiThread(new Runnable() {
+            public void run() {
+                Log.d("the owneractivity is",owneractivityreference.toString());
+                Toast.makeText(owneractivityreference, toast, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
 }

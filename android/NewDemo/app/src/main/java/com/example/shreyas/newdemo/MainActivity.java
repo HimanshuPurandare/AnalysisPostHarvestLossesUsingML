@@ -56,11 +56,11 @@ public class MainActivity extends AppCompatActivity
 
 //    public static String ServerIP="http://192.168.1.147:5000";
 //    public static String ServerIP="http://192.168.0.105:5000";
-//    public static String ServerIP="http://10.42.0.1:5000";
+    public static String ServerIP="http://10.42.0.1:5000";
 
 //    public static String ServerIP="http://10.42.0.1:5000";
-//      public static String ServerIP = "http://192.168.1.131:5000";
-    public static String ServerIP = "http://192.168.43.42:5000";
+//      public static String ServerIP = "http://192.168.0.116:5000";
+//    public static String ServerIP = "http://192.168.43.42:5000";
 
 //    public static String ServerIP="http://10.42.0.249:5000";
 //      public static String ServerIP = "http://192.168.1.131:5000";

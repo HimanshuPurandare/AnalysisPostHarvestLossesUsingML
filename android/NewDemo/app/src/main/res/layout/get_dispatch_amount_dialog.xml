@@ -26,6 +26,7 @@
         android:id="@+id/dialog_accept_dispatch_amount"
         android:hint="@string/hint_dispatch_stock_amount"
         android:minWidth="30dp"
+        android:inputType="number"
         />
 
     </LinearLayout>

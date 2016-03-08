@@ -1,8 +1,10 @@
 package com.example.shreyas.newdemo;
 
-import android.app.FragmentManager;
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -127,7 +130,7 @@ public class MyWareHouse extends AppCompatActivity
             public void onClick(View v)
             {
                 Log.d("Before showing ", "dispatch dialog----");
-                GetDispatchAmountDialog getDispatchAmountDialog=new GetDispatchAmountDialog(v.getContext(),whAdapter);
+                GetDispatchAmountDialog getDispatchAmountDialog=new GetDispatchAmountDialog((Activity)v.getContext(),v.getContext(),whAdapter);
                 getDispatchAmountDialog.show();
 
                 Log.d("After showing ", "dispatch dialog----");
@@ -166,6 +169,35 @@ public class MyWareHouse extends AppCompatActivity
     }
     private void initializeData()
     {
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        final long load_time_start=System.currentTimeMillis();
+        progressDialog.isIndeterminate();
+        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        progressDialog.setCancelable(false);
+        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        progressDialog.setMessage(getString(R.string.stock_list_loading_progress_dialog_message));
+        progressDialog.show();
+        Thread temp_timer_thread=new Thread(new Runnable() {
+            @Override
+            public void run()
+            {
+                while(progressDialog.isShowing() && System.currentTimeMillis()-load_time_start<10000)
+                {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (progressDialog.isShowing() && System.currentTimeMillis()-load_time_start>10000)
+                {
+                    progressDialog.dismiss();
+                    showToast(getString(R.string.problem_in_loading_message));
+                }
+            }
+        });
+
+        temp_timer_thread.start();
 
         stocks.clear();
         Log.d("Connected to network", MainActivity.ConnectedToNetwork + "");
@@ -207,7 +239,7 @@ public class MyWareHouse extends AppCompatActivity
                             Log.d("stocklist is",stocks.size()+"");
                         }
                         whAdapter.notifyDataSetChanged();
-
+                        progressDialog.dismiss();
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -230,5 +262,14 @@ public class MyWareHouse extends AppCompatActivity
         }
 
     }
+    public void showToast(final String toast)
+    {
+        runOnUiThread(new Runnable() {
+            public void run() {
+                Toast.makeText(getApplicationContext(), toast, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
 
 }
