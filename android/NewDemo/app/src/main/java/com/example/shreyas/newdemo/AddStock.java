@@ -2,12 +2,15 @@ package com.example.shreyas.newdemo;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -176,6 +179,44 @@ public class AddStock extends AppCompatActivity
     {
         Log.d("Inside adfarm","inside");
 
+        final StorageDBHandler db=new StorageDBHandler(this);
+
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        final long load_time_start=System.currentTimeMillis();
+        progressDialog.isIndeterminate();
+        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        progressDialog.setCancelable(false);
+        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        progressDialog.setMessage(getString(R.string.adding_stock_progress_dialog_message));
+
+        progressDialog.show();
+
+        Thread temp_timer_thread=new Thread(new Runnable() {
+            @Override
+            public void run()
+            {
+                while(progressDialog.isShowing() && System.currentTimeMillis()-load_time_start<10000)
+                {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (progressDialog.isShowing() && System.currentTimeMillis()-load_time_start>10000)
+                {
+                    progressDialog.dismiss();
+                    showToast(getString(R.string.problem_in_loading_message));
+                }
+            }
+        });
+
+
+
+
+
+
+
         stock_name = et_stock_name.getText().toString();
         farmer_name= et_farmer_name.getText().toString();
         amount= et_amount.getText().toString();
@@ -193,10 +234,13 @@ public class AddStock extends AppCompatActivity
         if(stock_name.equals("")||farmer_name.equals("")||amount.equals("")||sow_start.equals("")||sow_end.equals("")||harvest_start.equals("")||harvest_end.equals("")||in_time.equals(""))
         {
             Toast.makeText(getApplicationContext(), getString(R.string.toast_fill_all_info), Toast.LENGTH_LONG).show();
+            progressDialog.dismiss();
         }
         else {
 
             if (MainActivity.ConnectedToNetwork) {
+
+                temp_timer_thread.start();
 
                 JSONObject j = new JSONObject();
                 try {
@@ -229,9 +273,35 @@ public class AddStock extends AppCompatActivity
                                     String signinresult = response.getString("Result");
                                     if (signinresult.equals("Valid")) {
                                         Intent i = new Intent(AddStock.this, MyWareHouse.class).putExtra("WarehouseName", warehousename);
+
+
+                                        StockInfo temp_stockinfo=new StockInfo();
+
+                                        temp_stockinfo.setStockAmount(amount);
+                                        temp_stockinfo.setStockName(stock_name);
+                                        temp_stockinfo.setStockCropName(CustomOnItemSelectedListener.crop);
+                                        temp_stockinfo.setStockCropType(CustomOnItemSelectedListener.type_of_crop);
+                                        temp_stockinfo.setStockSowStart(sow_start);
+                                        temp_stockinfo.setStockSowEnd(sow_end);
+                                        temp_stockinfo.setStockHarvestStart(harvest_start);
+                                        temp_stockinfo.setStockHarvestEnd(harvest_end);
+                                        temp_stockinfo.setStockFarmerName(farmer_name);
+                                        temp_stockinfo.setStockWareHouseName(warehousename);
+                                        temp_stockinfo.setStockInTime(in_time);
+
+                                        db.addStock(temp_stockinfo);
+
+                                        if(progressDialog.isShowing())
+                                        {
+                                            progressDialog.dismiss();
+                                        }
+
                                         startActivity(i);
                                         finish();
-                                    } else {
+
+                                    }
+                                    else
+                                    {
                                         Toast.makeText(getApplicationContext(), "Stock Addition Failed!!!", Toast.LENGTH_LONG).show();
                                     }
                                 } catch (JSONException e) {
@@ -329,6 +399,15 @@ public class AddStock extends AppCompatActivity
         startActivity(i);
         finish();
     }
+
+    public void showToast(final String toast) {
+        runOnUiThread(new Runnable() {
+            public void run() {
+                Toast.makeText(getApplicationContext(), toast, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
 
 
 }

@@ -167,8 +167,11 @@
     <string name="toast_fill_all_info">Please Fill All the Information</string>
 
     <string name="warehouse_loading_progressdialog_message">Loading Warehouse List ...</string>
-    <string name="problem_in_loading_message">Problem in loading data!!!Please try again Later</string>
+    <string name="problem_in_loading_message">Problem in connecting with Server!!!Please try again Later</string>
     <string name="stock_list_loading_progress_dialog_message">Loading list of Stocks</string>
     <string name="processing_stock_dispatch">Processing Stock Dispatch ...</string>
+    <string name="adding_warehouse_progress_dialog_message">Adding Warehouse...</string>
+    <string name="adding_stock_progress_dialog_message">Adding Stock...</string>
+    <string name="finalize_stock_dispatch_progress_dialog_message">Finalizing Stock Dispatch...</string>
 
 </resources>

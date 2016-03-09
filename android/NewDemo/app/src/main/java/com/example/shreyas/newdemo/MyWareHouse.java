@@ -176,7 +176,9 @@ public class MyWareHouse extends AppCompatActivity
         progressDialog.setCancelable(false);
         progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         progressDialog.setMessage(getString(R.string.stock_list_loading_progress_dialog_message));
+
         progressDialog.show();
+
         Thread temp_timer_thread=new Thread(new Runnable() {
             @Override
             public void run()
@@ -197,70 +199,105 @@ public class MyWareHouse extends AppCompatActivity
             }
         });
 
-        temp_timer_thread.start();
 
         stocks.clear();
-        Log.d("Connected to network", MainActivity.ConnectedToNetwork + "");
-        if(MainActivity.ConnectedToNetwork==true)
+
+
+
+        final StorageDBHandler db=new StorageDBHandler(this);
+
+        List<StockInfo> TempstockInfoList = db.getstocks(warehousename);
+
+
+        if(TempstockInfoList.size()==0)
         {
 
-            JSONObject j;
-            j = new JSONObject();
-            try {
-                j.put("Email",MainActivity.Global_Email_Id);
-                j.put("WareHouseName",warehousename);
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            Log.d("Connected to network", MainActivity.ConnectedToNetwork + "");
+            if (MainActivity.ConnectedToNetwork == true) {
 
-            String url = MainActivity.ServerIP + "/getstockslist/";
+                JSONObject j;
+                j = new JSONObject();
+                try {
+                    j.put("Email", MainActivity.Global_Email_Id);
+                    j.put("WareHouseName", warehousename);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                String url = MainActivity.ServerIP + "/getstockslist/";
+
+                temp_timer_thread.start();
 
 
-            JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, url, j, new Response.Listener<JSONObject>()
-            {
-                @Override
-                public void onResponse(JSONObject response) {
-                    // the response is already constructed as a JSONObject!
-                    Log.d("Onresponse", "yes");
-                    try {
-                        response = response.getJSONObject("Android");
-                        JSONArray a = new JSONArray();
-                        a=response.getJSONArray("Stocklist");
-                        Log.d("stringed",""+a.length());
+                JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, url, j, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // the response is already constructed as a JSONObject!
+                        Log.d("Onresponse", "yes");
+                        try {
+                            response = response.getJSONObject("Android");
+                            JSONArray a = new JSONArray();
+                            a = response.getJSONArray("Stocklist");
+                            Log.d("stringed", "" + a.length());
 
-                        int l = a.length();
-                        for(int i=0;i<l;i++)
-                        {
-                            JSONObject temp = a.getJSONObject(i);
-                            Log.d("stringed", temp.getString("StockName"));
-                            stocks.add(new StockList(temp.getString("StockName"),temp.getString("StockCropName"),Integer.parseInt(temp.getString("StockAmount"))));
-//                            MyWareHouse.stocks.add(new StockList("a", "b", 12));
-                            Log.d("stocklist is",stocks.size()+"");
+                            int l = a.length();
+                            for (int i = 0; i < l; i++) {
+                                JSONObject temp = a.getJSONObject(i);
+                                Log.d("stringed", temp.getString("StockName"));
+
+                                stocks.add(new StockList(temp.getString("StockName"), temp.getString("StockCropName"), Integer.parseInt(temp.getString("StockAmount"))));
+
+                                db.addIncompleteStock(temp.getString("StockName"), warehousename,temp.getString("StockAmount"),temp.getString("StockCropName"));
+
+
+
+                                //                            MyWareHouse.stocks.add(new StockList("a", "b", 12));
+                                Log.d("stocklist is", stocks.size() + "");
+
+
+                            }
+                            Log.d("Loaded stocks","from Internet");
+                            whAdapter.notifyDataSetChanged();
+                            if(progressDialog.isShowing()) {
+
+                                progressDialog.dismiss();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                        whAdapter.notifyDataSetChanged();
-                        progressDialog.dismiss();
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
-                }
-            }, new Response.ErrorListener() {
+                }, new Response.ErrorListener() {
 
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    error.printStackTrace();
-                }
-            });
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                });
 
 
-            MainActivity.getInstance().addToRequestQueue(jsonRequest);
+                MainActivity.getInstance().addToRequestQueue(jsonRequest);
+            }
+            else
+            {
+                Toast.makeText(this, "No Internet Connection", Toast.LENGTH_LONG).show();
+            }
         }
         else
         {
-            Toast.makeText(this, "No Internet Connection", Toast.LENGTH_LONG).show();
-        }
+            for(StockInfo stockInfo:TempstockInfoList)
+            {
+                stocks.add(new StockList(stockInfo.getStockName(),stockInfo.getStockCropName(),Integer.parseInt(stockInfo.getStockAmount())));
+            }
+            if (progressDialog.isShowing())
+            {
 
+                progressDialog.dismiss();
+            }
+
+            Log.d("Loaded stocks","from db");
+        }
     }
     public void showToast(final String toast)
     {
