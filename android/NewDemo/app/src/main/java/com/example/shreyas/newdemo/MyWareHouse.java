@@ -104,7 +104,8 @@ public class MyWareHouse extends AppCompatActivity
             public void onClick(View v)
             {
 
-                whAdapter.FinalizeDispatch();
+                final ProgressDialog progressDialog = new ProgressDialog(MyWareHouse.this);
+                whAdapter.FinalizeDispatch(progressDialog);
 
             }
         });

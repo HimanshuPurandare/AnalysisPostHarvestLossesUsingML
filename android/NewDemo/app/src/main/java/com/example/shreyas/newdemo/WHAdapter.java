@@ -258,12 +258,10 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> i
         return stocks.size();
     }
 
-    public void FinalizeDispatch()
+    public void FinalizeDispatch(ProgressDialog progressDialog1)
     {
+        final ProgressDialog progressDialog=progressDialog1;
 
-
-        final ProgressDialog progressDialog = new ProgressDialog(MyWareHouse.mywarehousecontext.getApplicationContext());
-        Log.d("context in finalize fun", MyWareHouse.mywarehousecontext.toString());
 
         final long load_time_start=System.currentTimeMillis();
         progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -271,7 +269,7 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> i
         progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         progressDialog.setMessage(MyWareHouse.mywarehousecontext.getString(R.string.finalize_stock_dispatch_progress_dialog_message));
 
-//        progressDialog.show();
+        progressDialog.show();
 
         Thread temp_timer_thread=new Thread(new Runnable() {
             @Override
@@ -370,7 +368,10 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> i
                                     }
                                 }
 
-                                progressDialog.dismiss();
+                                if(progressDialog.isShowing()) {
+
+                                    progressDialog.dismiss();
+                                }
                                 notifyDataSetChanged();
 
                                 MyWareHouse.DispatchingCropName="";
