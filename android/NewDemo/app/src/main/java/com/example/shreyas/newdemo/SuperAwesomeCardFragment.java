@@ -1,9 +1,12 @@
 package com.example.shreyas.newdemo;
 
 
+import android.app.LoaderManager;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +32,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class SuperAwesomeCardFragment extends Fragment {
@@ -81,6 +86,38 @@ public class SuperAwesomeCardFragment extends Fragment {
     }
     public void setfarms()
     {
+        final ProgressDialog progressDialog = new ProgressDialog(getContext());
+        final long load_time_start=System.currentTimeMillis();
+        progressDialog.isIndeterminate();
+        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        progressDialog.setCancelable(false);
+        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        progressDialog.setMessage(getString(R.string.warehouse_loading_progressdialog_message));
+        progressDialog.show();
+        Thread temp_timer_thread=new Thread(new Runnable() {
+            @Override
+            public void run()
+            {
+                while(progressDialog.isShowing() && System.currentTimeMillis()-load_time_start<10000)
+                {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (progressDialog.isShowing() && System.currentTimeMillis()-load_time_start>10000)
+                {
+                    progressDialog.dismiss();
+                    showToast(getString(R.string.problem_in_loading_message));
+
+                }
+            }
+        });
+
+        temp_timer_thread.start();
+
+
         farmlist.clear();
         Log.d("Connected to network", MainActivity.ConnectedToNetwork + "");
         if(MainActivity.ConnectedToNetwork==true)
@@ -123,10 +160,8 @@ public class SuperAwesomeCardFragment extends Fragment {
                         }
 
 
-                        // farmlist.add(new Farm_info(fname));
-
-
                         fadap.notifyDataSetChanged();
+                        progressDialog.dismiss();
 
 
 
@@ -153,72 +188,141 @@ public class SuperAwesomeCardFragment extends Fragment {
 
     public void setwarehouses()
     {
-        warehouselist.clear();
-        Log.d("Connected to network", MainActivity.ConnectedToNetwork + "");
-        if(MainActivity.ConnectedToNetwork==true)
-        {
 
-            JSONObject j;
-            j = new JSONObject();
-            try {
-                j.put("Email",MainActivity.Global_Email_Id);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+        final ProgressDialog progressDialog = new ProgressDialog(getContext());
+        final long load_time_start=System.currentTimeMillis();
+        progressDialog.isIndeterminate();
+        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        progressDialog.setCancelable(false);
+        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        progressDialog.setMessage(getString(R.string.warehouse_loading_progressdialog_message));
+        progressDialog.show();
 
-            String url = MainActivity.ServerIP + "/getwarehouses/";
-
-
-            JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, url, j, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    // the response is already constructed as a JSONObject!
-                    Log.d("Onresponse", "yes");
+        Thread temp_timer_thread=new Thread(new Runnable() {
+            @Override
+            public void run()
+            {
+                while(progressDialog.isShowing() && System.currentTimeMillis()-load_time_start<5000)
+                {
                     try {
-                        response = response.getJSONObject("Android");
-                        //String fname = response.getString("AddFarmName");
-
-                        JSONArray a = new JSONArray();
-
-                        a = response.getJSONArray("AddWareHouseName");
-
-                        int l = a.length();
-
-                        for(int i=0;i<l;i++)
-                        {
-                            warehouselist.add(new WareHouse_Info(a.getString(i)));
-                        }
-
-
-                        // farmlist.add(new Farm_info(fname));
-
-
-                        wadap.notifyDataSetChanged();
-
-
-
-                    } catch (JSONException e) {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
-            }, new Response.ErrorListener() {
-
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    error.printStackTrace();
+                if (progressDialog.isShowing() && System.currentTimeMillis()-load_time_start>5000)
+                {
+                    progressDialog.dismiss();
+                    showToast(getString(R.string.problem_in_loading_message));
                 }
-            });
+            }
+        });
+
+        temp_timer_thread.start();
+
+        Log.d("Dialog shown", "as loading warehouses");
+        Log.d("start time:", load_time_start + "");
 
 
-            MainActivity.getInstance().addToRequestQueue(jsonRequest);
+
+        warehouselist.clear();
+        Log.d("Connected to network", MainActivity.ConnectedToNetwork + "");
+
+
+
+        final StorageDBHandler db=new StorageDBHandler(this.getContext());
+        int wh_cnt=db.getWarehousesCount();
+        Log.d("The count is",wh_cnt+"");
+
+
+        if(wh_cnt==0)
+        {
+            if(MainActivity.ConnectedToNetwork==true)
+            {
+                db.deleteAll();
+
+                JSONObject j;
+                j = new JSONObject();
+                try {
+                    j.put("Email",MainActivity.Global_Email_Id);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                String url = MainActivity.ServerIP + "/getwarehouses/";
+
+
+                JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, url, j, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // the response is already constructed as a JSONObject!
+                        Log.d("Onresponse", "yes");
+                        try {
+                            response = response.getJSONObject("Android");
+                            //String fname = response.getString("AddFarmName");
+
+                            JSONArray a = new JSONArray();
+
+                            a = response.getJSONArray("AddWareHouseName");
+
+                            int l = a.length();
+
+                            for(int i=0;i<l;i++)
+                            {
+                                warehouselist.add(new WareHouse_Info(a.getString(i)));
+                                db.addWarehouse(a.getString(i));
+                            }
+
+
+
+                            Log.d("Used data","from internet");
+
+                            wadap.notifyDataSetChanged();
+                            if(progressDialog.isShowing())
+                            {
+
+                                progressDialog.dismiss();
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                });
+
+
+                MainActivity.getInstance().addToRequestQueue(jsonRequest);
+            }
+            else
+            {
+                Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_LONG).show();
+            }
+
         }
         else
         {
-            Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_LONG).show();
+            List<String> whlist=db.getwarehouses();
+            for(String wh:whlist)
+            {
+                warehouselist.add(new WareHouse_Info(wh));
+            }
+            Log.d("Used data","from db");
+            if(progressDialog.isShowing())
+            {
+                progressDialog.dismiss();
+            }
+
         }
-
-
     }
+
+
 
 
 
@@ -331,16 +435,15 @@ public class SuperAwesomeCardFragment extends Fragment {
                 }
                 else if(MainActivity.GlobalUser_Role.equals("Go-Down Manager"))
                 {
-                    Log.d("Add","Warehouse");
+                    Log.d("Add", "Warehouse");
                     View rootView = inflater.inflate(R.layout.c, container, false);
 
                     FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
                     fab.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onClick(View view)
-                        {
-                            Log.d("Add","warehouse");
-                            Intent i = new Intent(getActivity(),AddWarehouse.class );
+                        public void onClick(View view) {
+                            Log.d("Add", "warehouse");
+                            Intent i = new Intent(getActivity(), AddWarehouse.class);
                             startActivity(i);
                             getActivity().finish();
                         }
@@ -350,6 +453,7 @@ public class SuperAwesomeCardFragment extends Fragment {
                     rv.setHasFixedSize(true);
                     LinearLayoutManager llm = new LinearLayoutManager(getActivity());
                     rv.setLayoutManager(llm);
+
 
                     setwarehouses();
 
@@ -412,6 +516,16 @@ public class SuperAwesomeCardFragment extends Fragment {
         {
             return null;
         }
+    }
+
+
+    public void showToast(final String toast)
+    {
+        getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                Toast.makeText(getActivity(), toast, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
 }
