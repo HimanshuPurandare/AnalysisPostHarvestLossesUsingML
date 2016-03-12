@@ -145,11 +145,17 @@ public class SuperAwesomeCardFragment extends Fragment {
                         //String fname = response.getString("AddFarmName");
 
                         JSONArray a = new JSONArray();
-
-                        a = response.getJSONArray("farmlist");
-
-                        int l = a.length();
-
+                        int l;
+                        try {
+                            a = response.getJSONArray("farmlist");
+                            Log.d("response array ", a.toString());
+                            l = a.length();
+                            Log.d("response array ", l + "");
+                        }
+                        catch (Exception e)
+                        {
+                            l = 0;
+                        }
                         for(int i=0;i<l;i++)
                         {
                             JSONObject temp = a.getJSONObject(i);
@@ -163,7 +169,10 @@ public class SuperAwesomeCardFragment extends Fragment {
                         fadap.notifyDataSetChanged();
                         progressDialog.dismiss();
 
-
+                        if(l==0)
+                        {
+                            Toast.makeText(getActivity(),"No farms added",Toast.LENGTH_LONG).show();
+                        }
 
                     } catch (JSONException e) {
                         e.printStackTrace();
