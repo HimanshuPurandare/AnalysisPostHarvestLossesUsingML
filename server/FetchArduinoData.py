@@ -1,22 +1,47 @@
 import serial
 import time
 
-ser = serial.Serial('/dev/ttyACM0',9600)
+try:
+        ser = serial.Serial('/dev/ttyACM0',9600)
+except:
+        print "Check /dev/"
 
-sm = ""
-hu = ""
-te = ""
 def fetch_sm():
-        global sm
 #        print "inside fetch_sm"
         sm = (ser.readline())
 #        sm = "23.34"
+        d = {"T":0,"H":0,"S":0}
         try:
-                sm = float(sm)
-                f=open("sm.txt","w")
-                f.write(str(sm))
-                f.close()
-                return sm
+                if sm[0] == 'S':
+                    
+                        sm1 = sm.split('S')
+                        f=open("sm.txt","w")
+
+                        sm = float(sm)
+                        f=open("sm.txt","w")
+                        f.write(str(sm))
+                        f.close()
+                        d["S"] = int(sm1[1])
+                        print "S",sm1
+                        return d
+                if sm[0] == 'T':
+                        te = sm.split('T')
+                        f=open("te.txt","w")
+                        f.write(str(te))
+                        f.close()
+                        d['T'] = int(te[1])
+                        print te
+                        return d
+                if sm[0] == 'H':
+                        te = sm.split('H')
+                        f=open("hu.txt","w")
+                        f.write(str(te))
+                        f.close()
+                        d['H'] = int(te[1])
+                        print te
+                        return d
+
+                        
         except:
                 fetch_sm()
 
@@ -53,4 +78,5 @@ def fetch_te():
 
 
 
-
+while True:
+        print fetch_sm()

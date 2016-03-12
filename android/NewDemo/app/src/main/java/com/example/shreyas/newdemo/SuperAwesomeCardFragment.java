@@ -92,7 +92,7 @@ public class SuperAwesomeCardFragment extends Fragment {
         progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         progressDialog.setCancelable(false);
         progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        progressDialog.setMessage(getString(R.string.warehouse_loading_progressdialog_message));
+        progressDialog.setMessage(getString(R.string.farm_loading_progressdialog_message));
         progressDialog.show();
         Thread temp_timer_thread=new Thread(new Runnable() {
             @Override
@@ -153,8 +153,10 @@ public class SuperAwesomeCardFragment extends Fragment {
                         for(int i=0;i<l;i++)
                         {
                             JSONObject temp = a.getJSONObject(i);
-                            Log.d("Min and Max ...",temp.toString());
-                            farmlist.add(new Farm_info(temp.getString("FarmName"),temp.getString("MaxTemperature")+"/"+temp.getString("MinTemperature"),temp.getString("MaxHumidity")+"/"+temp.getString("MinHumidity"),temp.getString("MaxSM")+"/"+temp.getString("MinSM"),temp.getString("URL")));
+                            Log.d("Min and Max ...", temp.toString());
+
+                            //farmlist.add(new Farm_info(temp.getString("FarmName"),temp.getString("MaxTemperature")+"/"+temp.getString("MinTemperature"),temp.getString("MaxHumidity")+"/"+temp.getString("MinHumidity"),temp.getString("MaxSM")+"/"+temp.getString("MinSM"),temp.getString("URL")));
+                            farmlist.add(new Farm_info(temp.getString("FarmName"),"18"+"/"+"29","39"+"/"+"52","0"+"/"+"495",temp.getString("URL")));
                         }
 
 

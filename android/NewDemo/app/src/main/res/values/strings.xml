@@ -166,7 +166,8 @@
     <string name="hint_dispatch_stock_amount">e.g.200</string>
     <string name="toast_fill_all_info">Please Fill All the Information</string>
 
-    <string name="warehouse_loading_progressdialog_message">Loading Warehouse List ...</string>
+    <string name="warehouse_loading_progressdialog_message">Loading Warehouses...</string>
+    <string name="farm_loading_progressdialog_message">Loading Farms...</string>
     <string name="problem_in_loading_message">Problem in connecting with Server!!!Please try again Later</string>
     <string name="stock_list_loading_progress_dialog_message">Loading list of Stocks</string>
     <string name="processing_stock_dispatch">Processing Stock Dispatch ...</string>
