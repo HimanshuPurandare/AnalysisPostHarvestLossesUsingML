@@ -197,31 +197,31 @@ def predictions():
 	else:
 		print "Inside else"
 		if returnval['AddFarmCrop']=="Wheat":
-			#datalist["HTP"] = str(wheat_harvesting_time())
-			datalist["Disease"] = "hahaha"
+			datalist["HTP"] = str(wheat_harvesting_time())
+			#datalist["Disease"] = "hahaha"
 		elif returnval['AddFarmCrop']=="Rice":
-			#datalist["HTP"]=str(rice_harvesting_time())
-			datalist["Disease"] = "hahahaha"
+			datalist["HTP"]=str(rice_harvesting_time())
+			#datalist["Disease"] = "hahahaha"
 		else:
 			datalist["HTP"]="-"
 		print datalist["HTP"]
-	    		   
+	
 #   get pi address from hwid???
 #	    wd = requests.get('http://192.168.0.101:5000').content
-        
+	    
 #        print "after htp" 
-#        wds=get_current_weather_data()
+		wds=get_current_weather_data()
 #        print "got wds",wds
 
-#        datalist["Disease"] = str(predict_disease(23,80))
-        if returnval['AddFarmCrop']=="Wheat":
-        	print "inside if"
-        	#datalist["Disease"] = str(wheat_disease(int(float(wds['Temperature'])),(int(float(wds['Humidity'])))))
-        	datalist["Disease"] = "ahahah"
-        elif returnval['AddFarmCrop']=="Onion":
-        	print "inside inner elif"
-        	#datalist["Disease"] = str(onion_disease(int(float(wds['Temperature'])),(int(float(wds['Humidity'])))))
-        	datalist["Disease"] = "ahahahah"
+		#datalist["Disease"] = str(predict_disease(23,80))
+		if returnval['AddFarmCrop']=="Wheat":
+			print "inside if"
+			datalist["Disease"] = str(wheat_disease(int(float(wds['Temperature'])),(int(float(wds['Humidity'])))))
+			#datalist["Disease"] = "ahahah"
+		elif returnval['AddFarmCrop']=="Onion":
+			print "inside inner elif"
+			datalist["Disease"] = str(onion_disease(int(float(wds['Temperature'])),(int(float(wds['Humidity'])))))
+			#datalist["Disease"] = "ahahahah"
 		print "Final Datalist done"	
 	return jsonify(Android = datalist)   
 
@@ -237,10 +237,10 @@ def getweatherdata():
 	    print "weather data Valid"
 	    
 	    #wd = requests.get('http://192.168.0.101:5000').content
-        #wd = get_current_weather_data()
-        #print wd
-        #wds = {"current_weather":wd}
-        wds = {"current_weather":weather_data_ardu}
+        wd = get_current_weather_data()
+        print wd
+        wds = {"current_weather":wd}
+        #wds = {"current_weather":weather_data_ardu}
         #wd=json.loads(wd)
         	
 	return jsonify(Android = wds)   
@@ -305,10 +305,11 @@ def getstockinfo():
 @app.route('/getdispatchsequence/',methods=['POST', 'GET'])
 def getdispatchsequence():
 	received_data = receive_from_android(request)
-#	print received_data
+	print received_data
 	
 	stock_list=return_stocks_of_crop({"StockUID":received_data['DispatcherUID'],"StockWareHouseName":received_data['WareHouseName'],"StockCropName":received_data['DispatchCropName']})
 	warehouse_info=return_warehouse_info({"WareHouseName":received_data['WareHouseName'],"Email":received_data['DispatcherUID']})
+	print warehouse_info
 	dispatch_list=get_dispatch_sequence(stock_list,(warehouse_info),int(float(received_data['DispatchAmount'])))
 #	dispatch_list=[{"StockName":stock_list[0]['StockName'],"DispatchAmount":int(stock_list[0]['StockAmount'])},{"StockName":stock_list[2]['StockName'],"DispatchAmount":int(stock_list[2]['StockAmount'])/2}]
 	
@@ -349,14 +350,14 @@ def getsensordata():
     
 if __name__ == '__main__':
 	create_collections()
+	fit_fifo_data(get_fifo_data_cursor())
 #    print get_current_weather_data()
-#    app.run(host="192.168.0.3")
+#	app.run(host="192.168.0.116")
 #    app.run(host="0.0.0.0",port=12000)
-#    app.run(host="192.168.1.147")
-	app.run(host="192.168.0.120")
-#	app.run(host="10.42.0.1")
+#	app.run(host="192.168.43.42")
+#	app.run(host="192.168.0.120")
+	app.run(host="10.42.0.1")
 #    port = int(os.environ.get("PORT", 5000))
-#    app.run(host='0.0.0.0', port=port)
 
 
 

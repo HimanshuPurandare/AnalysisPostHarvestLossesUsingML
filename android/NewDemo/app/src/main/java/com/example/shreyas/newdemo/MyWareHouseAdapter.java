@@ -29,7 +29,8 @@ public class MyWareHouseAdapter extends RecyclerView.Adapter<MyWareHouseAdapter.
     }
 
     @Override
-    public void onBindViewHolder(PersonViewHolder personViewHolder, int i) {
+    public void onBindViewHolder(PersonViewHolder personViewHolder, int i)
+    {
         personViewHolder.WareHousename.setText(warehouses.get(i).warehousename);
 
         Log.d("onbind", "c");

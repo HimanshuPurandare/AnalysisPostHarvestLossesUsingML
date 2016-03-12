@@ -148,6 +148,11 @@ public class Navigation_Drawer extends Fragment implements NavigationView.OnCrea
                 editor.commit();
                 Intent i = new Intent(getActivity(), MainActivity.class);
                 MainActivity.signedin=0;
+
+                StorageDBHandler db=new StorageDBHandler(this.getContext());
+                db.deleteAll();
+
+
                 startActivity(i);
                 getActivity().finish();
 

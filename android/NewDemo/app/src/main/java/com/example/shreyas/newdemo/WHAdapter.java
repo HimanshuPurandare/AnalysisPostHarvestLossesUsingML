@@ -3,7 +3,9 @@ package com.example.shreyas.newdemo;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.CardView;
@@ -32,6 +34,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.MulticastSocket;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -255,8 +258,41 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> i
         return stocks.size();
     }
 
-    public void FinalizeDispatch()
+    public void FinalizeDispatch(ProgressDialog progressDialog1)
     {
+        final ProgressDialog progressDialog=progressDialog1;
+
+
+        final long load_time_start=System.currentTimeMillis();
+        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        progressDialog.setCancelable(false);
+        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        progressDialog.setMessage(MyWareHouse.mywarehousecontext.getString(R.string.finalize_stock_dispatch_progress_dialog_message));
+
+        progressDialog.show();
+
+        Thread temp_timer_thread=new Thread(new Runnable() {
+            @Override
+            public void run()
+            {
+                while(progressDialog.isShowing() && System.currentTimeMillis()-load_time_start<5000)
+                {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (progressDialog.isShowing() && System.currentTimeMillis()-load_time_start>5000)
+                {
+                    progressDialog.dismiss();
+                    showToast(MyWareHouse.mywarehousecontext.getString(R.string.problem_in_loading_message));
+                }
+            }
+        });
+
+        temp_timer_thread.start();
+
 
         if(MyWareHouse.totalSelectedAmount==MyWareHouse.totalDispatchingAmount)
         {
@@ -279,6 +315,9 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> i
 
             if(MainActivity.ConnectedToNetwork==true)
             {
+
+                final StorageDBHandler db=new StorageDBHandler(MyWareHouse.mywarehousecontext);
+
                 JSONObject j;
                 j = new JSONObject();
                 try {
@@ -308,21 +347,33 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> i
                                 for (int i = 0; i < stocks.size(); ++i)
                                 {
                                     StockList temp_stocklist_item = stocks.get(i);
+
                                     if (temp_stocklist_item.getIsSelected())
                                     {
                                         temp_stocklist_item.setAmount(temp_stocklist_item.getAmount() - temp_stocklist_item.getSelected_amount());
+
                                         if (temp_stocklist_item.getAmount() == 0)
                                         {
+
+                                            db.deletestock(MyWareHouse.warehousename,temp_stocklist_item.getStockname());
                                             stocks.remove(i);
+
                                         }
                                         else
                                         {
                                             temp_stocklist_item.setIsSelected(false);
                                             temp_stocklist_item.setSelected_amount(0);
+                                            db.updateStockAmount(MyWareHouse.warehousename,temp_stocklist_item.getStockname(),temp_stocklist_item.getAmount()+"");
                                         }
                                     }
                                 }
+
+                                if(progressDialog.isShowing()) {
+
+                                    progressDialog.dismiss();
+                                }
                                 notifyDataSetChanged();
+
                                 MyWareHouse.DispatchingCropName="";
                                 MyWareHouse.totalDispatchingAmount=0;
                                 MyWareHouse.isSelectedCount=0;
@@ -341,6 +392,10 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> i
                             }
                             else
                             {
+                                if(progressDialog.isShowing())
+                                {
+                                    progressDialog.dismiss();
+                                }
                                 Toast.makeText(MyWareHouse.mywarehousecontext, "The selected stock(s) cannot be dispatched", Toast.LENGTH_LONG).show();
                             }
 
@@ -363,6 +418,10 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> i
             }
             else
             {
+                if(progressDialog.isShowing())
+                {
+                    progressDialog.dismiss();
+                }
                 Toast.makeText(MyWareHouse.mywarehousecontext, "No Internet Connection", Toast.LENGTH_LONG).show();
             }
 
@@ -370,6 +429,10 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> i
         }
         else
         {
+            if(progressDialog.isShowing())
+            {
+                progressDialog.dismiss();
+            }
             Toast.makeText(MyWareHouse.mywarehousecontext, "Total selected amount not matching with To-Dispatch amount!!!", Toast.LENGTH_LONG).show();
         }
     }
@@ -525,4 +588,15 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> i
         }
 
     }
+
+    public void showToast(final String toast)
+    {
+        ((Activity)MyWareHouse.mywarehousecontext).runOnUiThread(new Runnable() {
+            public void run() {
+                Toast.makeText(MyWareHouse.mywarehousecontext, toast, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+
 }

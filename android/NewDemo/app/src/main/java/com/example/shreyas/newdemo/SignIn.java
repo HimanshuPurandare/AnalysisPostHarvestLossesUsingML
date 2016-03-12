@@ -226,7 +226,8 @@ public class SignIn extends AppCompatActivity implements LoaderManager.LoaderCal
             String token=sharedPreferences.getString("RegistrationToken", "-");
 
 
-            if(MainActivity.ConnectedToNetwork) {
+            if(MainActivity.ConnectedToNetwork)
+            {
 
                 JSONObject j = new JSONObject();
                 try {

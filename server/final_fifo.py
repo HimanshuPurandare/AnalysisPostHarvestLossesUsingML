@@ -1,7 +1,6 @@
 #Input will be a list of list, where inner lists will contain parameters in sequence of Storage_Days, temperature, humidity, deflection_from_harvesting time and a list of stock names arranged according to the sequence in listoflist.
 
-from sklearn import linear_model
-from pymongo import MongoClient
+from sklearn.linear_model import ElasticNet
 import numpy as np
 import datetime
 import requests
@@ -11,13 +10,19 @@ import json
 #listoflist = [[120, 26, 76, 3], [90, 27, 71, 6], [30, 18, 84, 0]]
 #name = ["stock1", "stock2", "stock3"]
 
+clf_wheat=ElasticNet()
+clf_rice=ElasticNet()
+clf_onion=ElasticNet()
+
+clf=[clf_wheat,clf_rice,clf_onion]
+name_seq={"Wheat":0,"Rice":1,"Onion":2}
 
 
 def get_dispatch_sequence(stock_list,warehouse_info,amount):
 	listoflist=[]
 	name=[]
 	datatype=stock_list.__getitem__(0)['StockCropName']
-	
+	print datatype
 	average_harvesting_time={"Wheat":130,"Onion":150,"Rice":133}
 
 
@@ -30,14 +35,18 @@ def get_dispatch_sequence(stock_list,warehouse_info,amount):
 	
 	url = "https://api.forecast.io/forecast/effdaeb7474c03015ad3f83872d83696/"+lattitude+","+longitude+","+datetime.datetime.now().isoformat().split('T')[0]+"T11:59:59"
 
-	
-	response_data=json.loads(requests.get(url).content)['daily']['data'][0]
-	
+	print "before fetching response data"
+#	try:
+#		response_data=json.loads(requests.get(url).content)['daily']['data'][0]
+#	except:
+	response_data={"temperatureMin":"19","temperatureMax":"28","humidity":"0.50"}
+	print "Response Data is:",response_data
 	name_amount={}
 	date_format='%d-%m-%Y'
 	
-	
+	print "\n\nstock list",stock_list
 	for i in stock_list:
+		print "\n\n\ninside the for loop"
 		feature_list=[]
 
 		feature_list.append((datetime.datetime.now()-datetime.datetime.strptime(i['StockHarvestEnd'],date_format)).days)
@@ -45,8 +54,9 @@ def get_dispatch_sequence(stock_list,warehouse_info,amount):
 		feature_list.append(int(((float(response_data['temperatureMin'])+float(response_data['temperatureMax']))/2-32)*5/9))
 		feature_list.append(int(float(response_data['humidity'])*100.0))
 		
+		print "feature list is",feature_list
 		day,month,year=map(int,i['StockSowStart'].split('-'))
-#		print day,month,year
+		print day,month,year
 		ss=datetime.datetime(year,month,day)
 		day,month,year=map(int,i['StockSowEnd'].split('-'))
 		se=datetime.datetime(year,month,day)
@@ -55,15 +65,15 @@ def get_dispatch_sequence(stock_list,warehouse_info,amount):
 		day,month,year=map(int,i['StockHarvestEnd'].split('-'))
 		he=datetime.datetime(year,month,day)
 		
-#		print ss,se,hs,he
+		print ss,se,hs,he
 		
 		harvesting_time=0-((ss+datetime.timedelta((se-ss).days))-(hs+datetime.timedelta((he-hs).days))).days
 		
-#		print harvesting_time
+		print harvesting_time
 
 		feature_list.append(int(abs(harvesting_time-average_harvesting_time[i['StockCropName']])))
 
-#		print feature_list
+		print feature_list
 		
 		listoflist.append(feature_list)
 		name.append(i['StockName'])
@@ -73,10 +83,10 @@ def get_dispatch_sequence(stock_list,warehouse_info,amount):
 	print listoflist,name,datatype
 	sequence=predict_dispatch_sequence(listoflist,name,datatype)
 	
-#	print "\n\n\nThe sequence is:",sequence
+	print "\n\n\nThe sequence is:",sequence
 	
 	dispatch_list=[]
-#	print name_amount
+	print name_amount
 	for i in sequence:
 		temp_amount=name_amount[i]
 		if amount>=temp_amount:
@@ -92,21 +102,17 @@ def get_dispatch_sequence(stock_list,warehouse_info,amount):
 	
 	
 	
-#	print dispatch_list
+	print dispatch_list
 	return dispatch_list
 	
 	
-		
-	
 
-def predict_dispatch_sequence(listoflist, name, datatype):
-	clf=linear_model.LinearRegression()
-	client=MongoClient()
-	db=client.server_db
-	cursor=db.corpusfifo.find({"Datatype": datatype})
-	x=[]
-	y=[]
-
+def fit_fifo_data(cursor):
+	global clf
+	global name_seq
+	print "inside fit fifo data"
+	x=[[],[],[]]
+	y=[[],[],[]]
 
 	for docs in cursor:
 	     item=[]
@@ -114,17 +120,27 @@ def predict_dispatch_sequence(listoflist, name, datatype):
 	     item.append(docs["temperature"])
 	     item.append(docs["humidity"])
 	     item.append(docs["deflection"])
-	     x.append(item)
-	     y.append(docs["losses"])
+	     x[name_seq[docs["Datatype"]]].append(item)
+	     y[name_seq[docs["Datatype"]]].append(docs["losses"])
+	for i in range(len(name_seq.keys())):
+		clf[i].fit(x[i],y[i])
 	
-	clf.fit(x,y)
+	print [x.coef_ for x in clf]
+		
+	
 
+def predict_dispatch_sequence(listoflist, name, datatype):	
+	
+	global name_seq
+	global clf
+	
+	print "inside predict dispatch sequence"
 	unordered_queue=[]
 
 	#there will be a for loop here.
 
 	for l in range(0, len(name)):
-		unordered_queue.append((clf.predict([listoflist[l]]), name[l]))
+		unordered_queue.append((clf[name_seq[datatype]].predict([listoflist[l]]), name[l]))
 
 	unordered_queue.sort(key=lambda x: x[0], reverse=True)
 	oqueue = []

@@ -1,14 +1,17 @@
 package com.example.shreyas.newdemo;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -75,7 +78,7 @@ public class AddWarehouse extends AppCompatActivity
         });
 
 
-        Log.d("The location_set variable",""+location_set);
+        Log.d("The location",""+location_set);
 
         if(location_set) {
             te1.setText("");
@@ -113,18 +116,6 @@ public class AddWarehouse extends AppCompatActivity
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
     void setupToolbar()
@@ -144,59 +135,109 @@ public class AddWarehouse extends AppCompatActivity
     {
         wh_name=et_name.getText().toString();
 
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        final long load_time_start=System.currentTimeMillis();
+        progressDialog.isIndeterminate();
+        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        progressDialog.setCancelable(false);
+        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        progressDialog.setMessage(getString(R.string.adding_warehouse_progress_dialog_message));
 
+        progressDialog.show();
+
+        Thread temp_timer_thread=new Thread(new Runnable() {
+            @Override
+            public void run()
+            {
+                while(progressDialog.isShowing() && System.currentTimeMillis()-load_time_start<10000)
+                {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (progressDialog.isShowing() && System.currentTimeMillis()-load_time_start>10000)
+                {
+                    progressDialog.dismiss();
+                    showToast(getString(R.string.problem_in_loading_message));
+                }
+            }
+        });
+
+
+        temp_timer_thread.start();
 
 
         if(MainActivity.ConnectedToNetwork)
         {
-
-            JSONObject j = new JSONObject();
-            try {
-                j.put("AddWarehouseUID",MainActivity.Global_Email_Id);
-                j.put("AddWarehouseName", wh_name);
-                j.put("AddWarehouseURL",URL);
-
-            } catch (JSONException e)
+            if (wh_name == "" || location_set == false)
             {
-                e.printStackTrace();
+                Toast.makeText(getApplicationContext(), "Please fill ALL the Information!", Toast.LENGTH_LONG).show();
+                progressDialog.dismiss();
             }
+            else
+            {
 
-            String url = MainActivity.ServerIP + "/addwarehouse/";
-            JsonObjectRequest jsonRequest = new JsonObjectRequest
-                    (Request.Method.POST, url, j, new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            // the response is already constructed as a JSONObject!
-                            try {
-                                response = response.getJSONObject("Android");
-                                String signinresult = response.getString("Result");
-                                if (signinresult.equals("Valid")) {
-                                    Intent i = new Intent(AddWarehouse.this, MainActivity.class);
+                final StorageDBHandler db = new StorageDBHandler(this);
 
 
-                                    startActivity(i);
-                                    AddWarehouse.location_set=false;
-                                    finish();
+                JSONObject j = new JSONObject();
+                try {
+                    j.put("AddWarehouseUID", MainActivity.Global_Email_Id);
+                    j.put("AddWarehouseName", wh_name);
+                    j.put("AddWarehouseURL", URL);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                String url = MainActivity.ServerIP + "/addwarehouse/";
+
+
+                JsonObjectRequest jsonRequest = new JsonObjectRequest
+                        (Request.Method.POST, url, j, new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                // the response is already constructed as a JSONObject!
+                                try {
+                                    response = response.getJSONObject("Android");
+                                    String signinresult = response.getString("Result");
+                                    if (signinresult.equals("Valid")) {
+                                        Intent i = new Intent(AddWarehouse.this, MainActivity.class);
+
+                                        db.addWarehouse(wh_name);
+                                        if (progressDialog.isShowing()) {
+                                            progressDialog.dismiss();
+                                        }
+
+                                        startActivity(i);
+                                        AddWarehouse.location_set = false;
+                                        finish();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
                                 }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
                             }
-                        }
-                    }, new Response.ErrorListener() {
+                        }, new Response.ErrorListener() {
 
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            error.printStackTrace();
-                        }
-                    });
-            MainActivity.getInstance().addToRequestQueue(jsonRequest);
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                error.printStackTrace();
+                            }
+                        });
+                MainActivity.getInstance().addToRequestQueue(jsonRequest);
 
+            }
         }
         else
         {
+            if (progressDialog.isShowing())
+            {
+                progressDialog.dismiss();
+            }
             Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
         }
-
     }
 
 
@@ -249,6 +290,13 @@ public class AddWarehouse extends AppCompatActivity
     }
 
 
+    public void showToast(final String toast) {
+        runOnUiThread(new Runnable() {
+            public void run() {
+                Toast.makeText(getApplicationContext(), toast, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 
 }
 

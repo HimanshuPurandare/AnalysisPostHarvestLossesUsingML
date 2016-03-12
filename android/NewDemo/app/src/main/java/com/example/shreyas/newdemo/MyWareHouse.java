@@ -1,8 +1,10 @@
 package com.example.shreyas.newdemo;
 
-import android.app.FragmentManager;
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -101,7 +104,8 @@ public class MyWareHouse extends AppCompatActivity
             public void onClick(View v)
             {
 
-                whAdapter.FinalizeDispatch();
+                final ProgressDialog progressDialog = new ProgressDialog(MyWareHouse.this);
+                whAdapter.FinalizeDispatch(progressDialog);
 
             }
         });
@@ -127,7 +131,7 @@ public class MyWareHouse extends AppCompatActivity
             public void onClick(View v)
             {
                 Log.d("Before showing ", "dispatch dialog----");
-                GetDispatchAmountDialog getDispatchAmountDialog=new GetDispatchAmountDialog(v.getContext(),whAdapter);
+                GetDispatchAmountDialog getDispatchAmountDialog=new GetDispatchAmountDialog((Activity)v.getContext(),v.getContext(),whAdapter);
                 getDispatchAmountDialog.show();
 
                 Log.d("After showing ", "dispatch dialog----");
@@ -166,69 +170,144 @@ public class MyWareHouse extends AppCompatActivity
     }
     private void initializeData()
     {
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        final long load_time_start=System.currentTimeMillis();
+        progressDialog.isIndeterminate();
+        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        progressDialog.setCancelable(false);
+        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        progressDialog.setMessage(getString(R.string.stock_list_loading_progress_dialog_message));
 
-        stocks.clear();
-        Log.d("Connected to network", MainActivity.ConnectedToNetwork + "");
-        if(MainActivity.ConnectedToNetwork==true)
-        {
+        progressDialog.show();
 
-            JSONObject j;
-            j = new JSONObject();
-            try {
-                j.put("Email",MainActivity.Global_Email_Id);
-                j.put("WareHouseName",warehousename);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            String url = MainActivity.ServerIP + "/getstockslist/";
-
-
-            JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, url, j, new Response.Listener<JSONObject>()
+        Thread temp_timer_thread=new Thread(new Runnable() {
+            @Override
+            public void run()
             {
-                @Override
-                public void onResponse(JSONObject response) {
-                    // the response is already constructed as a JSONObject!
-                    Log.d("Onresponse", "yes");
+                while(progressDialog.isShowing() && System.currentTimeMillis()-load_time_start<10000)
+                {
                     try {
-                        response = response.getJSONObject("Android");
-                        JSONArray a = new JSONArray();
-                        a=response.getJSONArray("Stocklist");
-                        Log.d("stringed",""+a.length());
-
-                        int l = a.length();
-                        for(int i=0;i<l;i++)
-                        {
-                            JSONObject temp = a.getJSONObject(i);
-                            Log.d("stringed", temp.getString("StockName"));
-                            stocks.add(new StockList(temp.getString("StockName"),temp.getString("StockCropName"),Integer.parseInt(temp.getString("StockAmount"))));
-//                            MyWareHouse.stocks.add(new StockList("a", "b", 12));
-                            Log.d("stocklist is",stocks.size()+"");
-                        }
-                        whAdapter.notifyDataSetChanged();
-
-
-                    } catch (JSONException e) {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
-            }, new Response.ErrorListener() {
-
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    error.printStackTrace();
+                if (progressDialog.isShowing() && System.currentTimeMillis()-load_time_start>10000)
+                {
+                    progressDialog.dismiss();
+                    showToast(getString(R.string.problem_in_loading_message));
                 }
-            });
+            }
+        });
 
 
-            MainActivity.getInstance().addToRequestQueue(jsonRequest);
+        stocks.clear();
+
+
+
+        final StorageDBHandler db=new StorageDBHandler(this);
+
+        List<StockInfo> TempstockInfoList = db.getstocks(warehousename);
+
+
+        if(TempstockInfoList.size()==0)
+        {
+
+
+            Log.d("Connected to network", MainActivity.ConnectedToNetwork + "");
+            if (MainActivity.ConnectedToNetwork == true) {
+
+                JSONObject j;
+                j = new JSONObject();
+                try {
+                    j.put("Email", MainActivity.Global_Email_Id);
+                    j.put("WareHouseName", warehousename);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                String url = MainActivity.ServerIP + "/getstockslist/";
+
+                temp_timer_thread.start();
+
+
+                JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, url, j, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // the response is already constructed as a JSONObject!
+                        Log.d("Onresponse", "yes");
+                        try {
+                            response = response.getJSONObject("Android");
+                            JSONArray a = new JSONArray();
+                            a = response.getJSONArray("Stocklist");
+                            Log.d("stringed", "" + a.length());
+
+                            int l = a.length();
+                            for (int i = 0; i < l; i++) {
+                                JSONObject temp = a.getJSONObject(i);
+                                Log.d("stringed", temp.getString("StockName"));
+
+                                stocks.add(new StockList(temp.getString("StockName"), temp.getString("StockCropName"), Integer.parseInt(temp.getString("StockAmount"))));
+
+                                db.addIncompleteStock(temp.getString("StockName"), warehousename,temp.getString("StockAmount"),temp.getString("StockCropName"));
+
+
+
+                                //                            MyWareHouse.stocks.add(new StockList("a", "b", 12));
+                                Log.d("stocklist is", stocks.size() + "");
+
+
+                            }
+                            Log.d("Loaded stocks","from Internet");
+                            whAdapter.notifyDataSetChanged();
+                            if(progressDialog.isShowing()) {
+
+                                progressDialog.dismiss();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                });
+
+
+                MainActivity.getInstance().addToRequestQueue(jsonRequest);
+            }
+            else
+            {
+                Toast.makeText(this, "No Internet Connection", Toast.LENGTH_LONG).show();
+            }
         }
         else
         {
-            Toast.makeText(this, "No Internet Connection", Toast.LENGTH_LONG).show();
-        }
+            for(StockInfo stockInfo:TempstockInfoList)
+            {
+                stocks.add(new StockList(stockInfo.getStockName(),stockInfo.getStockCropName(),Integer.parseInt(stockInfo.getStockAmount())));
+            }
+            if (progressDialog.isShowing())
+            {
 
+                progressDialog.dismiss();
+            }
+
+            Log.d("Loaded stocks","from db");
+        }
     }
+    public void showToast(final String toast)
+    {
+        runOnUiThread(new Runnable() {
+            public void run() {
+                Toast.makeText(getApplicationContext(), toast, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
 
 }

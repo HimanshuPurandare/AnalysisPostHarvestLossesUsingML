@@ -196,7 +196,7 @@ def return_stocks(data):
 def return_stocks_of_crop(data):
 	stock_info=db['stock_info']
 	list_of_stocks=stock_info.find(data)
-#	print "sending list",list_of_stocks
+	print "sending list",list_of_stocks
 	return list_of_stocks
 
 def return_stock_info(data):
@@ -268,6 +268,13 @@ def get_notifications(received_data):
     for i in notification_data1:
         a.append(i)
     return a
-    
+
+def get_fifo_data_cursor()
+	corpusfifo=db['corpusfifo']
+	print "Printing cursor",corpusfifo.find()
+	return corpusfifo.find()
+	
+
+
 	
 
