@@ -318,7 +318,6 @@ public class SuperAwesomeCardFragment extends Fragment {
             {
                 progressDialog.dismiss();
             }
-
         }
     }
 
