@@ -51,7 +51,6 @@ public class SuperAwesomeCardFragment extends Fragment {
     List<WareHouse_Info> warehouselist;
 
 
-
     public SuperAwesomeCardFragment()
     {
         farmlist = new ArrayList<Farm_info>();
@@ -81,8 +80,8 @@ public class SuperAwesomeCardFragment extends Fragment {
         Log.d("Inside news intion", "News initial");
         news = new ArrayList<>();
         news.add(new General_info(getString(R.string.newstitlestring1), getString(R.string.newsstring1), R.drawable.a));
-        news.add(new General_info(getString(R.string.newstitlestring2),getString(R.string.newsstring2), R.drawable.b));
-        news.add(new General_info(getString(R.string.newstitlestring3),getString(R.string.newsstring3), R.drawable.c));
+        news.add(new General_info(getString(R.string.newstitlestring2), getString(R.string.newsstring2), R.drawable.b));
+        news.add(new General_info(getString(R.string.newstitlestring3), getString(R.string.newsstring3), R.drawable.c));
     }
     public void setfarms()
     {
@@ -334,7 +333,9 @@ public class SuperAwesomeCardFragment extends Fragment {
 
 
 
-    public static SuperAwesomeCardFragment newInstance(int position) {
+    public static SuperAwesomeCardFragment newInstance(int position)
+    {
+        Log.d("the position",position+"");
         SuperAwesomeCardFragment f = new SuperAwesomeCardFragment();
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
@@ -353,6 +354,7 @@ public class SuperAwesomeCardFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+
 
 //        if (position==1)
 //        {
@@ -380,9 +382,15 @@ public class SuperAwesomeCardFragment extends Fragment {
 //        }
         if(position==0)
         {
+
+            Log.d("the position is->",position+"");
+
             if(MainActivity.signedin==0)
             {
                 View rootView = inflater.inflate(R.layout.d, container, false);
+
+
+
 
                 TextView tw = (TextView)rootView.findViewById(R.id.tw1);
                 tw.setText(R.string.sign_in_msg_home);
@@ -416,7 +424,10 @@ public class SuperAwesomeCardFragment extends Fragment {
                 if(MainActivity.GlobalUser_Role.equals("Farmer"))
                 {
 
+
                     View rootView = inflater.inflate(R.layout.c, container, false);
+
+
 
                     FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
                     fab.setOnClickListener(new View.OnClickListener() {
@@ -445,6 +456,9 @@ public class SuperAwesomeCardFragment extends Fragment {
                 {
                     Log.d("Add", "Warehouse");
                     View rootView = inflater.inflate(R.layout.c, container, false);
+
+
+
 
                     FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
                     fab.setOnClickListener(new View.OnClickListener() {
@@ -492,6 +506,8 @@ public class SuperAwesomeCardFragment extends Fragment {
         {
             View rootView = inflater.inflate(R.layout.a, container, false);
 
+            Log.d("the position is->",position+"");
+
             RecyclerView rv = (RecyclerView) rootView.findViewById(R.id.rv1);
             rv.setHasFixedSize(true);
             LinearLayoutManager llm = new LinearLayoutManager(getActivity());
@@ -507,6 +523,9 @@ public class SuperAwesomeCardFragment extends Fragment {
         else if(position==2)
         {
             View rootView = inflater.inflate(R.layout.b, container, false);
+
+            Log.d("the position is->",position+"");
+
 
             RecyclerView rv = (RecyclerView) rootView.findViewById(R.id.rv2);
             rv.setHasFixedSize(true);
