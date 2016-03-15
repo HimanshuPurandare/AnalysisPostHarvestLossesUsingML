@@ -19,6 +19,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 
 public class Navigation_Drawer extends Fragment implements NavigationView.OnCreateContextMenuListener,NavigationView.OnNavigationItemSelectedListener
 {
@@ -168,27 +172,40 @@ public class Navigation_Drawer extends Fragment implements NavigationView.OnCrea
         {
 
         }
-        else if(item.getItemId()==R.id.nav_notification)
-        {
-
-        }
-        else if(item.getItemId()==R.id.nav_conse)
-        {
-
-        }
         else if(item.getItemId()==R.id.nav_settings)
         {
 
         }
-        else if(item.getItemId()==R.id.nav_share)
+        else if (item.getItemId() == R.id.nav_share)
         {
+                // Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                // sharingIntent.setType("text/plain");
+                // startActivity(Intent.createChooser(sharingIntent, "How do you want to share?"));
 
+                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                //sharingIntent.setType("apk");
+                //String shareBody = "Here is the share content body";
+                //sharingIntent.putExtra(Intent.ACTION_GET_CONTENT, "Subject Here");
+                //sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                Log.d("dirpath", getContext().getApplicationInfo().sourceDir);
+
+
+                Uri uri = Uri.fromFile(new File(getContext().getApplicationInfo().sourceDir));
+
+
+                sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+
+
+                sharingIntent.setType("application/vnd.android.package-archive");
+
+                startActivity(Intent.createChooser(sharingIntent, "Share via"));
         }
-        else if(item.getItemId()==R.id.nav_help)
+        else if (item.getItemId() == R.id.nav_help)
         {
-            Log.d("Help","pressed by niranjan");
+                Log.d("Help", "pressed by niranjan");
         }
-        else if(item.getItemId()==R.id.nav_contactus)
+        else if (item.getItemId() == R.id.nav_contactus)
         {
 
         }
