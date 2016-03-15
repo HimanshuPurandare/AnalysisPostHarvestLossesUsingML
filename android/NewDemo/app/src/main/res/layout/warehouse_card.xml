@@ -8,8 +8,9 @@
 
     android:orientation="horizontal"
     android:paddingBottom="2dp"
-    android:paddingLeft="2dp"
-    android:paddingRight="2dp"
+    android:paddingTop="2dp"
+    android:background="@color/colorAccent"
+
     android:id="@+id/warehouse_card_relative_layout"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_my_ware_house"
@@ -28,33 +29,43 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            >
+             >
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/stock_list_name"
                     android:layout_weight="1"
-                    android:textSize="25sp"
+                    android:textSize="18sp"
                     android:textAlignment="center"
+                    android:singleLine="true"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
 
                     />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/crop_name"
-                android:textSize="25sp"
+                android:textSize="18sp"
                 android:textAlignment="center"
                 android:layout_weight="1"
+                android:singleLine="true"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
 
                 />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/amount"
-                android:textSize="25sp"
+                android:textSize="18sp"
                 android:layout_weight="1"
                 android:textAlignment="center"
+                android:singleLine="true"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+
                 />
 
 
@@ -64,11 +75,14 @@
                 android:id="@+id/et_dispatch_amount_selector"
                 android:hint="0"
                 android:text="0"
+                android:textSize="18sp"
                 android:visibility="gone"
                 android:layout_weight="1"
                 android:inputType="number"
                 android:singleLine="true"
                 android:textAlignment="center"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
                 />
         </LinearLayout>
     </android.support.v7.widget.CardView>

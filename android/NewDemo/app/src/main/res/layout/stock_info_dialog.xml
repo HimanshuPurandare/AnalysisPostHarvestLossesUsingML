@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:paddingBottom="20dp"
     android:id="@+id/stock_info_dialog_linearlayout"
-
+    android:background="@color/common_google_signin_btn_text_dark_default"
     >
 
     <TextView
@@ -21,115 +21,208 @@
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
         android:textAlignment="center"
-        android:background="@color/colorFaintPrimary"
+        android:background="@color/colorAccent"
+
         />
 
-
-    <TextView
+    <TableLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/dialog_stock_name"
-        android:paddingTop="2dp"
-        android:paddingBottom="2dp"
-        android:textSize="18sp"
-        />
+        android:shrinkColumns="*"
+        android:stretchColumns="*"
+        android:background="#ffffff"
+
+        >
 
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/dialog_stock_crop_name"
-        android:paddingTop="2dp"
-        android:paddingBottom="2dp"
-        android:textSize="18sp"
+        <TableRow
+            android:id="@+id/r1"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:paddingBottom="2dp"
+            android:paddingTop="2dp"
+            >
 
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/dialog_stock_crop_type"
-        android:paddingTop="2dp"
-        android:paddingBottom="2dp"
-        android:textSize="18sp"
-        />
+            <TextView
+                android:id="@+id/dialog_stock_crop_type_as_string"
+                android:text="@string/dialog_stock_crop_type_as_string"
+                android:layout_weight="1"
 
+                android:textSize="16sp"
+                android:textStyle="italic"
+                android:textAlignment="center"
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/dialog_stock_amount"
-        android:paddingTop="2dp"
-        android:paddingBottom="2dp"
-        android:textSize="18sp"
+                />
 
-        />
+            <TextView
+                android:id="@+id/dialog_stock_crop_type"
+                android:layout_weight="1"
 
+                android:textSize="18sp"
+                android:textAlignment="center"
+                />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/dialog_stock_in_time"
-        android:paddingTop="2dp"
-        android:paddingBottom="2dp"
-        android:textSize="18sp"
+        </TableRow>
 
-        />
+        <TableRow
+            android:id="@+id/r2"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:paddingBottom="2dp"
+            android:paddingTop="2dp"
 
+            >
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/dialog_stock_farmer_name"
-        android:paddingTop="2dp"
-        android:paddingBottom="2dp"
-        android:textSize="18sp"
+            <TextView
+                android:id="@+id/dialog_stock_amount_as_string"
+                android:layout_weight="1"
+                android:text="@string/dialog_stock_amount_as_string"
 
-        />
+                android:textSize="16sp"
+                android:textStyle="italic"
+                android:textAlignment="center"
+                />
 
+            <TextView
+                android:id="@+id/dialog_stock_amount"
+                android:layout_weight="1"
 
+                android:textSize="18sp"
+                android:textAlignment="center"
+                />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/dialog_stock_harvest_start"
-        android:paddingTop="2dp"
-        android:paddingBottom="2dp"
-        android:textSize="18sp"
-
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/dialog_stock_harvest_end"
-        android:paddingTop="2dp"
-        android:paddingBottom="2dp"
-        android:textSize="18sp"
-
-        />
-
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/dialog_stock_sow_start"
-        android:paddingTop="2dp"
-        android:paddingBottom="2dp"
-        android:textSize="18sp"
-
-        />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/dialog_stock_sow_end"
-        android:paddingTop="2dp"
-        android:paddingBottom="2dp"
-        android:textSize="18sp"
-
-        />
+        </TableRow>
 
 
 
+        <TableRow
+            android:id="@+id/r3"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:paddingBottom="2dp"
+            android:paddingTop="2dp"
+
+            >
+
+            <TextView
+                android:id="@+id/dialog_harvesting_period_as_string"
+                android:layout_weight="1"
+                android:text="@string/dialog_stock_harvesting_period_as_string"
+
+                android:textSize="16sp"
+                android:textStyle="italic"
+                android:textAlignment="center"
+                />
+
+            <TextView
+                android:id="@+id/dialog_stock_harvesting_period"
+                android:layout_weight="1"
+
+                android:textSize="18sp"
+                android:textAlignment="center"
+                />
+
+        </TableRow>
+
+
+
+
+
+        <TableRow
+            android:id="@+id/r4"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:paddingBottom="2dp"
+            android:paddingTop="2dp"
+
+            >
+
+            <TextView
+                android:id="@+id/dialog_sowing_period_as_string"
+                android:layout_weight="1"
+                android:text="@string/dialog_stock_sowing_period_as_string"
+
+                android:textSize="16sp"
+                android:textStyle="italic"
+                android:textAlignment="center"
+                />
+
+            <TextView
+                android:id="@+id/dialog_stock_sowing_period"
+                android:layout_weight="1"
+
+                android:textSize="18sp"
+                android:textAlignment="center"
+                />
+
+        </TableRow>
+
+
+
+
+        <TableRow
+            android:id="@+id/r5"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:paddingBottom="2dp"
+            android:paddingTop="2dp"
+
+            >
+
+            <TextView
+                android:id="@+id/dialog_stock_arrival_date_as_string"
+                android:layout_weight="1"
+                android:text="@string/dialog_stock_arrival_date_as_string"
+
+                android:textSize="16sp"
+                android:textStyle="italic"
+                android:textAlignment="center"
+                />
+
+            <TextView
+                android:id="@+id/dialog_stock_arrival_date"
+                android:layout_weight="1"
+
+                android:textSize="18sp"
+                android:textAlignment="center"
+                />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/r6"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:paddingBottom="2dp"
+            android:paddingTop="2dp"
+
+            >
+
+            <TextView
+                android:id="@+id/dialog_stock_farmer_as_string"
+                android:layout_weight="1"
+                android:text="@string/dialog_stock_farmer_as_string"
+
+                android:textSize="16sp"
+                android:textStyle="italic"
+                android:textAlignment="center"
+                />
+
+            <TextView
+                android:id="@+id/dialog_stock_farmer"
+                android:layout_weight="1"
+
+                android:textSize="18sp"
+                android:textAlignment="center"
+                />
+
+        </TableRow>
+
+
+
+
+    </TableLayout>
 
 
 

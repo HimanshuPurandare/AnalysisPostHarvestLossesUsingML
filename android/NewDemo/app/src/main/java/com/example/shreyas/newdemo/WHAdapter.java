@@ -44,12 +44,15 @@ import java.util.List;
 public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> implements GetDispatchAmountDialog.onDispatchStarted
 {
     static List<StockList> stocks,dispatchable_stocks;
-    TextView tv_total_selected_amount,tv_to_dispatch;
+    TextView tv_total_selected_amount,tv_to_dispatch,tv_to_dispatch_amount_title;
     FloatingActionButton fab_add_stock,fab_dispatch_stock;
     LinearLayout ll_dispatch_finalizer;
     RelativeLayout rl_fab;
+    static Activity currentactivity;
 
-    WHAdapter(List<StockList> stocks,TextView tv_total_selected_amount,TextView tv_to_dispatch,FloatingActionButton fab_add_stock,FloatingActionButton fab_dispatch_stock,LinearLayout ll_dispatch_finalizer,RelativeLayout rl_fab)
+
+
+    WHAdapter(Activity currentactivity,List<StockList> stocks,TextView tv_to_dispatch_amount_title,TextView tv_total_selected_amount,TextView tv_to_dispatch,FloatingActionButton fab_add_stock,FloatingActionButton fab_dispatch_stock,LinearLayout ll_dispatch_finalizer,RelativeLayout rl_fab)
     {
 //        this.stocks=new ArrayList<StockList>();
         this.stocks = stocks;
@@ -59,6 +62,8 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> i
         this.fab_add_stock=fab_add_stock;
         this.fab_dispatch_stock=fab_dispatch_stock;
         this.rl_fab=rl_fab;
+        this.tv_to_dispatch_amount_title=tv_to_dispatch_amount_title;
+        this.currentactivity=currentactivity;
 
 //        this.stocks.add(new StockList("abc","abc",14));
 //        this.stocks.add(new StockList("abc","abc",14));
@@ -384,6 +389,7 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> i
 //                                fab_dispatch_stock.setVisibility(View.VISIBLE);
                                 rl_fab.setVisibility(View.VISIBLE);
                                 ll_dispatch_finalizer.setVisibility(View.GONE);
+                                tv_to_dispatch_amount_title.setVisibility(View.GONE);
                                 tv_total_selected_amount.setText("0");
                                 tv_to_dispatch.setText("0");
 
@@ -455,9 +461,9 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> i
 
 
 
-        rl_fab.setVisibility(View.VISIBLE);
+        rl_fab.setVisibility(View.GONE);
         ll_dispatch_finalizer.setVisibility(View.VISIBLE);
-
+        tv_to_dispatch_amount_title.setVisibility(View.VISIBLE);
         tv_to_dispatch.setText(MyWareHouse.totalDispatchingAmount + "");
         tv_total_selected_amount.setText(MyWareHouse.totalSelectedAmount+"");
 
@@ -489,7 +495,7 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> i
                 @Override
                 public boolean onLongClick(View v) {
                     show_stock_info(v, stockname.getText().toString());
-                    Log.d("The pos is",position+"");
+                    Log.d("The pos is", position + "");
                     return false;
                 }
             });
@@ -503,6 +509,40 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> i
         {
 
             final View v1=v;
+
+            final ProgressDialog progressDialog=new ProgressDialog(v.getContext());
+
+
+            final long load_time_start=System.currentTimeMillis();
+            progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            progressDialog.setCancelable(false);
+            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog.setMessage(MyWareHouse.mywarehousecontext.getString(R.string.fetching_stock_info_progress_dialog_message));
+
+            progressDialog.show();
+
+            Thread temp_timer_thread=new Thread(new Runnable() {
+                @Override
+                public void run()
+                {
+                    while(progressDialog.isShowing() && System.currentTimeMillis()-load_time_start<5000)
+                    {
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (progressDialog.isShowing() && System.currentTimeMillis()-load_time_start>5000)
+                    {
+                        progressDialog.dismiss();
+                        showToaststatic(MyWareHouse.mywarehousecontext.getString(R.string.problem_in_loading_message));
+                    }
+                }
+            });
+
+            temp_timer_thread.start();
+
 
 
             Log.d("Connected to network", MainActivity.ConnectedToNetwork + "");
@@ -549,10 +589,14 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> i
                                     );
 
                             StockInfoDialog stockInfoDialog=new StockInfoDialog((Activity)v1.getContext(),stockInfo);
-                            stockInfoDialog.show();
-                            Window window = stockInfoDialog.getWindow();
-                            window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                            if(progressDialog.isShowing())
+                            {
+                                progressDialog.dismiss();
 
+                                stockInfoDialog.show();
+                                Window window = stockInfoDialog.getWindow();
+                                window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                            }
 
 
 
@@ -591,7 +635,17 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> i
 
     public void showToast(final String toast)
     {
-        ((Activity)MyWareHouse.mywarehousecontext).runOnUiThread(new Runnable() {
+        ((Activity)MyWareHouse.mywarehousecontext).runOnUiThread(new Runnable()
+        {
+            public void run() {
+                Toast.makeText(MyWareHouse.mywarehousecontext, toast, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public static void showToaststatic(final String toast)
+    {
+        currentactivity.runOnUiThread(new Runnable() {
             public void run() {
                 Toast.makeText(MyWareHouse.mywarehousecontext, toast, Toast.LENGTH_LONG).show();
             }

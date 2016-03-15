@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity
     public static String Global_User_Name,Global_Email_Id,Global_Regi_Token,GlobalUser_Role,Global_Lang_Choice;
     public static String Saved_Global_Temp,Saved_Global_Hum,Saved_Global_SM;
 
-    public static String ServerIP="http://192.168.1.147:5000";
+//    public static String ServerIP="http://192.168.1.147:5000";
 //    public static String ServerIP="http://192.168.0.105:5000";
 //    public static String ServerIP="http://10.42.0.1:5000";
 //    public static String ServerIP="http://10.42.0.1:5000";
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity
 //      public static String ServerIP = "http://192.168.1.131:5000";
 //    public static String ServerIP = "http://reviewpager.com";
 
-//  public static String ServerIP = "https://peaceful-shelf-30868.herokuapp.com";
+  public static String ServerIP = "https://peaceful-shelf-30868.herokuapp.com";
 
 //    public static String ServerIP = "http://192.168.0.120:5000"
 //    public static String ServerIP = "http://192.168.0.120:5000";

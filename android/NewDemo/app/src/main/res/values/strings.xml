@@ -139,21 +139,19 @@
     <string name="hint_sowing_period">sowing period of the crop</string>
 
     <string name="ToasString">" To "</string>
+    <string name="toasstring">to</string>
+    <string name="kgasstring">Kg</string>
 
     <string name="title_stock_info_dialog">Stock Info</string>
     <string name="title_get_dispatch_amount_dialog">How Much to Dispatch?</string>
 
 
-    <string name="dialog_stock_name">Stock Name:</string>
-    <string name="dialog_stock_crop_name">Crop:</string>
-    <string name="dialog_stock_crop_type">Crop-Type:</string>
-    <string name="dialog_stock_sow_start">Sowing started on:</string>
-    <string name="dialog_stock_sow_end">Sowing finished on:</string>
-    <string name="dialog_stock_harvest_start">Harvesting Started on:</string>
-    <string name="dialog_stock_harvest_end">Harvesting finished on:</string>
-    <string name="dialog_stock_in_time">Stock arrived in Warehouse on:</string>
-    <string name="dialog_stock_farmer_name">Name of Farmer(Source of Stock):</string>
-    <string name="dialog_stock_amount">Quantity of Stock:</string>
+    <string name="dialog_stock_crop_type_as_string">Crop-Type:</string>
+    <string name="dialog_stock_sowing_period_as_string">Sowing Period:</string>
+    <string name="dialog_stock_harvesting_period_as_string">Harvesting Period:</string>
+    <string name="dialog_stock_arrival_date_as_string">Arrival Date:</string>
+    <string name="dialog_stock_farmer_as_string">Farmer:</string>
+    <string name="dialog_stock_amount_as_string">Amount: </string>
 
 
     <string name="dialog_accept_dispatch_amount">Amount of crop you want to Dispatch(In Kg)</string>
@@ -174,5 +172,12 @@
     <string name="adding_warehouse_progress_dialog_message">Adding Warehouse...</string>
     <string name="adding_stock_progress_dialog_message">Adding Stock...</string>
     <string name="finalize_stock_dispatch_progress_dialog_message">Finalizing Stock Dispatch...</string>
+    <string name="fetching_stock_info_progress_dialog_message">Fetching Stock Info</string>
+
+
+    <string name="mywarehousetitle_stockname">Stock</string>
+    <string name="mywarehousetitle_cropname">Crop</string>
+    <string name="mywarehousetitle_amount">Amt(Kg)</string>
+    <string name="mywarehousetitle_todispatchamount">Dispatch(Kg)</string>
 
 </resources>

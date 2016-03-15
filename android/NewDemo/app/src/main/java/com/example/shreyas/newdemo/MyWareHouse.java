@@ -37,6 +37,8 @@ public class MyWareHouse extends AppCompatActivity
     public static String warehousename;
     public static Context mywarehousecontext;
 
+    private Activity currentactivity;
+
     private List<StockList> stocks;
     private FloatingActionButton fab_add_stock,fab_dispatch_stock;
     private LinearLayout ll_dispatch_finalizer;
@@ -54,7 +56,7 @@ public class MyWareHouse extends AppCompatActivity
     public static boolean isDispatchedProcessStarted;
 
 
-    private TextView tv_total_selected_amount,tv_to_dispatch;
+    private TextView tv_total_selected_amount,tv_to_dispatch,tv_to_dispatch_amount_title;
     public static Button btn_final_dispatch,btn_cancel;
 
 
@@ -62,10 +64,12 @@ public class MyWareHouse extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
 
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_ware_house);
         warehousename = getIntent().getStringExtra("WarehouseName");
         setupToolbar(warehousename);
+        currentactivity=this;
 
         DispatchingCropName="";
         totalDispatchingAmount=0;
@@ -77,6 +81,7 @@ public class MyWareHouse extends AppCompatActivity
         ll_dispatch_finalizer=(LinearLayout)findViewById(R.id.ll_dispatch_finalizer);
         tv_to_dispatch=(TextView)findViewById(R.id.tv_finalizer_to_dispatch_amount);
         tv_total_selected_amount=(TextView)findViewById(R.id.tv_total_selected_amount);
+        tv_to_dispatch_amount_title=(TextView)findViewById(R.id.tv_mywarehouse_title_to_dispatch_amount);
 
         btn_cancel=(Button)findViewById(R.id.btn_dispatch_finalizer_cancel);
         btn_final_dispatch=(Button)findViewById(R.id.btn_final_dispatch);
@@ -91,6 +96,7 @@ public class MyWareHouse extends AppCompatActivity
                 MyWareHouse.isSelectedCount=0;
                 ll_dispatch_finalizer.setVisibility(View.GONE);
                 rl_fab.setVisibility(View.VISIBLE);
+                tv_to_dispatch_amount_title.setVisibility(View.GONE);
 //                fab_add_stock.setVisibility(View.VISIBLE);
 //                fab_dispatch_stock.setVisibility(View.VISIBLE);
                 whAdapter.notifyDataSetChanged();
@@ -150,7 +156,7 @@ public class MyWareHouse extends AppCompatActivity
         stocks= new ArrayList<StockList>();
 //        stocks.add(new StockList("z","z",14));
         initializeData();
-        whAdapter = new WHAdapter(stocks,tv_total_selected_amount,tv_to_dispatch,fab_add_stock,fab_dispatch_stock,ll_dispatch_finalizer,rl_fab);
+        whAdapter = new WHAdapter(currentactivity,stocks,tv_to_dispatch_amount_title,tv_total_selected_amount,tv_to_dispatch,fab_add_stock,fab_dispatch_stock,ll_dispatch_finalizer,rl_fab);
         whAdapter.notifyDataSetChanged();
         whRecyclerView.setAdapter(whAdapter);
 

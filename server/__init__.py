@@ -352,7 +352,7 @@ if __name__ == '__main__':
 	create_collections()
 	fit_fifo_data(get_fifo_data_cursor())
 #    print get_current_weather_data()
-	app.run(host="192.168.0.147")
+	app.run(host="192.168.1.147")
 #    app.run(host="0.0.0.0",port=12000)
 #	app.run(host="192.168.43.42")
 #	app.run(host="192.168.0.120")
