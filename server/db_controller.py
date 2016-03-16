@@ -33,14 +33,9 @@ SEED_DATA = [
 
 try:
 #    client=MongoClient('mongodb://shreyas:shreyas@ds047365.mongolab.com:47365/server_db')
-    client=MongoClient('localhost',27017)
-    db=client.server_db
-    
-    songs = db['songs']
+	client=MongoClient('localhost',27017)
+	db=client.server_db
 
-# Note that the insert method can take either an array or a single dict.
-
-    songs.insert(SEED_DATA)
 except:
     print "not done"
 

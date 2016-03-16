@@ -9,11 +9,73 @@
 
     <include android:id="@+id/mytoolbar" layout="@layout/mytoolbar" />
 
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="4dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mywarehousetitle_stockname"
+            android:textSize="18sp"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mywarehousetitle_cropname"
+            android:textSize="18sp"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mywarehousetitle_amount"
+            android:textSize="18sp"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:textAlignment="center"
+
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_mywarehouse_title_to_dispatch_amount"
+            android:text="@string/mywarehousetitle_todispatchamount"
+            android:textSize="18sp"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:visibility="gone"
+            android:textAlignment="center"
+
+            />
+
+
+
+
+
+    </LinearLayout>
+
+
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
         >
+
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/warehouse_recycler_view"
@@ -70,16 +132,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="center_horizontal"
-
+                android:gravity="center"
                 >
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/final_selected_dispatch_amount"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_gravity="center"
                     android:textSize="18sp"
-
                     />
 
                 <TextView
@@ -89,6 +149,7 @@
                     android:layout_gravity="center"
                     android:text="0"
                     android:textSize="18sp"
+
                     />
 
                 <TextView

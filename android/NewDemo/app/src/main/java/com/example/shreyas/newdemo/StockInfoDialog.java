@@ -20,7 +20,7 @@ public class StockInfoDialog extends Dialog implements View.OnClickListener
     Activity a;
     StockInfo stockinfo;
 
-    TextView tv_StockCropName,tv_StockCropType,tv_StockSowStart,tv_StockSowEnd,tv_StockHarvestStart,tv_StockHarvestEnd,tv_StockAmount,tv_StockInTime,tv_StockFarmerName;
+    TextView tv_StockInfoTitle,tv_StockCropName,tv_StockCropType,tv_StockSowingPeriod,tv_StockHarvestingPeriod,tv_StockAmount,tv_StockArrivalDate,tv_StockFarmer;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -30,28 +30,23 @@ public class StockInfoDialog extends Dialog implements View.OnClickListener
 //        LinearLayout linearLayout=(LinearLayout)findViewById(R.id.stock_info_dialog_linearlayout);
 //        linearLayout.setMinimumWidth();
 
-
-        tv_StockCropName=(TextView)findViewById(R.id.dialog_stock_crop_name);
+        tv_StockInfoTitle=(TextView)findViewById(R.id.stock_info_title);
         tv_StockCropType=(TextView)findViewById(R.id.dialog_stock_crop_type);
-        tv_StockSowStart=(TextView)findViewById(R.id.dialog_stock_sow_start);
-        tv_StockSowEnd=(TextView)findViewById(R.id.dialog_stock_sow_end);
-        tv_StockHarvestStart=(TextView)findViewById(R.id.dialog_stock_harvest_start);
-        tv_StockHarvestEnd=(TextView)findViewById(R.id.dialog_stock_harvest_end);
         tv_StockAmount=(TextView)findViewById(R.id.dialog_stock_amount);
-        tv_StockInTime=(TextView)findViewById(R.id.dialog_stock_in_time);
-        tv_StockFarmerName=(TextView)findViewById(R.id.dialog_stock_farmer_name);
+        tv_StockSowingPeriod=(TextView)findViewById(R.id.dialog_stock_sowing_period);
+        tv_StockHarvestingPeriod=(TextView)findViewById(R.id.dialog_stock_harvesting_period);
+        tv_StockArrivalDate=(TextView)findViewById(R.id.dialog_stock_arrival_date);
+        tv_StockFarmer=(TextView)findViewById(R.id.dialog_stock_farmer);
 
 
 
-        tv_StockCropName.setText(this.getContext().getString(R.string.dialog_stock_crop_name)+stockinfo.getStockCropName());
-        tv_StockCropType.setText(this.getContext().getString(R.string.dialog_stock_crop_type)+stockinfo.getStockCropType());
-        tv_StockSowStart.setText(this.getContext().getString(R.string.dialog_stock_sow_start)+stockinfo.getStockSowStart());
-        tv_StockSowEnd.setText(this.getContext().getString(R.string.dialog_stock_sow_end)+stockinfo.getStockSowEnd());
-        tv_StockHarvestStart.setText(this.getContext().getString(R.string.dialog_stock_harvest_start)+stockinfo.getStockHarvestStart());
-        tv_StockHarvestEnd.setText(this.getContext().getString(R.string.dialog_stock_harvest_end)+stockinfo.getStockHarvestEnd());
-        tv_StockAmount.setText(this.getContext().getString(R.string.dialog_stock_amount)+stockinfo.getStockAmount());
-        tv_StockInTime.setText(this.getContext().getString(R.string.dialog_stock_in_time)+stockinfo.getStockInTime());
-        tv_StockFarmerName.setText(this.getContext().getString(R.string.dialog_stock_farmer_name)+stockinfo.getStockFarmerName());
+        tv_StockInfoTitle.setText(stockinfo.getStockName());
+        tv_StockCropType.setText(stockinfo.getStockCropName()+" ( "+stockinfo.getStockCropType()+" )");
+        tv_StockAmount.setText(stockinfo.getStockAmount()+getContext().getString(R.string.kgasstring));
+        tv_StockSowingPeriod.setText(stockinfo.getStockSowStart() + getContext().getString(R.string.toasstring)  +stockinfo.getStockSowEnd());
+        tv_StockHarvestingPeriod.setText(stockinfo.getStockHarvestStart()+getContext().getString(R.string.toasstring)+stockinfo.getStockHarvestEnd());
+        tv_StockArrivalDate.setText(stockinfo.getStockInTime());
+        tv_StockFarmer.setText(stockinfo.getStockFarmerName());
 
 
 

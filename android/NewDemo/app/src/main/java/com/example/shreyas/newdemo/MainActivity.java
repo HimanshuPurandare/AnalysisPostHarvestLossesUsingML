@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -78,6 +79,11 @@ public class MainActivity extends AppCompatActivity
     SharedPreferencesClass sharedPreferencesClass;
 
 
+//Other public variables
+    public MenuItem refreshitem;
+
+
+
 //Volley Data Send/Recv related
     private RequestQueue mRequestQueue;
     public <T> void addToRequestQueue(Request<T> req, String tag) {
@@ -131,7 +137,8 @@ public class MainActivity extends AppCompatActivity
 
             }
         };
-        if (checkPlayServices()) {
+        if (checkPlayServices())
+        {
             Log.d("checkplayservis","services checked");
             // Start IntentService to register this application with GCM.
             Intent intent = new Intent(this, RegistrationIntentService.class);
@@ -222,6 +229,37 @@ public class MainActivity extends AppCompatActivity
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
         pager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
 
+        final ViewPager pager1=pager;
+
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+                if ((signedin == 0 && position == 0)||(signedin == 1 && position == 0 && GlobalUser_Role.equals("Go-Down Manager")))
+                {
+                    Log.d("position",position+"");
+                    refreshitem.setVisible(false);
+                }
+                else
+                {
+                    refreshitem.setVisible(true);
+                }
+
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+
+            }
+        });
+
         // Bind the tabs to the ViewPager
         PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         tabs.setViewPager(pager);
@@ -229,12 +267,24 @@ public class MainActivity extends AppCompatActivity
 
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         this.optionsMenu = menu;
 
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.refreshbutton, menu);
 
+        MenuItem item0=menu.getItem(0);
+        refreshitem=item0;
+
+        if(MainActivity.signedin==1 && MainActivity.GlobalUser_Role.equals("Farmer"))
+        {
+            item0.setVisible(true);
+        }
+        else
+        {
+            item0.setVisible(false);
+        }
         MenuItem item=menu.getItem(1);
         if(Global_Lang_Choice.equals("eng"))
         {
@@ -368,7 +418,8 @@ public class MainActivity extends AppCompatActivity
         }
 
         @Override
-        public CharSequence getPageTitle(int position) {
+        public CharSequence getPageTitle(int position)
+        {
             return TITLES[position];
         }
 
@@ -378,7 +429,9 @@ public class MainActivity extends AppCompatActivity
         }
 
         @Override
-        public android.support.v4.app.Fragment getItem(int position) {
+        public android.support.v4.app.Fragment getItem(int position)
+        {
+
             return SuperAwesomeCardFragment.newInstance(position);
         }
 
