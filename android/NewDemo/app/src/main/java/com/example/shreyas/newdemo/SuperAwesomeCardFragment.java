@@ -161,8 +161,8 @@ public class SuperAwesomeCardFragment extends Fragment {
                             JSONObject temp = a.getJSONObject(i);
                             Log.d("Min and Max ...", temp.toString());
 
-                            //farmlist.add(new Farm_info(temp.getString("FarmName"),temp.getString("MaxTemperature")+"/"+temp.getString("MinTemperature"),temp.getString("MaxHumidity")+"/"+temp.getString("MinHumidity"),temp.getString("MaxSM")+"/"+temp.getString("MinSM"),temp.getString("URL")));
-                            farmlist.add(new Farm_info(temp.getString("FarmName"),"18"+"/"+"29","39"+"/"+"52","0"+"/"+"495",temp.getString("URL")));
+                            farmlist.add(new Farm_info(temp.getString("FarmName"), temp.getString("MaxTemperature"), temp.getString("MaxHumidity"), temp.getString("MaxSM"), temp.getString("URL"), temp.getString("CropName"), temp.getString("CropType"), temp.getString("SowingPeriod"), temp.getString("HWID"), temp.getString("FarmArea"), temp.getString("CropGrowth")));
+                            //farmlist.add(new Farm_info(temp.getString("FarmName"),"18"+"/"+"29","39"+"/"+"52","0"+"/"+"495",temp.getString("URL")));
                         }
 
 
@@ -500,6 +500,8 @@ public class SuperAwesomeCardFragment extends Fragment {
             RVAdapter adapter = new RVAdapter(gen_info);
             adapter.notifyDataSetChanged();
             rv.setAdapter(adapter);
+
+
 
             //rootView.setId(i);
             return rootView;

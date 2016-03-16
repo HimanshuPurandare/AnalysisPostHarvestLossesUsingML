@@ -5,7 +5,7 @@ import numpy as np
 def get_opti_temp(crop_list=["Onions","Tomatoes"]):
 	clft=BayesianRidge()
 	clfo=BayesianRidge()
-	client=MongoClient()
+	client=MongoClient()             #//////////////////////////////////////////////////////////////////////
 	db=client.server_db
 	cursor_tomato=db.corpusoptitemp.find({"Datatype":"Tomatoes"})
 	cursor_onion=db.corpusoptitemp.find({"Datatype":"Onions"})

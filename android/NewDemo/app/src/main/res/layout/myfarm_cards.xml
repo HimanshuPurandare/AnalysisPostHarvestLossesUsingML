@@ -13,11 +13,16 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_my_farm" tools:context="com.example.shreyas.demo.MyFarm">
 
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="5dp">
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/myfarmcv"
+
         >
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,7 +32,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="6dp"
+
                 android:orientation="horizontal"
                 >
 
@@ -39,7 +44,8 @@
                     android:layout_centerInParent="true"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentLeft="true"
-                    android:textSize="25sp"
+                    android:textSize="25dp"
+                    android:textStyle="normal"
                     />
 
                 <ImageButton
@@ -59,12 +65,6 @@
                     />
             </RelativeLayout>
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/location_display_on_card"
-                android:scaleType="fitXY"
-                />
 
 
 
@@ -136,77 +136,234 @@
                             android:layout_height="100dp"
                             />
             -->
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/weatherinfostring"
-                android:paddingBottom="8dp"
-                android:paddingTop="16dp"/>
+                android:text="Wheat (Ajanta)"
+                android:paddingBottom="5dp"
+                android:paddingLeft="5dp"
+                android:paddingTop="5dp"
+                android:textStyle="bold"
+                android:id="@+id/name_crop"
+                />
 
-            <TableLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:shrinkColumns="*"  android:stretchColumns="*" android:background="#ffffff">
+
+                android:orientation="horizontal"
+                >
 
 
-                <!-- Row 1 with single column -->
 
-                <TableRow
-                    android:id="@+id/r2"
+            <ImageView
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:id="@+id/location_display_on_card"
+
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:scaleType="fitXY"
+
+                />
+
+                <TableLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_width="match_parent">
+                    android:id="@+id/tbl"
+                   android:background="#ffffff"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="5dp"
+                    >
+
+
+                    <!-- Row 1 with single column -->
+
+
+
+                    <TableRow
+
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content">
+                        <TextView
+                            android:text="Temp"
+                            android:layout_weight="1" android:background="#dcdcdc"
+                            android:textColor="#000000"
+                            android:padding="5dip" android:gravity="center" android:textSize="15sp"/>
+                        <TextView
+                            android:id="@+id/name_temp" android:text="Row 2 column 1"
+                            android:layout_weight="1" android:background="#d3d3d3"
+                            android:textColor="#000000"
+                            android:padding="5dip" android:gravity="center" android:textSize="15sp"/>
+                    </TableRow>
+
+                    <TableRow
+
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content">
+                        <TextView
+                            android:text="Hum"
+                            android:layout_weight="1" android:background="#d3d3d3"
+                            android:textColor="#000000"
+                            android:padding="5dip" android:gravity="center" android:textSize="15sp"/>
+
+
 
                     <TextView
-                        android:id="@+id/name_temp" android:text="Row 2 column 1"
-                        android:layout_weight="1" android:background="#d3d3d3"
-                        android:textColor="#000000"
-                        android:padding="20dip" android:gravity="center" android:textSize="20sp"/>
+                            android:id="@+id/name_humidity" android:text="Row 2 column 2"
+                            android:layout_weight="1" android:background="#dcdcdc"
+                            android:textColor="#000000"
+                            android:padding="5dip" android:gravity="center" android:textSize="15sp"/>
+                    </TableRow>
+
+                    <TableRow
+
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content">
+
+                        <TextView
+                            android:text="Mois"
+                            android:layout_weight="1" android:background="#dcdcdc"
+                            android:textColor="#000000"
+                            android:padding="5dip" android:gravity="center" android:textSize="15sp"/>
+
 
                     <TextView
-                        android:id="@+id/name_humidity" android:text="Row 2 column 2"
-                        android:layout_weight="1" android:background="#dcdcdc"
-                        android:textColor="#000000"
-                        android:padding="20dip" android:gravity="center" android:textSize="20sp"/>
+                            android:id="@+id/name_sm" android:text="Row 2 column 2"
+                            android:layout_weight="1" android:background="#d3d3d3"
+                            android:textColor="#000000"
+                            android:padding="5dip" android:gravity="center" android:textSize="15sp"/>
 
-                    <TextView
-                        android:id="@+id/name_sm" android:text="Row 2 column 2"
-                        android:layout_weight="1" android:background="#d3d3d3"
-                        android:textColor="#000000"
-                        android:padding="20dip" android:gravity="center" android:textSize="20sp"/>
+                    </TableRow>
 
-                </TableRow>
-                <TableRow
-                    android:id="@+id/r3"
+                </TableLayout>
+
+
+                <com.github.lzyzsd.circleprogress.DonutProgress
+                    android:id="@+id/arc_progress"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    app:donut_progress="55"
+                    app:donut_finished_color="@color/colorFaintPrimary"
+                    app:donut_inner_bottom_text_color="@color/colorAccent"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_below="@+id/tbl"
+                    android:layout_toRightOf="@+id/location_display_on_card"
+                    android:layout_marginRight="5dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_width="match_parent">
+                    android:text="Crop Growth"
+                    android:layout_marginLeft="32dp"
+                    android:textSize="10sp"
+                    android:layout_below="@+id/arc_progress"
+                    android:layout_toRightOf="@+id/location_display_on_card"
 
-                    <TextView
-                        android:id="@+id/temp" android:text="Row 2 column 1"
-                        android:layout_weight="1" android:background="#dcdcdc"
-                        android:textColor="#000000"
-                        android:padding="20dip" android:gravity="center" android:textSize="10sp"/>
+                    />
 
-                    <TextView
-                        android:id="@+id/humidity" android:text="Row 2 column 2"
-                        android:layout_weight="1" android:background="#d3d3d3"
-                        android:textColor="#000000"
-                        android:padding="20dip" android:gravity="center" android:textSize="10sp"/>
 
-                    <TextView
-                        android:id="@+id/sm" android:text="Row 2 column 2"
-                        android:layout_weight="1" android:background="#dcdcdc"
-                        android:textColor="#000000"
-                        android:padding="20dip" android:gravity="center" android:textSize="10sp"/>
-
-                </TableRow>
-
-            </TableLayout>
+            </RelativeLayout>
 
 
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/myfarmcv2"
+        android:visibility="gone"
+        >
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
 
+        <LinearLayout
+            android:id="@+id/qwety"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Detailed Info: "
+
+                android:paddingTop="3dp"
+                android:paddingLeft="5dp"
+                android:textStyle="bold"
+                />
+
+
+            <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:id="@+id/croptype"
+            />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:id="@+id/sowingperiod"
+                android:paddingLeft="10dp"
+                />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:id="@+id/area"
+                android:paddingLeft="10dp"
+                />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:id="@+id/hwid"
+                android:paddingLeft="10dp"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Predictions"
+                android:paddingLeft="5dp"
+                android:textStyle="bold"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:id="@+id/predictions"
+                android:paddingLeft="10dp"
+                android:text="Processing..."
+                />
+
+
+
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>
 
  </RelativeLayout>

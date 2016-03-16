@@ -44,7 +44,7 @@
     <string name="Notificationstring">"Notifications"</string>
     <string name="consequencestring">"Consequences"</string>
     <string name="signoutstring">"Sign-Out"</string>
-    <string name="weatherinfostring">Weather Info(Min/Max)</string>
+    <string name="weatherinfostring">Farm status</string>
 
 
     <string name="signup_email">Email ID</string>
