@@ -180,4 +180,10 @@
     <string name="mywarehousetitle_amount">Amt(Kg)</string>
     <string name="mywarehousetitle_todispatchamount">Dispatch(Kg)</string>
 
+    <string name="forecast_prediction_button">Weather Forecast</string>
+    <string name="title_forecast_dialog">Forecast Dialog</string>
+    <string name="title_temp_forecast">Temperature Forecast</string>
+    <string name="title_hum_forecast">Humidity Forecast</string>
+    <string name="fetching_forecast_data_as_string">Fetching Forecast Data ...</string>
+
 </resources>
