@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="20dp"
+    android:background="@color/common_google_signin_btn_text_dark_default"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/stock_info_title"
+        android:text="@string/title_forecast_dialog"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:textAlignment="center"
+        android:background="@color/colorAccent"
+
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/title_temp_forecast"
+        android:text="@string/title_temp_forecast"
+        android:padding="2dp"
+
+        />
+
+    <com.jjoe64.graphview.GraphView
+
+        android:layout_width="match_parent"
+        android:layout_height="200dip"
+        android:id="@+id/graph_temp_forecast"
+
+
+        />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/title_hum_forecast"
+        android:text="@string/title_hum_forecast"
+        android:padding="2dp"
+
+        />
+
+
+
+    <com.jjoe64.graphview.GraphView
+
+        android:layout_width="match_parent"
+        android:layout_height="200dip"
+        android:id="@+id/graph_hum_forecast"
+
+
+        />
+
+
+
+
+</LinearLayout>

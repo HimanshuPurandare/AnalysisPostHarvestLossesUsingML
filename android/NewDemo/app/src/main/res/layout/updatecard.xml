@@ -74,9 +74,9 @@
                         android:layout_height="wrap_content"
                         android:text=" No"
                         android:id="@+id/no"
-                        android:height="40dp"
+                        android:height="23dp"
                         android:width="120dp"
-                        android:background="@color/colorFaintPrimary"/>
+                        android:background="#8caf80"/>
 
                     <Button
                         android:layout_width="wrap_content"
@@ -84,9 +84,9 @@
                         android:text="Yes"
                         android:id="@+id/yes"
                         android:layout_marginLeft="45dp"
-                        android:height="40dp"
+                        android:height="23dp"
                         android:width="120dp"
-                        android:background="@color/colorFaintPrimary"/>
+                        android:background="#8caf80"/>
 
                 </android.support.v7.internal.widget.ButtonBarLayout>
 

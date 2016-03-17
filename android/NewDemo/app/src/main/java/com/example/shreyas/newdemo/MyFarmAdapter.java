@@ -2,10 +2,14 @@ package com.example.shreyas.newdemo;
 
 import android.animation.Animator;
 import android.animation.ValueAnimator;
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.Image;
 import android.os.AsyncTask;
 import android.support.v7.widget.CardView;
@@ -14,7 +18,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import android.view.WindowManager;
+
+import android.view.Window;
+
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
@@ -22,11 +30,13 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.Viewport;
@@ -34,10 +44,14 @@ import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -48,17 +62,26 @@ import static com.google.android.gms.internal.zzip.runOnUiThread;
  */
 public class MyFarmAdapter extends RecyclerView.Adapter<MyFarmAdapter.PersonViewHolder>{
 
+
+    private float[] Min,Max,Hum;
+    private String[] date;
+    private int req_cnt;
+
+
+
     @Override
     public PersonViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.myfarm_cards, parent, false);
         PersonViewHolder pvh = new PersonViewHolder(v);
         Log.d("oncrete", "c");
 
+
         return pvh;
     }
 
     @Override
-    public void onBindViewHolder(PersonViewHolder personViewHolder, int i) {
+    public void onBindViewHolder(final PersonViewHolder personViewHolder, int i)
+    {
         personViewHolder.Farmname.setText(farms.get(i).farm_name);
         personViewHolder.n1.setText(""+farms.get(i).temp + "°C");
         personViewHolder.n2.setText(""+farms.get(i).Humi+"%");
@@ -69,6 +92,19 @@ public class MyFarmAdapter extends RecyclerView.Adapter<MyFarmAdapter.PersonView
         personViewHolder.n7.setText("Field Area : "+farms.get(i).area);
         personViewHolder.n8.setText("Hardware ID : "+farms.get(i).hwid);
         personViewHolder.donutProgress.setProgress(Integer.parseInt(farms.get(i).growth));
+
+
+        personViewHolder.btn_forecast_prediction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+
+                FetchForecastData("19.1336", "72.9154",v.getContext());
+
+            }
+        });
+
+
         Log.d("Locat", farms.get(i).location_url);
         personViewHolder.cnt = i;
 
@@ -96,7 +132,11 @@ public class MyFarmAdapter extends RecyclerView.Adapter<MyFarmAdapter.PersonView
         DonutProgress donutProgress;
 
         ImageView imv1;
+
         int cnt;
+
+        Button btn_forecast_prediction;
+
         TextView n1,n2,n3,n4,n5,n6,n7,n8,n9;
         static int set = 0;
 
@@ -180,7 +220,7 @@ public class MyFarmAdapter extends RecyclerView.Adapter<MyFarmAdapter.PersonView
                 Log.d("cardview height " ,v.getHeight()+"");
                 //anim = new TranslateAnimation(0.0f, 0.0f, 0.0f ,20.0f);
                 v.setVisibility(View.VISIBLE);
-                ValueAnimator animator = ValueAnimator.ofInt(0, 350);
+                ValueAnimator animator = ValueAnimator.ofInt(0, 500);
 
 
                 animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -199,7 +239,7 @@ public class MyFarmAdapter extends RecyclerView.Adapter<MyFarmAdapter.PersonView
             }
             else
             {
-                ValueAnimator animator = ValueAnimator.ofInt(350, 0);
+                ValueAnimator animator = ValueAnimator.ofInt(500, 0);
                 animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                     @Override
                     public void onAnimationUpdate(ValueAnimator valueAnimator) {
@@ -242,6 +282,7 @@ public class MyFarmAdapter extends RecyclerView.Adapter<MyFarmAdapter.PersonView
           //  circle_progress = (com.github.lzyzsd.circleprogress.CircleProgress)itemView.findViewById(R.id.circle_progress);
             //circle_progress.setProgress(45);
 
+            btn_forecast_prediction=(Button)itemView.findViewById(R.id.forecast_prediction_button);
 
             n1 = (TextView)itemView.findViewById(R.id.name_temp);
             n2 = (TextView)itemView.findViewById(R.id.name_humidity);
@@ -381,7 +422,10 @@ public class MyFarmAdapter extends RecyclerView.Adapter<MyFarmAdapter.PersonView
     }
     List<Farm_info> farms;
 
-    MyFarmAdapter(List<Farm_info> persons){
+
+    MyFarmAdapter(List<Farm_info> persons)
+    {
+
         this.farms = persons;
     }
 
@@ -409,6 +453,157 @@ public class MyFarmAdapter extends RecyclerView.Adapter<MyFarmAdapter.PersonView
             bmImage.setImageBitmap(result);
         }
     }
+
+
+
+
+    private void FetchForecastData(String latitude,String longitude,Context context)
+    {
+
+        Min = new float[5];
+        Max = new float[5];
+        Hum = new float[5];
+        date = new String[5];
+
+        req_cnt=0;
+
+        final ProgressDialog progressDialog=new ProgressDialog(context);
+        final Context context1=context;
+
+        final long load_time_start=System.currentTimeMillis();
+        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        progressDialog.setCancelable(false);
+        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        progressDialog.setMessage(context.getString(R.string.fetching_forecast_data_as_string));
+
+        progressDialog.show();
+
+        Thread temp_timer_thread=new Thread(new Runnable() {
+            @Override
+            public void run()
+            {
+                while(progressDialog.isShowing() && System.currentTimeMillis()-load_time_start<5000)
+                {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (progressDialog.isShowing() && System.currentTimeMillis()-load_time_start>5000)
+                {
+                    progressDialog.dismiss();
+                    showToast(context1,context1.getString(R.string.problem_in_loading_message));
+                }
+            }
+        });
+
+        temp_timer_thread.start();
+
+
+
+        for (int date_cnt = 0; date_cnt < 5; date_cnt++) {
+
+
+            Calendar c = Calendar.getInstance();
+            Log.d("Time.....", c.getTimeZone().toString());
+            Date dateobj = new Date();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat dateFormat1 = new SimpleDateFormat("dd/MM");
+
+            c.setTime(dateobj);
+            c.add(Calendar.DATE, date_cnt - 2);
+            Log.d("date is......", dateFormat.format(c.getTime()));
+            Log.d("day is.......", dateFormat1.format(c.getTime()));
+
+            String temp_date = dateFormat.format(c.getTime());
+            String temp_day = (dateFormat1.format(c.getTime()));
+
+
+            SetData(temp_date, temp_day, date_cnt, latitude, longitude,context,progressDialog);
+
+
+        }
+
+    }
+
+
+    private void SetData(String temp_date,String temp_day1,int date_cnt1,String latitude,String longitude,Context context1, final ProgressDialog progressDialog)
+    {
+
+        final int date_cnt=date_cnt1;
+        final String temp_day=temp_day1;
+        final Context context=context1;
+
+        String url = "https://api.forecast.io/forecast/effdaeb7474c03015ad3f83872d83696/"+latitude+","+longitude+","+temp_date+"T11:59:59";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            jsonObject = jsonObject.getJSONObject("daily");
+                            JSONArray jsonArray = jsonObject.getJSONArray("data");
+                            jsonObject = new JSONObject(jsonArray.get(0).toString());
+
+
+
+                            Min[date_cnt]= (Float.parseFloat(jsonObject.getString("temperatureMin"))-32)*5/9;
+                            Max[date_cnt]= (Float.parseFloat(jsonObject.getString("temperatureMax"))-32)*5/9;
+                            Hum[date_cnt]=Float.parseFloat(jsonObject.getString("humidity"));
+                            date[date_cnt]=temp_day;
+
+
+
+
+
+                            Log.d("Min.......",jsonObject.getString("temperatureMin"));
+                            Log.d("Min......",Min[date_cnt]+"");
+
+                            req_cnt+=1;
+                            if(req_cnt==5 && progressDialog.isShowing())
+                            {
+                                ForecastPredictionDialog forecastPredictionDialog=new ForecastPredictionDialog(context,Min,Max,Hum,date);
+                                progressDialog.dismiss();
+                                forecastPredictionDialog.show();
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+
+        });
+        MainActivity.getInstance().addToRequestQueue(stringRequest);
+
+    }
+
+
+
+
+    public void showToast(Context context,final String toast)
+    {
+        ((Activity)context).runOnUiThread(new Runnable()
+        {
+            public void run() {
+                Toast.makeText(MyWareHouse.mywarehousecontext, toast, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+
+
+
+
+
+
 
 
 }
