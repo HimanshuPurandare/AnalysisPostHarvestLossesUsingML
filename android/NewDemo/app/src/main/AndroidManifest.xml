@@ -102,7 +102,9 @@
 
         <activity android:name=".MyMapActivity" />
         <activity android:name=".MyWareHouse" />
-        <activity android:name=".AddStock"></activity>
+        <activity android:name=".AddStock" />
+        <activity android:name=".Help" />
+        <activity android:name=".Contact_us"></activity>
     </application>
 
 </manifest>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:scrollbars="vertical"
+    tools:context="com.example.shreyas.newdemo.Help">
+
+    <include android:id="@+id/mytoolbar" layout="@layout/mytoolbar" />
+
+
+    <ScrollView android:id="@+id/signup_form" android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/w1"
+        android:layout_marginTop="15dp"
+        android:gravity="center_horizontal"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="22sp"
+        android:text="1. Stock information\n2.Dispatch button: click it when you want to dispatch\n3.Add stock button"/>
+
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/w2"
+        android:layout_marginTop="15dp"
+        android:gravity="center_horizontal"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="22sp"
+        android:text="After pressing dispatch button you will get this pop up. Enter the amount of crop you want to dispatch."/>
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/w3"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="15dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="22sp"
+        android:text="Selected stocks will be suggested by us to minimize storage loss. You can also select other stocks if you want."/>
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/w4"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="15dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="22sp"
+        android:text="Remaining amount in respective stocks will be reflected after dispatching."/>
+        </LinearLayout>
+
+</ScrollView>
+
+</LinearLayout>

@@ -64,7 +64,7 @@ public class ForecastPredictionDialog extends Dialog
             {
                 @Override
                 public void onTap(Series series, DataPointInterface dataPoint) {
-                    Toast.makeText(getContext(), "Series1: On Data Point clicked: " + dataPoint.getY(), Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(getContext(), "Series1: On Data Point clicked: " + dataPoint.getY(), Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -108,7 +108,7 @@ public class ForecastPredictionDialog extends Dialog
         series_hum.setOnDataPointTapListener(new OnDataPointTapListener() {
             @Override
             public void onTap(Series series, DataPointInterface dataPoint) {
-                Toast.makeText(getContext(), "Series1: On Data Point clicked: " + dataPoint.getY(), Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getContext(), "Series1: On Data Point clicked: " + dataPoint.getY(), Toast.LENGTH_SHORT).show();
             }
         });
 
