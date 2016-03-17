@@ -276,13 +276,13 @@ public class SignIn extends AppCompatActivity implements LoaderManager.LoaderCal
                                     } else {
                                         showProgress(false);
 
-                                        Toast.makeText(SignIn.this, "Incorrect username or password", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(SignIn.this, R.string.toast_incorrect_username_pwd, Toast.LENGTH_LONG).show();
 
                                     }
                                 } catch (JSONException e) {
                                     showProgress(false);
 
-                                    Toast.makeText(SignIn.this, "Exception", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(SignIn.this, R.string.toast_exception, Toast.LENGTH_LONG).show();
                                     e.printStackTrace();
                                 }
                             }
@@ -293,7 +293,7 @@ public class SignIn extends AppCompatActivity implements LoaderManager.LoaderCal
                                 error.printStackTrace();
                                 showProgress(false);
 
-                                Toast.makeText(SignIn.this, "Connection Error", Toast.LENGTH_LONG).show();
+                                Toast.makeText(SignIn.this, R.string.toast_connection_error, Toast.LENGTH_LONG).show();
                             }
                         });
                 MainActivity.getInstance().addToRequestQueue(jsonRequest);
@@ -302,7 +302,7 @@ public class SignIn extends AppCompatActivity implements LoaderManager.LoaderCal
             {
                 showProgress(false);
                 Log.d("Login activity check",MainActivity.ConnectedToNetwork+"");
-                Toast.makeText(getApplicationContext(),"No Internet Connection",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),R.string.toast_no_internet_connection_as_string,Toast.LENGTH_LONG).show();
             }
 
         }

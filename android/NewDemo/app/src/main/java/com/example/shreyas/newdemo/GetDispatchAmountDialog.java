@@ -214,7 +214,7 @@ public class GetDispatchAmountDialog extends Dialog implements View.OnClickListe
                     MainActivity.getInstance().addToRequestQueue(jsonRequest);
 
                 } else {
-                    Toast.makeText(this.getContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this.getContext(), R.string.toast_no_internet_connection_as_string, Toast.LENGTH_LONG).show();
                 }
 
             }

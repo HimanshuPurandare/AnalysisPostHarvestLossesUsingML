@@ -280,7 +280,7 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> i
             @Override
             public void run()
             {
-                while(progressDialog.isShowing() && System.currentTimeMillis()-load_time_start<5000)
+                while(progressDialog.isShowing() && System.currentTimeMillis()-load_time_start<10000)
                 {
                     try {
                         Thread.sleep(100);
@@ -288,7 +288,7 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> i
                         e.printStackTrace();
                     }
                 }
-                if (progressDialog.isShowing() && System.currentTimeMillis()-load_time_start>5000)
+                if (progressDialog.isShowing() && System.currentTimeMillis()-load_time_start>10000)
                 {
                     progressDialog.dismiss();
                     showToast(MyWareHouse.mywarehousecontext.getString(R.string.problem_in_loading_message));
@@ -346,7 +346,7 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> i
                         {
                             Log.d("response of dispatch",response.toString());
                             String response_of_dispatch = response.getString("Android");
-                            if(response_of_dispatch.equals("Valid"))
+                            if(response_of_dispatch.equals("Valid") && progressDialog.isShowing())
                             {
 
                                 for (int i = 0; i < stocks.size(); ++i)
@@ -402,7 +402,7 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> i
                                 {
                                     progressDialog.dismiss();
                                 }
-                                Toast.makeText(MyWareHouse.mywarehousecontext, "The selected stock(s) cannot be dispatched", Toast.LENGTH_LONG).show();
+                                Toast.makeText(MyWareHouse.mywarehousecontext, R.string.toast_stock_cannot_be_dispatched, Toast.LENGTH_LONG).show();
                             }
 
                         } catch (JSONException e)
@@ -428,7 +428,7 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> i
                 {
                     progressDialog.dismiss();
                 }
-                Toast.makeText(MyWareHouse.mywarehousecontext, "No Internet Connection", Toast.LENGTH_LONG).show();
+                Toast.makeText(MyWareHouse.mywarehousecontext, R.string.toast_no_internet_connection_as_string, Toast.LENGTH_LONG).show();
             }
 
 
@@ -439,7 +439,7 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> i
             {
                 progressDialog.dismiss();
             }
-            Toast.makeText(MyWareHouse.mywarehousecontext, "Total selected amount not matching with To-Dispatch amount!!!", Toast.LENGTH_LONG).show();
+            Toast.makeText(MyWareHouse.mywarehousecontext, R.string.toast_selected_amount_not_matching, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -525,7 +525,7 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> i
                 @Override
                 public void run()
                 {
-                    while(progressDialog.isShowing() && System.currentTimeMillis()-load_time_start<5000)
+                    while(progressDialog.isShowing() && System.currentTimeMillis()-load_time_start<10000)
                     {
                         try {
                             Thread.sleep(100);
@@ -533,7 +533,7 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> i
                             e.printStackTrace();
                         }
                     }
-                    if (progressDialog.isShowing() && System.currentTimeMillis()-load_time_start>5000)
+                    if (progressDialog.isShowing() && System.currentTimeMillis()-load_time_start>10000)
                     {
                         progressDialog.dismiss();
                         showToaststatic(MyWareHouse.mywarehousecontext.getString(R.string.problem_in_loading_message));
@@ -618,7 +618,7 @@ public class WHAdapter extends RecyclerView.Adapter<WHAdapter.StockViewHolder> i
             }
             else
             {
-                Toast.makeText(MyWareHouse.mywarehousecontext, "No Internet Connection", Toast.LENGTH_LONG).show();
+                Toast.makeText(MyWareHouse.mywarehousecontext, R.string.toast_no_internet_connection_as_string, Toast.LENGTH_LONG).show();
             }
 
 

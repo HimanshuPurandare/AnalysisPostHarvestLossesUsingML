@@ -118,7 +118,7 @@ public class MyMapActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    Toast.makeText(mContext, "Please select at least 3 points to get boundary" , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, R.string.toast_select_3_points_on_map , Toast.LENGTH_SHORT).show();
                 }
             }
         });

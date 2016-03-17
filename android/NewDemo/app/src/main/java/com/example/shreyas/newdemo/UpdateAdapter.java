@@ -159,7 +159,7 @@ public class UpdateAdapter extends RecyclerView.Adapter<UpdateAdapter.PersonView
         }
         else
         {
-            Toast.makeText(context,"No Internet Connection",Toast.LENGTH_LONG).show();
+            Toast.makeText(context,R.string.toast_no_internet_connection_as_string,Toast.LENGTH_LONG).show();
         }
     }
 
@@ -300,7 +300,7 @@ public class UpdateAdapter extends RecyclerView.Adapter<UpdateAdapter.PersonView
                     }
                     else
                     {
-                        Toast.makeText(view.getContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
+                        Toast.makeText(view.getContext(), R.string.toast_no_internet_connection_as_string, Toast.LENGTH_LONG).show();
                     }
 
                 }

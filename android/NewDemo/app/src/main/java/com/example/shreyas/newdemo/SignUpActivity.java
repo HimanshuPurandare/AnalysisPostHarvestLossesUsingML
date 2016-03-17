@@ -280,7 +280,7 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
             }
             else
             {
-                Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), R.string.toast_no_internet_connection_as_string, Toast.LENGTH_LONG).show();
             }
         }
     }

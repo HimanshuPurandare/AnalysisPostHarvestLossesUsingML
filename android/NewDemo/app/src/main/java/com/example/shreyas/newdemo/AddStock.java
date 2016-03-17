@@ -271,7 +271,7 @@ public class AddStock extends AppCompatActivity
                                 try {
                                     response = response.getJSONObject("Android");
                                     String signinresult = response.getString("Result");
-                                    if (signinresult.equals("Valid")) {
+                                    if (signinresult.equals("Valid") && progressDialog.isShowing()) {
                                         Intent i = new Intent(AddStock.this, MyWareHouse.class).putExtra("WarehouseName", warehousename);
 
 
@@ -302,7 +302,7 @@ public class AddStock extends AppCompatActivity
                                     }
                                     else
                                     {
-                                        Toast.makeText(getApplicationContext(), "Stock Addition Failed!!!", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getApplicationContext(), R.string.toast_stock_addition_failed, Toast.LENGTH_LONG).show();
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -318,7 +318,7 @@ public class AddStock extends AppCompatActivity
                 MainActivity.getInstance().addToRequestQueue(jsonRequest);
 
             } else {
-                Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), R.string.toast_no_internet_connection_as_string, Toast.LENGTH_LONG).show();
             }
         }
 

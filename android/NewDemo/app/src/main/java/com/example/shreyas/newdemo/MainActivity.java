@@ -213,7 +213,7 @@ public class MainActivity extends AppCompatActivity
     {
         toolbar = (Toolbar) findViewById(R.id.mytoolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("SmartFS");
+        getSupportActionBar().setTitle(R.string.app_name);
         toolbar.setTitleTextColor(getResources().getColor(R.color.Text_Icon));
         toolbar.setSubtitleTextColor(getResources().getColor(R.color.LightPrimaryColor));
     }

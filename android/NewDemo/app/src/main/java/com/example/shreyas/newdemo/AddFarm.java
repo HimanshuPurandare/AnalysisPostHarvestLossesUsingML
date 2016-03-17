@@ -246,7 +246,7 @@ public class AddFarm extends AppCompatActivity {
     {
         toolbar = (Toolbar) findViewById(R.id.mytoolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("New Field");
+        getSupportActionBar().setTitle(R.string.addfarm_activity_title);
         //getSupportActionBar().setSubtitle("Pune");
         toolbar.setTitleTextColor(getResources().getColor(R.color.Text_Icon));
         toolbar.setSubtitleTextColor(getResources().getColor(R.color.LightPrimaryColor));
@@ -360,7 +360,7 @@ public class AddFarm extends AppCompatActivity {
         }
         else
         {
-            Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),R.string.toast_no_internet_connection_as_string, Toast.LENGTH_LONG).show();
         }
     }
 

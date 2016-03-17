@@ -164,7 +164,7 @@ public class Navigation_Drawer extends Fragment implements NavigationView.OnCrea
             else
             {
                 Log.d("doing ","nothing");
-                Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), R.string.toast_no_internet_connection_as_string, Toast.LENGTH_LONG).show();
 
             }
         }

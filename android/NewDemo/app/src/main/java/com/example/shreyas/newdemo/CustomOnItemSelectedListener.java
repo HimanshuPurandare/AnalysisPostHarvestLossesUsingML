@@ -12,7 +12,7 @@ import java.util.List;
 
 public class CustomOnItemSelectedListener implements OnItemSelectedListener {
 
-    public static String crop="Wheat";
+    public static String crop=MainActivity.getInstance().getString(R.string.WheatString);
     public static List<String> wheatlist;
     public static ArrayAdapter<String> dataAdapter1;
     public static String type_of_crop;
@@ -24,85 +24,85 @@ public class CustomOnItemSelectedListener implements OnItemSelectedListener {
 
         String temp = parent.getItemAtPosition(pos).toString();
 
-        if(temp.equals("Wheat"))
+        if(temp.equals(view.getContext().getString(R.string.WheatString)))
         {
             crop = MainActivity.getInstance().getString(R.string.WheatString);
             wheatlist.clear();
-            wheatlist.add("Ajanta");
-            wheatlist.add("Arjun");
-            wheatlist.add("Parabhani-51");
-            wheatlist.add("Malvika");
+            wheatlist.add(view.getContext().getString(R.string.AjantaString));
+            wheatlist.add(view.getContext().getString(R.string.ArjunString));
+            wheatlist.add(view.getContext().getString(R.string.ParabhaniString));
+            wheatlist.add(view.getContext().getString(R.string.MalvikaString));
 
             dataAdapter1.notifyDataSetChanged();
         }
-        else if(temp.equals("Rice"))
+        else if(temp.equals(view.getContext().getString(R.string.RiceString)))
         {
-            crop = "Rice";
+            crop = view.getContext().getString(R.string.RiceString);
             wheatlist.clear();
-            wheatlist.add("Ambemohar");
-            wheatlist.add("tambdajog");
-            wheatlist.add("krishnasal");
-            wheatlist.add("champakali");
+            wheatlist.add(view.getContext().getString(R.string.AmbemoharString));
+            wheatlist.add(view.getContext().getString(R.string.TambdajogString));
+            wheatlist.add(view.getContext().getString(R.string.KrishnasalString));
+            wheatlist.add(view.getContext().getString(R.string.ChampakaliString));
 
             dataAdapter1.notifyDataSetChanged();
         }
-        else if(temp.equals("Onion"))
+        else if(temp.equals(view.getContext().getString(R.string.OnionString)))
         {
-            crop = "Onion";
+            crop = view.getContext().getString(R.string.OnionString);
             wheatlist.clear();
-            wheatlist.add("Bheema-Red");
-            wheatlist.add("Bheema-Shweta");
-            wheatlist.add("Bheema-Super");
+            wheatlist.add(view.getContext().getString(R.string.BheemaredString));
+            wheatlist.add(view.getContext().getString(R.string.BheemashwetaString));
+            wheatlist.add(view.getContext().getString(R.string.BheemasuperString));
             dataAdapter1.notifyDataSetChanged();
         }
-        else if(temp.equals("Ajanta"))
+        else if(temp.equals(view.getContext().getString(R.string.AjantaString)))
         {
-            type_of_crop = "Ajanta";
+            type_of_crop = view.getContext().getString(R.string.AjantaString);
         }
-        else if(temp.equals("Arjun"))
+        else if(temp.equals(view.getContext().getString(R.string.ArjunString)))
         {
-            type_of_crop = "Arjun";
+            type_of_crop = view.getContext().getString(R.string.ArjunString);
         }
-        else if(temp.equals("Parabhani-51"))
+        else if(temp.equals(view.getContext().getString(R.string.ParabhaniString)))
         {
-            type_of_crop = "Parabhani-51";
+            type_of_crop = view.getContext().getString(R.string.ParabhaniString);
         }
-        else if(temp.equals("Malvika"))
+        else if(temp.equals(view.getContext().getString(R.string.MalvikaString)))
         {
-            type_of_crop = "Malvika";
+            type_of_crop = view.getContext().getString(R.string.MalvikaString);
         }
-        else if(temp.equals("Ambemohar"))
+        else if(temp.equals(view.getContext().getString(R.string.AmbemoharString)))
         {
-            type_of_crop = "Ambemohar";
+            type_of_crop = view.getContext().getString(R.string.AmbemoharString);
         }
-        else if(temp.equals("tambdajog"))
+        else if(temp.equals(view.getContext().getString(R.string.TambdajogString)))
         {
-            type_of_crop = "tambdajog";
+            type_of_crop = view.getContext().getString(R.string.TambdajogString);
         }
-        else if(temp.equals("tambdajog"))
+        else if(temp.equals(view.getContext().getString(R.string.TambdajogString)))
         {
-            type_of_crop = "tambdajog";
+            type_of_crop = view.getContext().getString(R.string.TambdajogString);
         }
-        else if(temp.equals("krishnasal"))
+        else if(temp.equals(view.getContext().getString(R.string.KrishnasalString)))
         {
-            type_of_crop = "krishnasal";
+            type_of_crop = view.getContext().getString(R.string.KrishnasalString);
         }
-        else if(temp.equals("champakali"))
+        else if(temp.equals(view.getContext().getString(R.string.ChampakaliString)))
         {
-            type_of_crop = "champakali";
+            type_of_crop = view.getContext().getString(R.string.ChampakaliString);
         }
 
-        else if(temp.equals("Bheema-Red"))
+        else if(temp.equals(view.getContext().getString(R.string.BheemaredString)))
         {
-            type_of_crop = "Bheema-Red";
+            type_of_crop = view.getContext().getString(R.string.BheemaredString);
         }
-        else if(temp.equals("Bheema-Shweta"))
+        else if(temp.equals(view.getContext().getString(R.string.BheemashwetaString)))
         {
-            type_of_crop = "Bheema-Shweta";
+            type_of_crop = view.getContext().getString(R.string.BheemashwetaString);
         }
-        else if(temp.equals("Bheema-Super"))
+        else if(temp.equals(view.getContext().getString(R.string.BheemasuperString)))
         {
-            type_of_crop = "Bheema-Super";
+            type_of_crop = view.getContext().getString(R.string.BheemasuperString);
         }
     }
 

@@ -195,7 +195,7 @@ public class SuperAwesomeCardFragment extends Fragment {
         }
         else
         {
-            Toast.makeText(getActivity(),"No Internet Connection",Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(),R.string.toast_no_internet_connection_as_string,Toast.LENGTH_LONG).show();
         }
     }
 
@@ -287,7 +287,7 @@ public class SuperAwesomeCardFragment extends Fragment {
 
                         if(l==0)
                         {
-                            Toast.makeText(getActivity(),"No farms added",Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(),R.string.toast_no_farms_added,Toast.LENGTH_LONG).show();
                         }
 
                     } catch (JSONException e) {
@@ -307,7 +307,7 @@ public class SuperAwesomeCardFragment extends Fragment {
         }
         else
         {
-            Toast.makeText(getActivity(),"No Internet Connection",Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(),R.string.toast_no_internet_connection_as_string,Toast.LENGTH_LONG).show();
         }
     }
 
@@ -327,7 +327,7 @@ public class SuperAwesomeCardFragment extends Fragment {
             @Override
             public void run()
             {
-                while(progressDialog.isShowing() && System.currentTimeMillis()-load_time_start<5000)
+                while(progressDialog.isShowing() && System.currentTimeMillis()-load_time_start<10000)
                 {
                     try {
                         Thread.sleep(100);
@@ -335,7 +335,7 @@ public class SuperAwesomeCardFragment extends Fragment {
                         e.printStackTrace();
                     }
                 }
-                if (progressDialog.isShowing() && System.currentTimeMillis()-load_time_start>5000)
+                if (progressDialog.isShowing() && System.currentTimeMillis()-load_time_start>10000)
                 {
                     progressDialog.dismiss();
                     showToast(getString(R.string.problem_in_loading_message));
@@ -427,7 +427,7 @@ public class SuperAwesomeCardFragment extends Fragment {
             }
             else
             {
-                Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), R.string.toast_no_internet_connection_as_string, Toast.LENGTH_LONG).show();
             }
 
         }

@@ -20,7 +20,7 @@ public class Contact_us extends AppCompatActivity {
 
         t1 = (TextView) findViewById(R.id.names);
 
-        t1.setText("Shreyas Pansare(9421947780)\nNiranjan Ketkar(9881362827)\nHimanshu Purandare(7387545150)\nPrathamesh Padhye(9405436083)");
+        t1.setText(R.string.member_info_shreyas+"\n"+R.string.member_info_niranjan+"\n"+R.string.member_info_himanshu+"\n"+R.string.member_info_prathamesh);
         setupToolbar();
     }
 

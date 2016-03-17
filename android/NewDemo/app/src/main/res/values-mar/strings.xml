@@ -135,4 +135,97 @@
 
 
 
+
+
+
+    <string name="addwarehousehint">गोदमचे नाव टाका</string>
+
+    <string name="clickherestring">तुमचे स्थळ निवडा</string>
+
+    <string name="activity_addstock_title">साठ्याची भर घाला</string>
+    <string name="btn_add_warehouse">नवीन गोदामाची भर घाला</string>
+    <string name="btn_add_stock">साठ्यात भर घाला</string>
+
+    <string name="hint_stock_name">साठ्याचे नाव</string>
+    <string name="hint_crop_name">पिकाचे नाव</string>
+    <string name="hint_crop_type">पिकाचा प्रकार</string>
+    <string name="hint_farmer_name">शेतकर्याचे नाव</string>
+    <string name="hint_in_time">(साठ्याची भर घालण्याची तारीख)</string>
+    <string name="hint_amount">साठ्याची क्षमता (किलोग्राम मध्ये)</string>
+    <string name="hint_harvesting_period">कापणीचा कालावधी</string>
+    <string name="hint_sowing_period">पेरणीचा कालावधी</string>
+
+    <string name="ToasString">" ते "</string>
+    <string name="toasstring">ते</string>
+    <string name="kgasstring">किलो</string>
+
+    <string name="title_stock_info_dialog">साठ्याची माहिती</string>
+    <string name="title_get_dispatch_amount_dialog">किती साठा पाठवायचा आहे?</string>
+
+
+    <string name="dialog_stock_crop_type_as_string">पिकाचा प्रकार:</string>
+    <string name="dialog_stock_sowing_period_as_string">पेरणीचा कालावधी:</string>
+    <string name="dialog_stock_harvesting_period_as_string">कापणीचा कालावधी:</string>
+    <string name="dialog_stock_arrival_date_as_string">साठा गोदामात येण्याची तारीख:</string>
+    <string name="dialog_stock_farmer_as_string">शेतकरी:</string>
+    <string name="dialog_stock_amount_as_string"> एकूण साठा: </string>
+
+
+    <string name="dialog_accept_dispatch_amount">किती किलो साठा पाठवायचा आहे?</string>
+
+    <string name="proceed_as_string">पुढे जा</string>
+    <string name="cancel_as_string">रद्द</string>
+    <string name="dispatch_as_string">पाठवा</string>
+    <string name="final_selected_dispatch_amount">एकूण निवडलेला साठा: </string>
+
+    <string name="hint_dispatch_stock_amount">उदाहरणार्थ 200</string>
+    <string name="toast_fill_all_info">कृपया सगळी माहिती भरा</string>
+
+    <string name="warehouse_loading_progressdialog_message">थोड्या वेळ थांबा, गोदाम दाखवत आहोत...</string>
+    <string name="farm_loading_progressdialog_message">लोडिंग...</string>
+    <string name="problem_in_loading_message">सर्वर शी संपर्क होऊ शकत नाहीए. पुन्हा प्रयत्न करा</string>
+    <string name="stock_list_loading_progress_dialog_message">साठ्याची माहिती लोड करत आहोत...</string>
+    <string name="processing_stock_dispatch">साठा पाठवत आहोत...</string>
+    <string name="adding_warehouse_progress_dialog_message">गोदाम ऍड करत आहोत...</string>
+    <string name="adding_stock_progress_dialog_message">साठा ऍड करत आहोत.</string>
+    <string name="finalize_stock_dispatch_progress_dialog_message">अंतिम टप्पा...</string>
+    <string name="fetching_stock_info_progress_dialog_message">साठ्याची माहिती घेत आहोत</string>
+    <string name="add_farm_progress_bar_message">शेत ऍड करत आहोत</string>
+
+    <string name="mywarehousetitle_stockname">साठा</string>
+    <string name="mywarehousetitle_cropname">पीक</string>
+    <string name="mywarehousetitle_amount">एकूण (किलो)</string>
+    <string name="mywarehousetitle_todispatchamount">पाठवा (किलो)</string>
+
+    <string name="forecast_prediction_button">हवामानाचा अंदाज</string>
+    <string name="title_forecast_dialog">अंदाज</string>
+    <string name="title_temp_forecast">तापमानाचा अंदाज</string>
+    <string name="title_hum_forecast">अरद्रतेचा अंदाज</string>
+    <string name="fetching_forecast_data_as_string">हवामानाचा अंदाज घेत आहोत...</string>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </resources>

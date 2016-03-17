@@ -122,7 +122,7 @@ public class AddWarehouse extends AppCompatActivity
     {
         toolbar = (Toolbar) findViewById(R.id.mytoolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Add WareHouse");
+        getSupportActionBar().setTitle(R.string.activity_title_add_warehouse);
         //getSupportActionBar().setSubtitle("Pune");
         toolbar.setTitleTextColor(getResources().getColor(R.color.Text_Icon));
         toolbar.setSubtitleTextColor(getResources().getColor(R.color.LightPrimaryColor));
@@ -173,7 +173,7 @@ public class AddWarehouse extends AppCompatActivity
         {
             if (wh_name == "" || location_set == false)
             {
-                Toast.makeText(getApplicationContext(), "Please fill ALL the Information!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), R.string.toast_please_fill_all_info, Toast.LENGTH_LONG).show();
                 progressDialog.dismiss();
             }
             else
@@ -236,7 +236,7 @@ public class AddWarehouse extends AppCompatActivity
             {
                 progressDialog.dismiss();
             }
-            Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), R.string.toast_no_internet_connection_as_string, Toast.LENGTH_LONG).show();
         }
     }
 

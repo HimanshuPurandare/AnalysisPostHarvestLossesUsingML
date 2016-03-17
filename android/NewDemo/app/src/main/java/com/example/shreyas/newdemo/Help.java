@@ -24,7 +24,7 @@ public class Help extends AppCompatActivity {
     {
         toolbar = (Toolbar) findViewById(R.id.mytoolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Help");
+        getSupportActionBar().setTitle(R.string.help_as_string);
         toolbar.setTitleTextColor(getResources().getColor(R.color.Text_Icon));
         toolbar.setSubtitleTextColor(getResources().getColor(R.color.LightPrimaryColor));
     }

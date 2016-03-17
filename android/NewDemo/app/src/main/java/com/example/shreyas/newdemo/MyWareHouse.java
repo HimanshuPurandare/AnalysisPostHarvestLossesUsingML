@@ -288,7 +288,7 @@ public class MyWareHouse extends AppCompatActivity
             }
             else
             {
-                Toast.makeText(this, "No Internet Connection", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.toast_no_internet_connection_as_string, Toast.LENGTH_LONG).show();
             }
         }
         else

@@ -67,26 +67,26 @@ public class DiseaseDialog extends Dialog
 
         if(noti.contains("disease"))
         {
-            tv1.setText("Disease");
-            tv2.setText("Action");
+            tv1.setText(R.string.disease_as_string);
+            tv2.setText(R.string.action_as_string);
         }
         else if(noti.contains("harvest"))
         {
             tv1.setVisibility(View.GONE);
             t1.setVisibility(View.GONE);
-            tv2.setText("When did u harvest the crop?");
+            tv2.setText(R.string.question_harvest_time);
         }
         else if(noti.contains("fertilizer"))
         {
             tv1.setVisibility(View.GONE);
             t1.setVisibility(View.GONE);
-            tv2.setText("Which fertilizer did u used?");
+            tv2.setText(R.string.question_fertilizer);
         }
         else if(noti.contains("prediction-suggestion"))
         {
             tv1.setVisibility(View.GONE);
             t1.setVisibility(View.GONE);
-            tv2.setText("Any other suggestions");
+            tv2.setText(R.string.question_suggestion);
         }
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,7 +178,7 @@ public class DiseaseDialog extends Dialog
 
                     MainActivity.getInstance().addToRequestQueue(jsonRequest);
                 } else {
-                    Toast.makeText(getContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), R.string.toast_no_internet_connection_as_string, Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -294,7 +294,7 @@ public class DiseaseDialog extends Dialog
         }
         else
         {
-            Toast.makeText(getContext(),"No Internet Connection",Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(),R.string.toast_no_internet_connection_as_string,Toast.LENGTH_LONG).show();
         }
     }
 
