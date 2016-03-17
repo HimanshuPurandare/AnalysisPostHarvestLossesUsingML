@@ -220,7 +220,7 @@ public class MyFarmAdapter extends RecyclerView.Adapter<MyFarmAdapter.PersonView
                 Log.d("cardview height " ,v.getHeight()+"");
                 //anim = new TranslateAnimation(0.0f, 0.0f, 0.0f ,20.0f);
                 v.setVisibility(View.VISIBLE);
-                ValueAnimator animator = ValueAnimator.ofInt(0, 550);
+                ValueAnimator animator = ValueAnimator.ofInt(0, 600);
 
 
                 animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -239,7 +239,7 @@ public class MyFarmAdapter extends RecyclerView.Adapter<MyFarmAdapter.PersonView
             }
             else
             {
-                ValueAnimator animator = ValueAnimator.ofInt(550, 0);
+                ValueAnimator animator = ValueAnimator.ofInt(600, 0);
                 animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                     @Override
                     public void onAnimationUpdate(ValueAnimator valueAnimator) {

@@ -1,11 +1,12 @@
 <resources>
     <string name="app_name">SmartFS</string>
-
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
+    <string name="menuitem_refresh">Refresh</string>
+
+
     <string name="NavMenuItemSettings">सेटींग्स</string>
 
-    <string name="menuitem_refresh">Refresh</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -202,6 +203,55 @@
     <string name="title_temp_forecast">तापमानाचा अंदाज</string>
     <string name="title_hum_forecast">अरद्रतेचा अंदाज</string>
     <string name="fetching_forecast_data_as_string">हवामानाचा अंदाज घेत आहोत...</string>
+
+
+
+
+
+
+
+
+
+    <string name="addfarm_activity_title">New Field</string>
+    <string name="toast_no_internet_connection_as_string">No Internet Connection</string>
+    <string name="toast_stock_addition_failed">Stock Addition Failed!!!</string>
+    <string name="activity_title_add_warehouse">Add WareHouse</string>
+    <string name="toast_please_fill_all_info">Please fill ALL the Information!</string>
+    <string name="member_info_shreyas">"Shreyas Pansare(9421947780)</string>
+    <string name="member_info_niranjan">Niranjan Ketkar(9881362827)</string>
+    <string name="member_info_himanshu">Himanshu Purandare(7387545150)</string>
+    <string name="member_info_prathamesh">Prathamesh Padhye(9405436083)</string>
+    <string name="disease_as_string">Disease</string>
+    <string name="action_as_string">"Action"</string>
+    <string name="question_harvest_time">When did u harvest the crop?</string>
+    <string name="question_fertilizer">Which fertilizer did u used?</string>
+    <string name="question_suggestion">Any other suggestions</string>
+    <string name="help_as_string">Help</string>
+    <string name="toast_select_3_points_on_map">Please select at least 3 points to get boundary</string>
+    <string name="toast_incorrect_username_pwd">Incorrect username or password</string>
+    <string name="toast_exception">Incorrect username or password</string>
+    <string name="toast_connection_error">Connection Error</string>
+    <string name="toast_no_farms_added">No farms added</string>
+    <string name="toast_stock_cannot_be_dispatched">The selected stock(s) cannot be dispatched</string>
+    <string name="toast_selected_amount_not_matching">"Total selected amount not matching with To-Dispatch amount!!!"</string>
+
+
+
+
+
+
+
+
+
+
+    <string name="selectcroptype">Select Type of Crop</string>
+    <string name="selectcrop">Select Crop</string>
+
+
+
+
+
+
 
 
 
