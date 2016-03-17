@@ -186,10 +186,7 @@
     <string name="title_hum_forecast">Humidity Forecast</string>
     <string name="fetching_forecast_data_as_string">Fetching Forecast Data ...</string>
     
-    
-    
-    
-    
+
     
     
     <string name="addfarm_activity_title">New Field</string>
@@ -213,6 +210,43 @@
     <string name="toast_connection_error">Connection Error</string>
     <string name="toast_no_farms_added">No farms added</string>
     <string name="toast_stock_cannot_be_dispatched">The selected stock(s) cannot be dispatched</string>
-    <string name="toast_selected_amount_not_matching">"Total selected amount not matching with To-Dispatch amount!!!"</string>
+    <string name="toast_selected_amount_not_matching">Total selected amount not matching with To-Dispatch amount!!!</string>
+    <string name="title_disease_dialog">What?</string>
+
+
+
+
+
+
+
+    <string name="for_farmer_as_string">For Farmers</string>
+    <string name="help_message_1">"1. This is one field. The piece of land in which only one crop is sowed is termed as Field\n2.Button for refreshing data\n3.Language of application can be changed\n4.Field data can be updated by using this button\n5.Field can be added by using this button"</string>
+    <string name="help_message_2">"After pressing the card of field detailed information of that field will be displayed."</string>
+    <string name="help_message_3">"Regular updates will be asked to improve user experience"</string>
+    <string name="help_message_4">"For GoDown Managers"</string>
+    <string name="help_message_5">"1. Stock information\n2.Dispatch button: click it when you want to dispatch\n3.Add stock button"</string>
+    <string name="help_message_6">"After pressing dispatch button you will get this pop up. Enter the amount of crop you want to dispatch."</string>
+    <string name="help_message_7">"Selected stocks will be suggested by us to minimize storage loss. You can also select other stocks if you want."</string>
+    <string name="help_message_8">"Remaining amount in respective stocks will be reflected after dispatching."</string>
+
+
+
+    <string name="developers_as_string">Developers</string>
+    <string name="disease_name">Disease Name :</string>
+    <string name="action_taken_as_string">"Action Taken : "</string>
+    <string name="done_as_string"></string>
+    <string name="yes_as_string">Yes</string>
+    <string name="no_as_string">No</string>
+
+
+
+    <string name="processing_as_string">Processing...</string>
+    <string name="predictions_as_string">Predictions</string>
+    <string name="detailed_info_as_string">Detailed Info: </string>
+    <string name="crop_growth_as_string">Detailed Info: </string>
+
+
+
+
 
 </resources>

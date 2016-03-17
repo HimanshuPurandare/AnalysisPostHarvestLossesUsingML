@@ -1,10 +1,8 @@
 <resources>
-    <string name="app_name">SmartFS</string>
-    <string name="drawer_open">Open</string>
-    <string name="drawer_close">Close</string>
-    <string name="menuitem_refresh">Refresh</string>
-
-
+    <string name="app_name">स्मार्ट एफ एस</string>
+    <string name="drawer_open">उघडा</string>
+    <string name="drawer_close">बंद करा</string>
+    <string name="menuitem_refresh">रिफ्रेश</string>
     <string name="NavMenuItemSettings">सेटींग्स</string>
 
 
@@ -206,57 +204,59 @@
 
 
 
+    <string name="addfarm_activity_title">नवीन शेत</string>
+    <string name="toast_no_internet_connection_as_string">इंटरनेट कनेक्शन</string>
+    <string name="toast_stock_addition_failed">साठ्यात भर नाही घालू शकत आहे!!!</string>
+    <string name="activity_title_add_warehouse">गोदाम ऍड करा</string>
+    <string name="toast_please_fill_all_info">कृपया सगळी माहिती भरा</string>
+    <string name="member_info_shreyas">"श्रेयस पानसरे (+919421947780)</string>
+    <string name="member_info_niranjan">निरंजन केतकर (+919881362827)</string>
+    <string name="member_info_himanshu">हिमांशु पुरंदरे (+917387545150)</string>
+    <string name="member_info_prathamesh">प्रथमेश पाध्ये (+919405436083)</string>
+    <string name="disease_as_string">आजार</string>
+    <string name="action_as_string">"कृती"</string>
+    <string name="question_harvest_time">तुम्ही कापणी केव्हा केलीत?</string>
+    <string name="question_fertilizer">कोणते खत वापरलेत तुम्ही?</string>
+    <string name="question_suggestion">आम्हाला सुधारण्यासाठी काही सूचना?</string>
+    <string name="help_as_string">मदत</string>
+    <string name="toast_select_3_points_on_map">कृपया निदान ३ बिंदू निवडा. </string>
+    <string name="toast_incorrect_username_pwd">वापरणाऱ्याचे नाव अथवा पासवर्ड चुकला आहे</string>
+    <string name="toast_exception">वापरणाऱ्याचे नाव अथवा पासवर्ड चुकला आहे.</string>
+    <string name="toast_connection_error">कनेक्शन नाही होऊ शकत आहे.</string>
+    <string name="toast_no_farms_added">शेत ऍड केलेले नाही</string>
+    <string name="toast_stock_cannot_be_dispatched">निवडलेला/निवडलेले साठे पाठवू शकत नाही</string>
+    <string name="toast_selected_amount_not_matching">"निवडलेला साठा आणि पाठवायचा साठ्याची क्षमता जुळत नाही"</string>
+    <string name="selectcroptype">पिकाचा प्रकार निवडा</string>
+    <string name="selectcrop">पीक निवडा</string>
+    <string name="title_disease_dialog">काय?</string>
 
 
 
 
+    <string name="for_farmer_as_string">शेतकऱ्यांसाठी</string>
+    <string name="help_message_1">"1. हे एक शेत आहे. ह्यात फक्त एका प्रकारचेच पीक लावू शकतो. प्रत्येक पिकासाठी नवीन शेत ऍड करायचे आहे\n2.माहिती रिफेश करण्याचे बटण\n3.भाषा बदलण्याचे बटण\n4.शेताची माहिती अपडेट करण्याचे बटण\n5.ह्या बटण मुळे शेत ऍड होते"</string>
+    <string name="help_message_2">"शेताचे कार्ड दाबताच शेताची सविस्तर माहिती मिळेल."</string>
+    <string name="help_message_3">"वापरणाऱ्याचा अनुभव सुधारण्यासाठी नियमित अपडेट्स विचारले जातील"</string>
+    <string name="help_message_4">"गोदाम व्यवस्थापकासाठी"</string>
+    <string name="help_message_5">"1. साठ्याची माहीती\n2.पाठवा बटण: हे दाबा जेव्हा तुम्हाला साठा पाठवायचा असेल तेव्हा\n3.साठ्यात भर घालण्याचे बटण"</string>
+    <string name="help_message_6">"पाठवा बटण दाबल्यावर असे दिसेल. जितका साठा पाठवायचा आहे तो लिहा."</string>
+    <string name="help_message_7">"संचय करतानाचे नुकसान कमी करण्यासाठी आम्ही निवडलेला साठा पाठवा. तुम्ही दुसरा साठा पण पाठवू शकता."</string>
+    <string name="help_message_8">"पाठवलेल्या नंतर साठ्याची उरलेली क्षमता दिसते."</string>
 
 
-    <string name="addfarm_activity_title">New Field</string>
-    <string name="toast_no_internet_connection_as_string">No Internet Connection</string>
-    <string name="toast_stock_addition_failed">Stock Addition Failed!!!</string>
-    <string name="activity_title_add_warehouse">Add WareHouse</string>
-    <string name="toast_please_fill_all_info">Please fill ALL the Information!</string>
-    <string name="member_info_shreyas">"Shreyas Pansare(9421947780)</string>
-    <string name="member_info_niranjan">Niranjan Ketkar(9881362827)</string>
-    <string name="member_info_himanshu">Himanshu Purandare(7387545150)</string>
-    <string name="member_info_prathamesh">Prathamesh Padhye(9405436083)</string>
-    <string name="disease_as_string">Disease</string>
-    <string name="action_as_string">"Action"</string>
-    <string name="question_harvest_time">When did u harvest the crop?</string>
-    <string name="question_fertilizer">Which fertilizer did u used?</string>
-    <string name="question_suggestion">Any other suggestions</string>
-    <string name="help_as_string">Help</string>
-    <string name="toast_select_3_points_on_map">Please select at least 3 points to get boundary</string>
-    <string name="toast_incorrect_username_pwd">Incorrect username or password</string>
-    <string name="toast_exception">Incorrect username or password</string>
-    <string name="toast_connection_error">Connection Error</string>
-    <string name="toast_no_farms_added">No farms added</string>
-    <string name="toast_stock_cannot_be_dispatched">The selected stock(s) cannot be dispatched</string>
-    <string name="toast_selected_amount_not_matching">"Total selected amount not matching with To-Dispatch amount!!!"</string>
+    <string name="developers_as_string">विकासक</string>
+    <string name="disease_name">आजाराचे नाव :</string>
+    <string name="action_taken_as_string">"कृती : "</string>
+    <string name="done_as_string"></string>
+    <string name="yes_as_string">हो</string>
+    <string name="no_as_string">नाही</string>
 
 
 
-
-
-
-
-
-
-
-    <string name="selectcroptype">Select Type of Crop</string>
-    <string name="selectcrop">Select Crop</string>
-
-
-
-
-
-
-
-
-
-
-
+    <string name="processing_as_string">प्रक्रिया सुरु आहे...</string>
+    <string name="predictions_as_string">अंदाज</string>
+    <string name="detailed_info_as_string">सविस्तर माहिती: </string>
+    <string name="crop_growth_as_string">सविस्तर माहिती: </string>
 
 
 

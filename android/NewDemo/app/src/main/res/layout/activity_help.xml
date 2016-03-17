@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
 
                 android:textSize="30sp"
-                android:text="For Farmers"/>
+                android:text="@string/for_farmer_as_string"/>
 
 
 
@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
 
                 android:textSize="18sp"
-                android:text="1. This is one field. The piece of land in which only one crop is sowed is termed as Field\n2.Button for refreshing data\n3.Language of application can be changed\n4.Field data can be updated by using this button\n5.Field can be added by using this button"/>
+                android:text="@string/help_message_1"/>
 
 
 
@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:textSize="18sp"
-                android:text="After pressing the card of field detailed information of that field will be displayed."/>
+                android:text="@string/help_message_2"/>
 
 
             <ImageView
@@ -75,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:textSize="18sp"
-                android:text="Regular updates will be asked to improve user experience"/>
+                android:text="@string/help_message_3"/>
 
 
 
@@ -96,7 +96,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:textSize="30sp"
-                android:text="For GoDown Managers"/>
+                android:text="@string/help_message_4"/>
 
 
 
@@ -119,7 +119,7 @@
         android:layout_height="wrap_content"
 
         android:textSize="18sp"
-        android:text="1. Stock information\n2.Dispatch button: click it when you want to dispatch\n3.Add stock button"/>
+        android:text="@string/help_message_5"/>
 
 
 
@@ -135,7 +135,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:textSize="18sp"
-        android:text="After pressing dispatch button you will get this pop up. Enter the amount of crop you want to dispatch."/>
+        android:text="@string/help_message_6"/>
 
 
     <ImageView
@@ -150,7 +150,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:textSize="18sp"
-        android:text="Selected stocks will be suggested by us to minimize storage loss. You can also select other stocks if you want."/>
+        android:text="@string/help_message_7"/>
 
 
     <ImageView
@@ -165,7 +165,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:textSize="18sp"
-        android:text="Remaining amount in respective stocks will be reflected after dispatching."/>
+        android:text="@string/help_message_8"/>
         </LinearLayout>
 
 </ScrollView>

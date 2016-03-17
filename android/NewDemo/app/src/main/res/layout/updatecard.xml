@@ -73,7 +73,7 @@
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=" No"
+                        android:text="@string/no_as_string"
                         android:id="@+id/no"
                         android:height="23dp"
                         android:width="120dp"
@@ -83,7 +83,7 @@
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="Yes"
+                        android:text="@string/yes_as_string"
                         android:id="@+id/yes"
                         android:layout_marginLeft="45dp"
                         android:height="23dp"

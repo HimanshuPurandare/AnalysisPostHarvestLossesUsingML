@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/title"
-        android:text="Developers"
+        android:text="@string/developers_as_string"
         android:textSize="35sp"
         android:textStyle="bold"
         android:layout_centerHorizontal="true"

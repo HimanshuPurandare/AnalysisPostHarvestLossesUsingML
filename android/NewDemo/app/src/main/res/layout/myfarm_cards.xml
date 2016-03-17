@@ -261,7 +261,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Crop Growth"
+                    android:text="@string/crop_growth_as_string"
                     android:layout_marginLeft="32dp"
                     android:textSize="10sp"
                     android:layout_below="@+id/arc_progress"
@@ -298,7 +298,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Detailed Info: "
+                android:text="@string/detailed_info_as_string"
 
                 android:paddingTop="3dp"
                 android:paddingLeft="5dp"
@@ -342,7 +342,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Predictions"
+                android:text="@string/predictions_as_string"
                 android:paddingLeft="5dp"
                 android:textStyle="bold"
                 />
@@ -352,7 +352,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/predictions"
                 android:paddingLeft="10dp"
-                android:text="Processing..."
+                android:text="@string/processing_as_string"
                 />
 
             <Button
