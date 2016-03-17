@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
@@ -69,6 +70,7 @@ public class MyFarmAdapter extends RecyclerView.Adapter<MyFarmAdapter.PersonView
         personViewHolder.n8.setText("Hardware ID : "+farms.get(i).hwid);
         personViewHolder.donutProgress.setProgress(Integer.parseInt(farms.get(i).growth));
         Log.d("Locat", farms.get(i).location_url);
+        personViewHolder.cnt = i;
 
         new DownloadImageTask(personViewHolder.imv1).execute(farms.get(i).location_url.replaceAll("\\\\",""));
         Log.d("onbind", "c");
@@ -94,7 +96,7 @@ public class MyFarmAdapter extends RecyclerView.Adapter<MyFarmAdapter.PersonView
         DonutProgress donutProgress;
 
         ImageView imv1;
-
+        int cnt;
         TextView n1,n2,n3,n4,n5,n6,n7,n8,n9;
         static int set = 0;
 
@@ -218,7 +220,6 @@ public class MyFarmAdapter extends RecyclerView.Adapter<MyFarmAdapter.PersonView
                     @Override
                     public void onAnimationStart(Animator animator) {
                     }
-
                     @Override
                     public void onAnimationCancel(Animator animator) {
                     }
@@ -231,6 +232,9 @@ public class MyFarmAdapter extends RecyclerView.Adapter<MyFarmAdapter.PersonView
         }
         PersonViewHolder(final View itemView) {
             super(itemView);
+
+
+
             cv = (CardView)itemView.findViewById(R.id.myfarmcv);
             cv2 = (CardView)itemView.findViewById(R.id.myfarmcv2);
             Farmname = (TextView)itemView.findViewById(R.id.name_of_farm);
@@ -348,8 +352,16 @@ public class MyFarmAdapter extends RecyclerView.Adapter<MyFarmAdapter.PersonView
 
 
                     if(set==0) {
-                        FetchPredictionsData(n9,Farmname.getText().toString());
+                        FetchPredictionsData(n9, Farmname.getText().toString());
                         expandOrCollapse(cv2, "expand");
+                        SuperAwesomeCardFragment.rvf.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                //call smooth scroll
+                                SuperAwesomeCardFragment.rvf.smoothScrollToPosition(cnt);
+                                SuperAwesomeCardFragment.rvf.smoothScrollBy(0,250);
+                            }
+                        });
                         set=1;
                     }
                     else
@@ -368,6 +380,7 @@ public class MyFarmAdapter extends RecyclerView.Adapter<MyFarmAdapter.PersonView
 
     }
     List<Farm_info> farms;
+
     MyFarmAdapter(List<Farm_info> persons){
         this.farms = persons;
     }
