@@ -168,14 +168,7 @@ public class Navigation_Drawer extends Fragment implements NavigationView.OnCrea
 
             }
         }
-        else if(item.getItemId()==R.id.nav_myprofile)
-        {
 
-        }
-        else if(item.getItemId()==R.id.nav_settings)
-        {
-
-        }
         else if (item.getItemId() == R.id.nav_share)
         {
                 // Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
