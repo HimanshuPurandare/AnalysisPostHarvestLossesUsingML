@@ -131,12 +131,18 @@ public class AddWarehouse extends AppCompatActivity
 
 
 
-    private void attemptAddWarehouse()
-    {
-        wh_name=et_name.getText().toString();
+    private void attemptAddWarehouse() {
+        wh_name = et_name.getText().toString();
+        boolean cancel = true;
+        if (wh_name.equals("")) {
+            et_name.setError("Please enter warehouse name");
+            cancel = false;
+        }
 
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        final long load_time_start=System.currentTimeMillis();
+        if (cancel)
+        {
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+        final long load_time_start = System.currentTimeMillis();
         progressDialog.isIndeterminate();
         progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         progressDialog.setCancelable(false);
@@ -145,20 +151,17 @@ public class AddWarehouse extends AppCompatActivity
 
         progressDialog.show();
 
-        Thread temp_timer_thread=new Thread(new Runnable() {
+        Thread temp_timer_thread = new Thread(new Runnable() {
             @Override
-            public void run()
-            {
-                while(progressDialog.isShowing() && System.currentTimeMillis()-load_time_start<10000)
-                {
+            public void run() {
+                while (progressDialog.isShowing() && System.currentTimeMillis() - load_time_start < 10000) {
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
-                if (progressDialog.isShowing() && System.currentTimeMillis()-load_time_start>10000)
-                {
+                if (progressDialog.isShowing() && System.currentTimeMillis() - load_time_start > 10000) {
                     progressDialog.dismiss();
                     showToast(getString(R.string.problem_in_loading_message));
                 }
@@ -169,15 +172,11 @@ public class AddWarehouse extends AppCompatActivity
         temp_timer_thread.start();
 
 
-        if(MainActivity.ConnectedToNetwork)
-        {
-            if (wh_name == "" || location_set == false)
-            {
+        if (MainActivity.ConnectedToNetwork) {
+            if (wh_name == "" || location_set == false) {
                 Toast.makeText(getApplicationContext(), "Please fill ALL the Information!", Toast.LENGTH_LONG).show();
                 progressDialog.dismiss();
-            }
-            else
-            {
+            } else {
 
                 final StorageDBHandler db = new StorageDBHandler(this);
 
@@ -229,15 +228,13 @@ public class AddWarehouse extends AppCompatActivity
                 MainActivity.getInstance().addToRequestQueue(jsonRequest);
 
             }
-        }
-        else
-        {
-            if (progressDialog.isShowing())
-            {
+        } else {
+            if (progressDialog.isShowing()) {
                 progressDialog.dismiss();
             }
             Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
         }
+    }
     }
 
 

@@ -49,6 +49,7 @@
                 android:id="@+id/click_here"
                 android:layout_gravity="center"
                 android:gravity="center"
+
                 android:text="@string/clickherestring"
                 />
             </FrameLayout>

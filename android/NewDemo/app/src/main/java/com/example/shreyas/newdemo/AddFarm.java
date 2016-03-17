@@ -272,7 +272,38 @@ public class AddFarm extends AppCompatActivity {
         end_date=et1.getText().toString();
         hwid=hd_id.getText().toString();
 
-        if(MainActivity.ConnectedToNetwork)
+        boolean cancel = true;
+        if(farm_name.equals(""))
+        {
+            f_name.setError("This field is empty");
+            cancel = false;
+        }
+        if(farm_area.equals(""))
+        {
+            f_area.setError("This field is empty");
+            cancel = false;
+        }
+
+        if(start_date.equals(""))
+        {
+            et.setError("This field is empty");
+            cancel = false;
+        }
+        if(end_date.equals(""))
+        {
+            et1.setError("This field is empty");
+            cancel = false;
+        }
+        if(hwid.equals(""))
+        {
+            hd_id.setError("This field is empty");
+            cancel = false;
+        }
+
+
+
+
+        if(MainActivity.ConnectedToNetwork && cancel)
         {
 
             final ProgressDialog progressDialog = new ProgressDialog(AddFarm.this);
@@ -358,9 +389,9 @@ public class AddFarm extends AppCompatActivity {
             MainActivity.getInstance().addToRequestQueue(jsonRequest);
 
         }
-        else
+        else if(!MainActivity.ConnectedToNetwork)
         {
-            Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
         }
     }
 
