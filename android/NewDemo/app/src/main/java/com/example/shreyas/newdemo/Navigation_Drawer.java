@@ -204,10 +204,14 @@ public class Navigation_Drawer extends Fragment implements NavigationView.OnCrea
         else if (item.getItemId() == R.id.nav_help)
         {
                 Log.d("Help", "pressed by niranjan");
+                Intent i = new Intent(getActivity(),Help.class);
+                startActivity(i);
         }
         else if (item.getItemId() == R.id.nav_contactus)
         {
-
+            Log.d("Contct us", "pressed by niranjan");
+            Intent i = new Intent(getActivity(),Contact_us.class);
+            startActivity(i);
         }
 
         return false;

@@ -2,15 +2,18 @@ package com.example.shreyas.newdemo;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -272,6 +275,40 @@ public class AddFarm extends AppCompatActivity {
         if(MainActivity.ConnectedToNetwork)
         {
 
+            final ProgressDialog progressDialog = new ProgressDialog(AddFarm.this);
+            final long load_time_start=System.currentTimeMillis();
+            progressDialog.isIndeterminate();
+            progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            progressDialog.setCancelable(false);
+            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog.setMessage(getString(R.string.add_farm_progress_bar_message));
+            progressDialog.show();
+
+            Thread temp_timer_thread=new Thread(new Runnable() {
+                @Override
+                public void run()
+                {
+                    while(progressDialog.isShowing() && System.currentTimeMillis()-load_time_start<5000)
+                    {
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (progressDialog.isShowing() && System.currentTimeMillis()-load_time_start>5000)
+                    {
+                        progressDialog.dismiss();
+                        showToast(getString(R.string.problem_in_loading_message));
+                    }
+                }
+            });
+
+            temp_timer_thread.start();
+
+
+
+
             JSONObject j = new JSONObject();
             try {
                 j.put("AddFarmUID",MainActivity.Global_Email_Id);
@@ -298,10 +335,11 @@ public class AddFarm extends AppCompatActivity {
                             try {
                                 response = response.getJSONObject("Android");
                                 String signinresult = response.getString("Result");
-                                if (signinresult.equals("Valid")) {
+                                if (signinresult.equals("Valid")&& progressDialog.isShowing()) {
+
                                     Intent i = new Intent(AddFarm.this, MainActivity.class);
 
-
+                                    progressDialog.dismiss();
                                     startActivity(i);
                                     AddFarm.location_set=false;
                                     finish();
@@ -359,5 +397,16 @@ public class AddFarm extends AppCompatActivity {
         AddFarm.location_set=false;
         finish();
     }
+
+
+    public void showToast(final String toast)
+    {
+        runOnUiThread(new Runnable() {
+            public void run() {
+                Toast.makeText(AddFarm.this, toast, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
 }
 
