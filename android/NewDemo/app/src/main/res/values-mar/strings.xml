@@ -247,7 +247,7 @@
     <string name="developers_as_string">विकासक</string>
     <string name="disease_name">आजाराचे नाव :</string>
     <string name="action_taken_as_string">"कृती : "</string>
-    <string name="done_as_string"></string>
+    <string name="done_as_string">झाले</string>
     <string name="yes_as_string">हो</string>
     <string name="no_as_string">नाही</string>
 
@@ -256,8 +256,11 @@
     <string name="processing_as_string">प्रक्रिया सुरु आहे...</string>
     <string name="predictions_as_string">अंदाज</string>
     <string name="detailed_info_as_string">सविस्तर माहिती: </string>
-    <string name="crop_growth_as_string">सविस्तर माहिती: </string>
+    <string name="crop_growth_as_string">पिकाची वाढ </string>
 
+    <string name="temp_as_string">ताप.</string>
+    <string name="hum_as_string">आर्द.</string>
+    <string name="mois_as_string">ओलावा</string>
 
 
 
